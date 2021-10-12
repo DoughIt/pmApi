@@ -1,9 +1,12 @@
-/**
- */
 package com.pm.pmapi.mybatis.model;
 
 import java.io.Serializable;
 
+/**
+ * @Description mbg自动生成test表实体类
+ *
+ * @date 2021-10-12 09:22
+ */
 public class Test implements Serializable {
     /**
      * 主键

@@ -2,9 +2,9 @@ package com.pm.pmapi.mybatis;
 
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
-import org.mybatis.generator.api.dom.java.CompilationUnit;
 import org.mybatis.generator.api.dom.java.Field;
 import org.mybatis.generator.api.dom.java.InnerClass;
+import org.mybatis.generator.api.dom.java.TopLevelClass;
 import org.mybatis.generator.internal.DefaultCommentGenerator;
 import org.mybatis.generator.internal.util.StringUtility;
 
@@ -49,15 +49,15 @@ public class CommonGenerator extends DefaultCommentGenerator {
      * 给类添加注释（包括但不限于model重新生成的时间）
      */
     @Override
-    public void addClassComment(InnerClass innerClass, IntrospectedTable introspectedTable) {
+    public void addModelClassComment(TopLevelClass innerClass, IntrospectedTable introspectedTable) {
         // 文档注释开始
         innerClass.addJavaDocLine("/**");
-        innerClass.addJavaDocLine(" * @Description " + introspectedTable.getRemarks());
-        SimpleDateFormat  sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        innerClass.addJavaDocLine(" * @Description mbg自动生成" + introspectedTable.getFullyQualifiedTable().getIntrospectedTableName() + "表实体类");
         // model重新生成的日期时间
-        innerClass.addJavaDocLine(" *\n * @date " + sdf.format(new Date()));
+        innerClass.addJavaDocLine(" *\n * @date " + new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
         innerClass.addJavaDocLine(" */");
     }
+
 
     /**
      * 给model的字段添加注释

@@ -1,5 +1,3 @@
-/**
- */
 package com.pm.pmapi.mybatis.model;
 
 import java.util.ArrayList;
@@ -65,11 +63,6 @@ public class TestExample {
         distinct = false;
     }
 
-    /**
-     * @Description 
-     *
- * @date 2021-10-12 09:04
-     */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
 
@@ -178,11 +171,6 @@ public class TestExample {
         }
     }
 
-    /**
-     * @Description 
-     *
- * @date 2021-10-12 09:04
-     */
     public static class Criterion {
         private String condition;
 

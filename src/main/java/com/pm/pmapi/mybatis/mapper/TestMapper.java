@@ -1,5 +1,3 @@
-/**
- */
 package com.pm.pmapi.mybatis.mapper;
 
 import com.pm.pmapi.mybatis.model.Test;
