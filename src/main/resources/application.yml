@@ -28,3 +28,22 @@ logging:
   level:
     com.pm.pmapi.mybatis.mapper: off
     com.pm.pmapi.dao: off
+
+# 自定义jwt key
+jwt:
+  tokenHeader: Authorization #JWT存储的请求头
+  secret: pm #JWT加解密使用的密钥
+  expiration: 604800 #JWT的超期限时间(60*60*24)
+  tokenHead: Bearer  #JWT负载中拿到开头
+
+# 白名单
+secure:
+  ignored:
+    urls: #安全路径白名单，各种静态资源、无需登录即可访问的资源
+      - /**/*.js
+      - /**/*.css
+      - /**/*.png
+      - /**/*.ico
+      - /**/*.xls*
+      - /**/*.sql
+      - /pmapi/logout # 测试

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @date 2021-10-13 19:17
  */
 @Controller
-@RequestMapping("/")
+@RequestMapping("/pmapi")
 public class UserController {
 
     /**
@@ -34,7 +34,7 @@ public class UserController {
     /**
      * 后端登出
      */
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult logout() {
         return CommonResult.success(null);
