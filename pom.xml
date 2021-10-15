@@ -137,6 +137,13 @@
             <artifactId>maven-war-plugin</artifactId>
             <version>3.3.1</version>
         </dependency>
+
+        <!-- Hutool java工具类库，包含大量util方法-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.7.14</version>
+        </dependency>
     </dependencies>
 
     <build>
