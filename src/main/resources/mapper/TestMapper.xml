@@ -3,6 +3,7 @@
 <mapper namespace="com.pm.pmapi.mybatis.mapper.TestMapper">
   <resultMap id="BaseResultMap" type="com.pm.pmapi.mybatis.model.Test">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -63,7 +64,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id
+    id, open_id
   </sql>
   <select id="selectByExample" parameterType="com.pm.pmapi.mybatis.model.TestExample" resultMap="BaseResultMap">
     select
@@ -79,6 +80,12 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from test
+    where id = #{id,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from test
     where id = #{id,jdbcType=INTEGER}
@@ -93,16 +100,24 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into test ()
-    values ()
+    insert into test (open_id)
+    values (#{openId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pm.pmapi.mybatis.model.Test">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into test
-    <trim prefix="(" suffix=")" suffixOverrides="," />
-    <trim prefix="values (" suffix=")" suffixOverrides="," />
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="openId != null">
+        open_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+    </trim>
   </insert>
   <select id="countByExample" parameterType="com.pm.pmapi.mybatis.model.TestExample" resultType="java.lang.Long">
     select count(*) from test
@@ -116,6 +131,9 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.openId != null">
+        open_id = #{record.openId,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -123,9 +141,24 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update test
-    set id = #{record.id,jdbcType=INTEGER}
+    set id = #{record.id,jdbcType=INTEGER},
+      open_id = #{record.openId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pm.pmapi.mybatis.model.Test">
+    update test
+    <set>
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pm.pmapi.mybatis.model.Test">
+    update test
+    set open_id = #{openId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

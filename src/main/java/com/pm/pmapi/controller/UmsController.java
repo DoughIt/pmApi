@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @date 2021-10-13 19:17
  */
 @Controller
-@RequestMapping("/pmapi")
-public class UserController {
+@RequestMapping("/api/ums")
+public class UmsController {
 
     /**
      * 用户登录
