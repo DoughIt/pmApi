@@ -6,37 +6,34 @@ import lombok.Setter;
 import javax.validation.constraints.NotEmpty;
 
 /**
- * @Description 自定义登录时传递参数
+ * @Description 自定义更新用户信息时传递的参数
  *
  * @Copyright DoughIt Studio - Powered By DoughIt
  * @author Jerry Zhang <https://github.com/doughit>
- * @date 2021-10-13 19:11
+ * @date 2021-11-29 11:16
  */
 @Getter
 @Setter
-public class UserParam {
+public class UpdateUserParam {
     /**
-     * 用户id
+     * 用户id，非空
      */
+    @NotEmpty
     private int id;
-
     /**
-     * 学号
+     * 用户名
      */
-    private String studentId;
-
-    /**
-     * 用户openid
-     */
-    private String openId;
-
-    /**
-     * 用户密码
-     */
-    private String password;
-
+    private String username;
     /**
      * 用户昵称
      */
     private String nickName;
+    /**
+     * 旧密码
+     */
+    private String password;
+    /**
+     * 新密码
+     */
+    private String newPassword;
 }

@@ -1,4 +1,4 @@
-package com.pm.pmapi.mybatis;
+package com.pm.pmapi.mbg;
 
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;

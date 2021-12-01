@@ -1,4 +1,4 @@
-package com.pm.pmapi.mybatis;
+package com.pm.pmapi.mbg;
 
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
