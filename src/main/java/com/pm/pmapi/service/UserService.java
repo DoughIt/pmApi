@@ -43,7 +43,7 @@ public interface UserService {
      * @param id
      * @return
      */
-    int delete(int id);
+    int delete(Long id);
 
     /**
      * 更新用户信息
@@ -67,7 +67,7 @@ public interface UserService {
      * @param id
      * @return
      */
-    UserDetails loadUserById(int id);
+    UserDetails loadUserById(Long id);
 
     /**
      * 从数据库获取用户信息
@@ -75,5 +75,5 @@ public interface UserService {
      * @param id
      * @return
      */
-    TabUser getUserById(int id);
+    TabUser getUserById(Long id);
 }

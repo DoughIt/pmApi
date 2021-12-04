@@ -18,7 +18,7 @@ public class UserParam {
     /**
      * 用户id
      */
-    private int id;
+    private Long id;
 
     /**
      * 学号

@@ -16,7 +16,20 @@ spring:
         - classpath:/META-INF/resources/
   jmx:
     enabled: false
+  redis:
+    host: localhost
+    database: 0
+    port: 6379
+    password:
+    timeout: 300ms
 
+# redis配置
+redis:
+  database: bbs
+  key:
+    user: 'ums:user'
+  expire:
+      common: 86400 # 24小时
 # mybatis mapper映射路径
 mybatis:
   mapper-locations:
@@ -26,8 +39,10 @@ mybatis:
 # 是否打印sql日志，开发时打开（trace），部署时关闭（off）
 logging:
   level:
-    com.pm.pmapi.mybatis.mapper: off
-    com.pm.pmapi.dao: off
+    #    com.pm.pmapi.mybatis.mapper: off
+    com.pm.pmapi.mybatis.mapper: trace
+    #    com.pm.pmapi.dao: off
+    com.pm.pmapi.dao: trace
 
 # 自定义jwt key
 jwt:
@@ -46,4 +61,8 @@ secure:
       - /**/*.ico
       - /**/*.xls*
       - /**/*.sql
-      - /pmapi/logout # 测试
+      - /actuator/**
+      - /druid/**
+      - /api/ums/login
+      - /api/ums/register
+      - /api/ums/logout

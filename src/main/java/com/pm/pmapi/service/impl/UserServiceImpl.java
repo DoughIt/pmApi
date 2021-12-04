@@ -10,6 +10,7 @@ import com.pm.pmapi.dto.UserParam;
 import com.pm.pmapi.mbg.mapper.TabUserMapper;
 import com.pm.pmapi.mbg.model.TabUser;
 import com.pm.pmapi.mbg.model.TabUserExample;
+import com.pm.pmapi.service.UserCacheService;
 import com.pm.pmapi.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,8 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private TabUserMapper userMapper;
+    @Autowired
+    private UserCacheService userCacheService;
 
     /**
      * 注册用户
@@ -106,7 +109,7 @@ public class UserServiceImpl implements UserService {
      *
      * @param id
      */
-    private void updateLoginTime(int id) {
+    private void updateLoginTime(Long id) {
         TabUser user = getUserById(id);
         user.setLoginTime(new Date());
         userMapper.updateByPrimaryKey(user);
@@ -130,7 +133,8 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public int delete(int id) {
+    public int delete(Long id) {
+        userCacheService.delUser(id);
         return userMapper.deleteByPrimaryKey(id);
     }
 
@@ -153,6 +157,7 @@ public class UserServiceImpl implements UserService {
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
             }
         }
+        userCacheService.delUser(user.getId());
         return userMapper.updateByPrimaryKey(user);
     }
 
@@ -180,6 +185,7 @@ public class UserServiceImpl implements UserService {
         // 将旧密码进行加密操作
         String encodePassword = passwordEncoder.encode(userParam.getPassword());
         user.setPassword(encodePassword);
+        userCacheService.delUser(user.getId());
         return userMapper.updateByPrimaryKey(user);
     }
 
@@ -190,7 +196,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public UserDetails loadUserById(int id) {
+    public UserDetails loadUserById(Long id) {
         TabUser user = getUserById(id);
         if (user != null) {
             return new AdminUserDetails(user);
@@ -199,7 +205,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public TabUser getUserById(int id) {
-        return userMapper.selectByPrimaryKey(id);
+    public TabUser getUserById(Long id) {
+        TabUser user = userCacheService.getUser(id);
+        if (user != null) return user;
+        TabUserExample example = new TabUserExample();
+        example.createCriteria().andIdEqualTo(id);
+        List<TabUser> userList = userMapper.selectByExample(example);
+        if (userList != null && userList.size() > 0) {
+            user = userList.get(0);
+            userCacheService.setUser(user);
+            return user;
+        }
+        return null;
     }
 }

@@ -19,7 +19,7 @@ public class UpdateUserParam {
      * 用户id，非空
      */
     @NotEmpty
-    private int id;
+    private Long id;
     /**
      * 用户名
      */

@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * @Description mbg自动生成tab_user表实体类
  *
- * @date 2021-11-30 01:14
+ * @date 2021-12-04 11:52
  */
 public class TabUser implements Serializable {
     /**
@@ -14,7 +14,7 @@ public class TabUser implements Serializable {
      *
      * @mbg.generated
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 学号
@@ -95,11 +95,11 @@ public class TabUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pm.pmapi.mbg.mapper.TabUserMapper">
   <resultMap id="BaseResultMap" type="com.pm.pmapi.mbg.model.TabUser">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="BIGINT" property="id" />
     <result column="student_id" jdbcType="VARCHAR" property="studentId" />
     <result column="open_id" jdbcType="VARCHAR" property="openId" />
     <result column="username" jdbcType="VARCHAR" property="username" />
@@ -91,15 +91,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from tab_user
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from tab_user
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.pm.pmapi.mbg.model.TabUserExample">
     delete from tab_user
@@ -108,7 +108,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.pm.pmapi.mbg.model.TabUser">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into tab_user (student_id, open_id, username, 
@@ -121,7 +121,7 @@
       #{unthorized,jdbcType=CHAR}, #{status,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.pm.pmapi.mbg.model.TabUser">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into tab_user
@@ -206,7 +206,7 @@
     update tab_user
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.studentId != null">
         student_id = #{record.studentId,jdbcType=VARCHAR},
@@ -248,7 +248,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update tab_user
-    set id = #{record.id,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=BIGINT},
       student_id = #{record.studentId,jdbcType=VARCHAR},
       open_id = #{record.openId,jdbcType=VARCHAR},
       username = #{record.username,jdbcType=VARCHAR},
@@ -301,7 +301,7 @@
         status = #{status,jdbcType=BIT},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pm.pmapi.mbg.model.TabUser">
     update tab_user
@@ -316,6 +316,6 @@
       login_time = #{loginTime,jdbcType=TIMESTAMP},
       unthorized = #{unthorized,jdbcType=CHAR},
       status = #{status,jdbcType=BIT}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
