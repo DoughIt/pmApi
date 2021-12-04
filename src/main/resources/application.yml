@@ -23,13 +23,6 @@ spring:
     password:
     timeout: 300ms
 
-# redis配置
-redis:
-  database: bbs
-  key:
-    user: 'ums:user'
-  expire:
-      common: 86400 # 24小时
 # mybatis mapper映射路径
 mybatis:
   mapper-locations:
@@ -66,3 +59,17 @@ secure:
       - /api/ums/login
       - /api/ums/register
       - /api/ums/logout
+      - /api/ums/vCode
+
+
+# redis配置
+redis:
+  database: bbs
+  key:
+    user: 'ums:user'
+  expire:
+    common: 86400 # 24小时
+
+# 上传文件保存路径
+upload:
+  path: classpath:/upload/
