@@ -1,5 +1,6 @@
 package com.pm.pmapi.service;
 
+import com.pm.pmapi.common.api.CommonResult;
 import com.pm.pmapi.dto.UpdateUserParam;
 import com.pm.pmapi.dto.UserParam;
 import com.pm.pmapi.mbg.model.TabUser;
@@ -76,4 +77,19 @@ public interface UserService {
      * @return
      */
     TabUser getUserById(Long id);
+
+    /**
+     * 生成验证码，发送至studentId@fudan.edu.cn邮箱
+     * @param studentId
+     * @return
+     */
+    CommonResult generateAuthCode(String studentId);
+
+    /**
+     * 判断验证码是否正确
+     * @param studentId
+     * @param authCode
+     * @return
+     */
+    CommonResult verifyAuthCode(String studentId, String authCode);
 }

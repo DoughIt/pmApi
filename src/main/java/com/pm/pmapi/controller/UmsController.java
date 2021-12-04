@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -102,4 +99,25 @@ public class UmsController {
         return CommonResult.success(null);
     }
 
+
+    /**
+     * 获取验证码
+     *
+     * @param studentId
+     * @return
+     */
+    @RequestMapping(value = "/authCode", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult getAuthCode(@RequestParam String studentId) {
+        return userService.generateAuthCode(studentId);
+    }
+
+    /**
+     * 判断验证码是否正确
+     */
+    @RequestMapping(value = "/authCode", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult verifyAuthCOde(@RequestParam String studentId, @RequestParam String authCode) {
+        return userService.verifyAuthCode(studentId, authCode);
+    }
 }

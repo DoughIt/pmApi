@@ -1,6 +1,7 @@
 package com.pm.pmapi.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import com.pm.pmapi.common.api.CommonResult;
 import com.pm.pmapi.common.exception.Asserts;
 import com.pm.pmapi.common.utils.JwtTokenUtil;
 import com.pm.pmapi.dto.AdminUserDetails;
@@ -9,12 +10,14 @@ import com.pm.pmapi.dto.UserParam;
 import com.pm.pmapi.mbg.mapper.TabUserMapper;
 import com.pm.pmapi.mbg.model.TabUser;
 import com.pm.pmapi.mbg.model.TabUserExample;
+import com.pm.pmapi.service.RedisService;
 import com.pm.pmapi.service.UserCacheService;
 import com.pm.pmapi.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 
 /**
@@ -43,6 +47,12 @@ public class UserServiceImpl implements UserService {
     private TabUserMapper userMapper;
     @Autowired
     private UserCacheService userCacheService;
+    @Autowired
+    private RedisService redisService;
+    @Value("${redis.key.prefix.authCode}")
+    private String REDIS_KEY_PREFIX_AUTH_CODE;
+    @Value("${redis.key.expire.authCode}")
+    private Long AUTH_CODE_EXPIRE_SECONDS;
 
     /**
      * 注册用户
@@ -216,5 +226,47 @@ public class UserServiceImpl implements UserService {
             return user;
         }
         return null;
+    }
+
+    /**
+     * 生成验证码，发送至studentId@fudan.edu.cn邮箱
+     *
+     * @param studentId
+     * @return
+     */
+    @Override
+    public CommonResult generateAuthCode(String studentId) {
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 4; i++) {
+            sb.append(random.nextInt(10));
+        }
+        // 验证码绑定学号并存储到redis
+        String key = REDIS_KEY_PREFIX_AUTH_CODE + studentId;
+        redisService.set(key, sb.toString());
+        redisService.expire(key, AUTH_CODE_EXPIRE_SECONDS);
+        // TODO 将验证码发送到邮箱
+
+        return CommonResult.success(null);
+    }
+
+    /**
+     * 判断验证码是否正确
+     *
+     * @param studentId
+     * @param authCode
+     * @return
+     */
+    @Override
+    public CommonResult verifyAuthCode(String studentId, String authCode) {
+        if (StrUtil.isEmpty(authCode)) {
+            return CommonResult.failed("请输入验证码");
+        }
+        String realAuthCode = (String) redisService.get(REDIS_KEY_PREFIX_AUTH_CODE + studentId);
+        if (authCode.equals(realAuthCode)) {
+            return CommonResult.success(null, "验证码校验成功");
+        } else {
+            return CommonResult.failed("验证码不正确");
+        }
     }
 }

@@ -14,13 +14,23 @@ spring:
     resources:
       static-locations:
         - classpath:/META-INF/resources/
+  servlet:
+    multipart:
+      enabled: true #开启文件上传
+      max-file-size: 5MB #限制文件上传大小为5M
   jmx:
     enabled: false
   redis:
     host: localhost
     database: 0
     port: 6379
-    password:
+    password: #默认为空
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
     timeout: 300ms
 
 # mybatis mapper映射路径
@@ -32,10 +42,10 @@ mybatis:
 # 是否打印sql日志，开发时打开（trace），部署时关闭（off）
 logging:
   level:
-    #    com.pm.pmapi.mybatis.mapper: off
-    com.pm.pmapi.mybatis.mapper: trace
-    #    com.pm.pmapi.dao: off
-    com.pm.pmapi.dao: trace
+        com.pm.pmapi.mbg.mapper: off
+#    com.pm.pmapi.mbg.mapper: trace
+        com.pm.pmapi.dao: off
+#    com.pm.pmapi.dao: trace
 
 # 自定义jwt key
 jwt:
@@ -66,9 +76,11 @@ secure:
 redis:
   database: bbs
   key:
+    authCode: 'portal:authCode:'
     user: 'ums:user'
   expire:
     common: 86400 # 24小时
+    authCode: 300 # 验证码超期时间，300s
 
 # 上传文件保存路径
 upload:
