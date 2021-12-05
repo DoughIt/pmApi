@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * @Description mbg自动生成tab_user表实体类
  *
- * @date 2021-12-04 11:14
+ * @date 2021-12-05 11:07
  */
 public class TabUser implements Serializable {
     /**
@@ -84,7 +84,7 @@ public class TabUser implements Serializable {
      *
      * @mbg.generated
      */
-    private String unthorized;
+    private Integer unthorized;
 
     /**
      * 账号状态，0禁用，1启用
@@ -175,11 +175,11 @@ public class TabUser implements Serializable {
         this.loginTime = loginTime;
     }
 
-    public String getUnthorized() {
+    public Integer getUnthorized() {
         return unthorized;
     }
 
-    public void setUnthorized(String unthorized) {
+    public void setUnthorized(Integer unthorized) {
         this.unthorized = unthorized;
     }
 

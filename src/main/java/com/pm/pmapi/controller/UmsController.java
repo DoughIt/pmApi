@@ -41,7 +41,7 @@ public class UmsController {
     @ResponseBody
     public CommonResult register(@Validated @RequestBody UserParam userParam) {
         int status = userService.register(userParam);
-        if (status > 0) {
+        if (status <= 0) {
             return CommonResult.failed("注册失败");
         }
         return CommonResult.success(null);
@@ -87,6 +87,7 @@ public class UmsController {
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult updateUser(@Validated @RequestBody UpdateUserParam userParam) {
+        // TODO
         return CommonResult.failed("");
     }
 

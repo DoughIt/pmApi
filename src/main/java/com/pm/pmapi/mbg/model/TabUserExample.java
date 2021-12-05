@@ -785,62 +785,52 @@ public class TabUserExample {
             return (Criteria) this;
         }
 
-        public Criteria andUnthorizedEqualTo(String value) {
+        public Criteria andUnthorizedEqualTo(Integer value) {
             addCriterion("unthorized =", value, "unthorized");
             return (Criteria) this;
         }
 
-        public Criteria andUnthorizedNotEqualTo(String value) {
+        public Criteria andUnthorizedNotEqualTo(Integer value) {
             addCriterion("unthorized <>", value, "unthorized");
             return (Criteria) this;
         }
 
-        public Criteria andUnthorizedGreaterThan(String value) {
+        public Criteria andUnthorizedGreaterThan(Integer value) {
             addCriterion("unthorized >", value, "unthorized");
             return (Criteria) this;
         }
 
-        public Criteria andUnthorizedGreaterThanOrEqualTo(String value) {
+        public Criteria andUnthorizedGreaterThanOrEqualTo(Integer value) {
             addCriterion("unthorized >=", value, "unthorized");
             return (Criteria) this;
         }
 
-        public Criteria andUnthorizedLessThan(String value) {
+        public Criteria andUnthorizedLessThan(Integer value) {
             addCriterion("unthorized <", value, "unthorized");
             return (Criteria) this;
         }
 
-        public Criteria andUnthorizedLessThanOrEqualTo(String value) {
+        public Criteria andUnthorizedLessThanOrEqualTo(Integer value) {
             addCriterion("unthorized <=", value, "unthorized");
             return (Criteria) this;
         }
 
-        public Criteria andUnthorizedLike(String value) {
-            addCriterion("unthorized like", value, "unthorized");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnthorizedNotLike(String value) {
-            addCriterion("unthorized not like", value, "unthorized");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnthorizedIn(List<String> values) {
+        public Criteria andUnthorizedIn(List<Integer> values) {
             addCriterion("unthorized in", values, "unthorized");
             return (Criteria) this;
         }
 
-        public Criteria andUnthorizedNotIn(List<String> values) {
+        public Criteria andUnthorizedNotIn(List<Integer> values) {
             addCriterion("unthorized not in", values, "unthorized");
             return (Criteria) this;
         }
 
-        public Criteria andUnthorizedBetween(String value1, String value2) {
+        public Criteria andUnthorizedBetween(Integer value1, Integer value2) {
             addCriterion("unthorized between", value1, value2, "unthorized");
             return (Criteria) this;
         }
 
-        public Criteria andUnthorizedNotBetween(String value1, String value2) {
+        public Criteria andUnthorizedNotBetween(Integer value1, Integer value2) {
             addCriterion("unthorized not between", value1, value2, "unthorized");
             return (Criteria) this;
         }

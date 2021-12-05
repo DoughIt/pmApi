@@ -66,6 +66,8 @@ public class UserServiceImpl implements UserService {
             return 0;
         TabUser user = new TabUser();
         BeanUtils.copyProperties(userParam, user);
+        user.setUnthorized(StrUtil.isEmptyOrUndefined(userParam.getStudentId()) ? 0 : 1);
+        user.setStatus(true);
         user.setRegisterTime(new Date());
         // 查询是否具有相同studentId 或 openId的用户
         TabUserExample example = new TabUserExample();
@@ -247,7 +249,7 @@ public class UserServiceImpl implements UserService {
         redisService.expire(key, AUTH_CODE_EXPIRE_SECONDS);
         // TODO 将验证码发送到邮箱
 
-        return CommonResult.success(null);
+        return CommonResult.success("验证码已发送到" + studentId + "@fudan.edu.cn邮箱");
     }
 
     /**
@@ -264,7 +266,7 @@ public class UserServiceImpl implements UserService {
         }
         String realAuthCode = (String) redisService.get(REDIS_KEY_PREFIX_AUTH_CODE + studentId);
         if (authCode.equals(realAuthCode)) {
-            return CommonResult.success(null, "验证码校验成功");
+            return CommonResult.success(null, "验证码校验成功，authCode=" + realAuthCode);
         } else {
             return CommonResult.failed("验证码不正确");
         }
