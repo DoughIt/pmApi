@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * @Description mbg自动生成tab_user表实体类
  *
- * @date 2021-12-04 11:52
+ * @date 2021-12-04 11:14
  */
 public class TabUser implements Serializable {
     /**

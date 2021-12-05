@@ -69,7 +69,7 @@ secure:
       - /api/ums/login
       - /api/ums/register
       - /api/ums/logout
-      - /api/ums/vCode
+      - /api/ums/authCode
 
 
 # redis配置
