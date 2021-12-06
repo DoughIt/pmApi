@@ -1,9 +1,13 @@
 package com.pm.pmapi.controller;
 
 
+import cn.hutool.core.util.StrUtil;
+import com.pm.pmapi.common.api.CommonPage;
 import com.pm.pmapi.common.api.CommonResult;
-import com.pm.pmapi.dto.UpdateUserParam;
-import com.pm.pmapi.dto.UserParam;
+import com.pm.pmapi.common.constant.TopicFilter;
+import com.pm.pmapi.dto.*;
+import com.pm.pmapi.mbg.model.TabUser;
+import com.pm.pmapi.service.TopicService;
 import com.pm.pmapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +16,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,6 +37,8 @@ public class UmsController {
     private String tokenHead;
     @Autowired
     private UserService userService;
+    @Autowired
+    private TopicService topicService;
 
     /**
      * 用户注册
@@ -64,6 +73,21 @@ public class UmsController {
     }
 
     /**
+     * 获取用户信息
+     */
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult getUserInfo(Principal principal) {
+        if (principal == null) {
+            return CommonResult.unauthorized(null);
+        }
+        Long userId = Long.parseLong(principal.getName());
+        TabUser user = userService.getUserById(userId);
+        user.setPassword(null);
+        return CommonResult.success(user);
+    }
+
+    /**
      * 刷新token
      */
     @RequestMapping(value = "/refreshToken", method = RequestMethod.GET)
@@ -87,14 +111,35 @@ public class UmsController {
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult updateUser(@Validated @RequestBody UpdateUserParam userParam) {
-        // TODO
-        return CommonResult.failed("");
+        // 更新用户名
+        if (!StrUtil.isEmpty(userParam.getUsername())) {
+            TabUser user = new TabUser();
+            user.setId(userParam.getId());
+            user.setUsername(userParam.getUsername());
+            userService.update(user);
+        }
+        if (!StrUtil.isEmpty(userParam.getNewPassword())) {
+            int status = userService.updatePassword(userParam);
+            if (status > 0) {
+                logout();
+                return CommonResult.success("你已成功修改密码，请重新登录");
+            } else if (status == -1) {
+                return CommonResult.failed("提交参数不合法");
+            } else if (status == -2) {
+                return CommonResult.failed("用户不存在");
+            } else if (status == -3) {
+                return CommonResult.failed("新密码与旧密码重复");
+            } else {
+                return CommonResult.failed();
+            }
+        }
+        return CommonResult.success("更新成功");
     }
 
     /**
      * 后端登出
      */
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult logout() {
         return CommonResult.success(null);
@@ -109,7 +154,7 @@ public class UmsController {
      */
     @RequestMapping(value = "/authCode", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult getAuthCode(@RequestParam String studentId) {
+    public CommonResult getAuthCode(@RequestParam("studentId") String studentId) {
         return userService.generateAuthCode(studentId);
     }
 
@@ -118,7 +163,68 @@ public class UmsController {
      */
     @RequestMapping(value = "/authCode", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult verifyAuthCOde(@RequestParam String studentId, @RequestParam String authCode) {
-        return userService.verifyAuthCode(studentId, authCode);
+    public CommonResult verifyAuthCOde(@Validated @RequestBody AuthCodeParam authCodeParam) {
+        return userService.verifyAuthCode(authCodeParam.getStudentId(), authCodeParam.getAuthCode());
+    }
+
+    /**
+     * 获取帖子列表
+     *
+     * @param pageNum
+     * @param pageSize
+     * @param lessonId
+     * @param goodsId
+     * @param topicId
+     * @return
+     */
+    @RequestMapping(value = "topicList", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<TopicInfo>> getTopicList(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                                            @RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize,
+                                                            @RequestParam("lessonId") Long lessonId,
+                                                            @RequestParam("goodsId") Long goodsId,
+                                                            @RequestParam("topicId") Long topicId) {
+        List<TopicInfo> topicInfoList = new ArrayList<>();
+        if (topicId != null) {
+            topicInfoList = topicService.listChildrenByParentId(topicId, pageNum, pageSize);
+        } else if (lessonId != null) {
+            topicInfoList = topicService.listTopicByFilterType(TopicFilter.LESSON, lessonId, pageNum, pageSize);
+        } else if (goodsId != null) {
+            topicInfoList = topicService.listTopicByFilterType(TopicFilter.GOODS, goodsId, pageNum, pageSize);
+        }
+        return CommonResult.success(CommonPage.restPage(topicInfoList));
+    }
+
+
+    /**
+     * 获取我的帖子列表
+     * @param principal
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @RequestMapping(value = "/myTopicList", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<TopicInfo>> getMyTopics(Principal principal,
+                                                           @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                                           @RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize) {
+
+        if (principal == null) {
+            return CommonResult.unauthorized(null);
+        }
+        Long userId = Long.parseLong(principal.getName());
+        List<TopicInfo> topicInfoList = topicService.listTopicByUserId(userId, pageNum, pageSize);
+        return CommonResult.success(CommonPage.restPage(topicInfoList));
+    }
+
+    /**
+     * 发布帖子
+     * @param topicParam
+     * @return
+     */
+    @RequestMapping(value = "/topic",method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult<TopicInfo> addTopic(@Validated @RequestBody TopicParam topicParam) {
+        return CommonResult.success(topicService.createTopic(topicParam));
     }
 }

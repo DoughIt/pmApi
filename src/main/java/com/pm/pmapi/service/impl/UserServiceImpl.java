@@ -169,7 +169,7 @@ public class UserServiceImpl implements UserService {
             }
         }
         userCacheService.delUser(user.getId());
-        return userMapper.updateByPrimaryKey(user);
+        return userMapper.updateByPrimaryKeySelective(user);
     }
 
     /**

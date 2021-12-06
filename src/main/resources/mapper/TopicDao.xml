@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pm.pmapi.dao.TopicDao">
+    <resultMap id="BaseResultMap" type="com.pm.pmapi.dto.TopicInfo">
+        <id column="id" jdbcType="LONG" property="id"/>
+        <result column="parent_id" jdbcType="LONG" property="parentId"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="user" jdbcType="mapper.TabUserMapper.BaseResultMap" property="user"/>
+        <result column="issue_time" jdbcType="DATETIME" property="issueTime"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <collection column="children" resultMap="BaseResultMap" property="children" c/>
+    </resultMap>
+    <select id="listChildrenByParentId" resultMap="BaseResultMap">
+    </select>
+    <select id="listTopicByFilterType" resultMap="BaseResultMap">
+
+    </select>
+    <select id="listTopicByUserId" resultMap="BaseResultMap">
+
+    </select>
+    <select id="getTopicInfoById" resultMap="BaseResultMap">
+
+    </select>
+</mapper>

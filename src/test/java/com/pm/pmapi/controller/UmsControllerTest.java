@@ -1,5 +1,6 @@
 package com.pm.pmapi.controller;
 
+import cn.hutool.json.JSONArray;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.util.Random;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -25,10 +28,11 @@ class UmsControllerTest {
     }
 
     @Test
-    void register() throws Exception{
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/ums/register")
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param("studentId", "16302010059")
+    void register() throws Exception {
+        Random random = new Random();
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/ums/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("studentId", "" + random.nextInt(1000))
                         .param("password", "123456")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
