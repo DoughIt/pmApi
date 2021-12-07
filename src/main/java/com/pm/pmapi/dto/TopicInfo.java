@@ -41,7 +41,7 @@ public class TopicInfo {
      */
     private Date issueTime;
     /**
-     * 帖子状态，1->有效的，-1->已删除，-2->已屏蔽……
+     * 帖子状态，0->有效的，1->已删除，2->已屏蔽……
      */
     private Integer state;
     /**

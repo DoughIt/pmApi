@@ -9,7 +9,7 @@
         <result column="user" jdbcType="mapper.TabUserMapper.BaseResultMap" property="user"/>
         <result column="issue_time" jdbcType="DATETIME" property="issueTime"/>
         <result column="state" jdbcType="INTEGER" property="state"/>
-        <collection column="children" resultMap="BaseResultMap" property="children" c/>
+        <collection column="children" resultMap="BaseResultMap" property="children"/>
     </resultMap>
     <select id="listChildrenByParentId" resultMap="BaseResultMap">
     </select>

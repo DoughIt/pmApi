@@ -5,23 +5,32 @@ import com.pm.pmapi.common.constant.TopicFilter;
 import com.pm.pmapi.dao.TopicDao;
 import com.pm.pmapi.dto.TopicInfo;
 import com.pm.pmapi.dto.TopicParam;
+import com.pm.pmapi.mbg.mapper.TabTopicMapper;
+import com.pm.pmapi.mbg.mapper.TabUserMapper;
+import com.pm.pmapi.mbg.model.TabTopic;
+import com.pm.pmapi.mbg.model.TabUser;
 import com.pm.pmapi.service.TopicService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * @Description 帖子服务实现类
- *
- * @Copyright DoughIt Studio - Powered By DoughIt
  * @author Jerry Zhang <https://github.com/doughit>
+ * @Description 帖子服务实现类
+ * @Copyright DoughIt Studio - Powered By DoughIt
  * @date 2021-12-06 09:26
  */
 @Service
 public class TopicServiceImpl implements TopicService {
     @Autowired
     private TopicDao topicDao;
+    @Autowired
+    private TabTopicMapper topicMapper;
+    @Autowired
+    private TabUserMapper userMapper;
+
     /**
      * 获取所有回帖
      *
@@ -79,12 +88,22 @@ public class TopicServiceImpl implements TopicService {
     /**
      * 发布帖子
      *
+     * @param userId
      * @param topicParam
      * @return
      */
     @Override
-    public TopicInfo createTopic(TopicParam topicParam) {
-        // TODO 使用mapper添加
-        return null;
+    public TopicInfo createTopic(Long userId, TopicParam topicParam) {
+        TabTopic topic = new TabTopic();
+        BeanUtils.copyProperties(topicParam, topic);
+        topic.setParentId(topicParam.getTopicId());
+        topic.setUserId(userId);
+        topicMapper.insert(topic);
+        TabUser user = userMapper.selectByPrimaryKey(userId);
+        TopicInfo info = new TopicInfo();
+        BeanUtils.copyProperties(topicMapper.selectByPrimaryKey(topic.getId()), info);
+        info.setChildren(null);
+        info.setUser(user);
+        return info;
     }
 }

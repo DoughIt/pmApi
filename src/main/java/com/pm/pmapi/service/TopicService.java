@@ -50,8 +50,9 @@ public interface TopicService {
 
     /**
      * 发布帖子
+     * @param userId
      * @param topicParam
      * @return
      */
-    TopicInfo createTopic(TopicParam topicParam);
+    TopicInfo createTopic(Long userId, TopicParam topicParam);
 }

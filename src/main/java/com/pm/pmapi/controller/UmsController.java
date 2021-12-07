@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.pm.pmapi.common.api.CommonPage;
 import com.pm.pmapi.common.api.CommonResult;
 import com.pm.pmapi.common.constant.TopicFilter;
+import com.pm.pmapi.component.IAuthenticationFacade;
 import com.pm.pmapi.dto.*;
 import com.pm.pmapi.mbg.model.TabUser;
 import com.pm.pmapi.service.TopicService;
@@ -16,7 +17,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +39,8 @@ public class UmsController {
     private UserService userService;
     @Autowired
     private TopicService topicService;
+    @Autowired
+    private IAuthenticationFacade authenticationFacade;
 
     /**
      * 用户注册
@@ -77,11 +79,11 @@ public class UmsController {
      */
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult getUserInfo(Principal principal) {
-        if (principal == null) {
+    public CommonResult getUserInfo() {
+        if (authenticationFacade.getAuthentication() == null) {
             return CommonResult.unauthorized(null);
         }
-        Long userId = Long.parseLong(principal.getName());
+        Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
         TabUser user = userService.getUserById(userId);
         user.setPassword(null);
         return CommonResult.success(user);
@@ -198,33 +200,36 @@ public class UmsController {
 
     /**
      * 获取我的帖子列表
-     * @param principal
+     *
      * @param pageNum
      * @param pageSize
      * @return
      */
     @RequestMapping(value = "/myTopicList", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<CommonPage<TopicInfo>> getMyTopics(Principal principal,
-                                                           @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+    public CommonResult<CommonPage<TopicInfo>> getMyTopics(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                                            @RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize) {
 
-        if (principal == null) {
+        if (authenticationFacade.getAuthentication() == null) {
             return CommonResult.unauthorized(null);
         }
-        Long userId = Long.parseLong(principal.getName());
+        Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
         List<TopicInfo> topicInfoList = topicService.listTopicByUserId(userId, pageNum, pageSize);
         return CommonResult.success(CommonPage.restPage(topicInfoList));
     }
 
     /**
      * 发布帖子
+     *
      * @param topicParam
      * @return
      */
-    @RequestMapping(value = "/topic",method = RequestMethod.POST)
+    @RequestMapping(value = "/topic", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<TopicInfo> addTopic(@Validated @RequestBody TopicParam topicParam) {
-        return CommonResult.success(topicService.createTopic(topicParam));
+        return CommonResult.success(topicService.createTopic(
+                Long.parseLong(authenticationFacade.getAuthentication().getName()), topicParam));
     }
+
+
 }
