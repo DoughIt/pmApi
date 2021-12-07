@@ -79,6 +79,13 @@ public interface UserService {
     TabUser getUserById(Long id);
 
     /**
+     * 从数据库获取用户id
+     * @param userParam
+     * @return
+     */
+    Long getUserByStudentIdOrOpenId(UserParam userParam);
+
+    /**
      * 生成验证码，发送至studentId@fudan.edu.cn邮箱
      * @param studentId
      * @return

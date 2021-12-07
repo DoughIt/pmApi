@@ -3,7 +3,6 @@ package com.pm.pmapi.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotEmpty;
 
 /**
  * @Description 自定义登录时传递参数
