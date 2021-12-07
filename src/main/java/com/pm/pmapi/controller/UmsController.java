@@ -17,10 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Jerry Zhang <https://github.com/doughit>
@@ -183,16 +180,18 @@ public class UmsController {
     @ResponseBody
     public CommonResult<CommonPage<TopicInfo>> getTopicList(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                                             @RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize,
-                                                            @RequestParam("lessonId") Long lessonId,
-                                                            @RequestParam("goodsId") Long goodsId,
-                                                            @RequestParam("topicId") Long topicId) {
+                                                            @RequestParam("lessonId") Optional<Long> lessonId,
+                                                            @RequestParam("goodsId") Optional<Long>  goodsId,
+                                                            @RequestParam("topicId") Optional<Long>  topicId) {
         List<TopicInfo> topicInfoList = new ArrayList<>();
-        if (topicId != null) {
-            topicInfoList = topicService.listChildrenByParentId(topicId, pageNum, pageSize);
-        } else if (lessonId != null) {
-            topicInfoList = topicService.listTopicByFilterType(TopicFilter.LESSON, lessonId, pageNum, pageSize);
-        } else if (goodsId != null) {
-            topicInfoList = topicService.listTopicByFilterType(TopicFilter.GOODS, goodsId, pageNum, pageSize);
+        if (topicId.isPresent()) {
+            topicInfoList = topicService.listChildrenByParentId(topicId.get(), pageNum, pageSize);
+        } else if (lessonId.isPresent()) {
+            topicInfoList = topicService.listTopicByFilterType(TopicFilter.LESSON, lessonId.get(), pageNum, pageSize);
+        } else if (goodsId.isPresent()) {
+            topicInfoList = topicService.listTopicByFilterType(TopicFilter.GOODS, goodsId.get(), pageNum, pageSize);
+        } else{
+            topicInfoList = topicService.listTopicByFilterType(TopicFilter.ALL, null, pageNum, pageSize);
         }
         return CommonResult.success(CommonPage.restPage(topicInfoList));
     }
@@ -230,6 +229,4 @@ public class UmsController {
         return CommonResult.success(topicService.createTopic(
                 Long.parseLong(authenticationFacade.getAuthentication().getName()), topicParam));
     }
-
-
 }

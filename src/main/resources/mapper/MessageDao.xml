@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pm.pmapi.dao.MessageDao">
+    <resultMap id="BaseResultMap" type="com.pm.pmapi.dto.MessageSummaryInfo">
+        <association column="{userId=op_id}" property="interlocutor" javaType="com.pm.pmapi.dto.SimpleUserInfo"
+                     select="com.pm.pmapi.dao.UserDao.selectSimpleUserByPrimaryKey"/>
+        <association column="message_id" property="lastMessage" javaType="com.pm.pmapi.mbg.model.TabMessage"
+                     select="com.pm.pmapi.mbg.mapper.TabMessageMapper.selectByPrimaryKey"/>
+    </resultMap>
+    <select id="listMessageSummariesByUserId" resultMap="BaseResultMap">
+        select m.id message_id,
+            (case when m.sender_id=#{userId} then m.receiver_id
+            else m.sender_id
+            end ) op_id
+        from tab_message m where sender_id=#{userId} or receiver_id=#{userId}
+    </select>
+</mapper>

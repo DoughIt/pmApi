@@ -35,7 +35,7 @@ public class TopicInfo {
     /**
      * 发帖人信息
      */
-    private TabUser user;
+    private SimpleUserInfo user;
     /**
      * 帖子发布时间
      */

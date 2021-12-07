@@ -3,6 +3,8 @@ package com.pm.pmapi.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.pm.pmapi.common.constant.TopicFilter;
 import com.pm.pmapi.dao.TopicDao;
+import com.pm.pmapi.dao.UserDao;
+import com.pm.pmapi.dto.SimpleUserInfo;
 import com.pm.pmapi.dto.TopicInfo;
 import com.pm.pmapi.dto.TopicParam;
 import com.pm.pmapi.mbg.mapper.TabTopicMapper;
@@ -30,6 +32,8 @@ public class TopicServiceImpl implements TopicService {
     private TabTopicMapper topicMapper;
     @Autowired
     private TabUserMapper userMapper;
+    @Autowired
+    private UserDao userDao;
 
     /**
      * 获取所有回帖
@@ -99,11 +103,11 @@ public class TopicServiceImpl implements TopicService {
         topic.setParentId(topicParam.getTopicId());
         topic.setUserId(userId);
         topicMapper.insert(topic);
-        TabUser user = userMapper.selectByPrimaryKey(userId);
+        SimpleUserInfo userInfo = userDao.selectSimpleUserByPrimaryKey(userId);
         TopicInfo info = new TopicInfo();
         BeanUtils.copyProperties(topicMapper.selectByPrimaryKey(topic.getId()), info);
         info.setChildren(null);
-        info.setUser(user);
+        info.setUser(userInfo);
         return info;
     }
 }

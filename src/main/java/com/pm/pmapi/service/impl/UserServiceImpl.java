@@ -22,6 +22,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -80,7 +81,7 @@ public class UserServiceImpl implements UserService {
             Asserts.fail("用户已存在");
         }
         // 将密码进行加密
-        String encodePassword = passwordEncoder.encode(user.toString());
+        String encodePassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodePassword);
         return userMapper.insert(user);
     }
@@ -94,8 +95,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public String login(UserParam userParam) {
         String token = null;
+        Long userid = userParam.getId();
+        if (userid == null) {
+            userid = getUserByStudentIdOrOpenId(userParam);
+        }
         try {
-            UserDetails userDetails = loadUserById(userParam.getId());
+            UserDetails userDetails = loadUserById(userid);
             if (!passwordEncoder.matches(userParam.getPassword(), userDetails.getPassword())) {
                 Asserts.fail("密码错误");
             }
@@ -107,7 +112,7 @@ public class UserServiceImpl implements UserService {
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             token = jwtTokenUtil.generateToken(userDetails);
             // 更新登录时间
-            updateLoginTime(userParam.getId());
+            updateLoginTime(userid);
 
         } catch (AuthenticationException e) {
             LOGGER.warn("登录异常：{}", e.getMessage());
@@ -212,7 +217,7 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             return new AdminUserDetails(user);
         }
-        return null;
+        throw new UsernameNotFoundException("用户名或密码错误");
     }
 
     @Override
@@ -226,6 +231,27 @@ public class UserServiceImpl implements UserService {
             user = userList.get(0);
             userCacheService.setUser(user);
             return user;
+        }
+        return null;
+    }
+
+    /**
+     * 从数据库获取用户信息
+     *
+     * @param userParam
+     * @return
+     */
+    @Override
+    public Long getUserByStudentIdOrOpenId(UserParam userParam) {
+        TabUserExample example = new TabUserExample();
+        if (StrUtil.isNotBlank(userParam.getStudentId())) {
+            example.createCriteria().andStudentIdEqualTo(userParam.getStudentId());
+        } else if (StrUtil.isNotBlank(userParam.getOpenId())) {
+            example.createCriteria().andOpenIdEqualTo(userParam.getOpenId());
+        }
+        List<TabUser> userList = userMapper.selectByExample(example);
+        if (userList != null && userList.size() > 0) {
+            return userList.get(0).getId();
         }
         return null;
     }
