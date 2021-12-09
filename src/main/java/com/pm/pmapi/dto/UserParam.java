@@ -25,14 +25,14 @@ public class UserParam {
     private String studentId;
 
     /**
-     * 用户openid
-     */
-    private String openId;
-
-    /**
      * 用户密码
      */
     private String password;
+
+    /**
+     * 小程序端传入wx.login返回值code
+     */
+    private String miniCode;
 
     /**
      * 用户昵称

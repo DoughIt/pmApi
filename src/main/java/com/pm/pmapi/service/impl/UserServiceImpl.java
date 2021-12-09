@@ -5,6 +5,7 @@ import com.pm.pmapi.common.api.CommonResult;
 import com.pm.pmapi.common.exception.Asserts;
 import com.pm.pmapi.common.utils.JwtTokenUtil;
 import com.pm.pmapi.dto.AdminUserDetails;
+import com.pm.pmapi.dto.MiniProgramSession;
 import com.pm.pmapi.dto.UpdateUserParam;
 import com.pm.pmapi.dto.UserParam;
 import com.pm.pmapi.mbg.mapper.TabUserMapper;
@@ -47,6 +48,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private TabUserMapper userMapper;
     @Autowired
+    private MiniProgramServiceImpl miniProgramService;
+    @Autowired
     private UserCacheService userCacheService;
     @Autowired
     private RedisService redisService;
@@ -59,31 +62,29 @@ public class UserServiceImpl implements UserService {
      * 注册用户
      *
      * @param userParam 用户信息
-     * @return 1操作成功，0操作失败
+     * @return 用户id
      */
     @Override
-    public int register(UserParam userParam) {
-        if (StrUtil.isEmptyOrUndefined(userParam.getStudentId()) && StrUtil.isEmptyOrUndefined(userParam.getOpenId()))
-            return 0;
+    public Long register(UserParam userParam) {
         TabUser user = new TabUser();
         BeanUtils.copyProperties(userParam, user);
         user.setUnthorized(StrUtil.isEmptyOrUndefined(userParam.getStudentId()) ? 0 : 1);
         user.setStatus(true);
         user.setRegisterTime(new Date());
-        // 查询是否具有相同studentId 或 openId的用户
-        TabUserExample example = new TabUserExample();
-        if (!StrUtil.isEmptyOrUndefined(user.getStudentId()))
+        if (StrUtil.isNotEmpty(userParam.getStudentId())) {
+            // 查询是否具有相同studentId的用户
+            TabUserExample example = new TabUserExample();
             example.createCriteria().andStudentIdEqualTo(user.getStudentId());
-        if (!StrUtil.isEmptyOrUndefined(user.getOpenId()))
-            example.or(example.createCriteria().andOpenIdEqualTo(user.getOpenId()));
-        List<TabUser> userList = userMapper.selectByExample(example);
-        if (userList != null && userList.size() > 0) {
-            Asserts.fail("用户已存在");
+            List<TabUser> userList = userMapper.selectByExample(example);
+            if (userList != null && userList.size() > 0) {
+                Asserts.fail("用户已存在");
+            }
         }
         // 将密码进行加密
         String encodePassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodePassword);
-        return userMapper.insert(user);
+        userMapper.insert(user);
+        return user.getId();
     }
 
     /**
@@ -95,12 +96,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public String login(UserParam userParam) {
         String token = null;
-        Long userid = userParam.getId();
-        if (userid == null) {
-            userid = getUserByStudentIdOrOpenId(userParam);
+        Long userId = userParam.getId();
+        if (userId == null) {
+            userId = getUserIdByStudentIdOrOpenId(userParam);
         }
         try {
-            UserDetails userDetails = loadUserById(userid);
+            UserDetails userDetails = loadUserById(userId);
             if (!passwordEncoder.matches(userParam.getPassword(), userDetails.getPassword())) {
                 Asserts.fail("密码错误");
             }
@@ -112,7 +113,7 @@ public class UserServiceImpl implements UserService {
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             token = jwtTokenUtil.generateToken(userDetails);
             // 更新登录时间
-            updateLoginTime(userid);
+            updateLoginTime(userId);
 
         } catch (AuthenticationException e) {
             LOGGER.warn("登录异常：{}", e.getMessage());
@@ -242,16 +243,31 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public Long getUserByStudentIdOrOpenId(UserParam userParam) {
+    public Long getUserIdByStudentIdOrOpenId(UserParam userParam) {
         TabUserExample example = new TabUserExample();
-        if (StrUtil.isNotBlank(userParam.getStudentId())) {
+        if (StrUtil.isNotEmpty(userParam.getStudentId())) {
             example.createCriteria().andStudentIdEqualTo(userParam.getStudentId());
-        } else if (StrUtil.isNotBlank(userParam.getOpenId())) {
-            example.createCriteria().andOpenIdEqualTo(userParam.getOpenId());
-        }
-        List<TabUser> userList = userMapper.selectByExample(example);
-        if (userList != null && userList.size() > 0) {
-            return userList.get(0).getId();
+            List<TabUser> userList = userMapper.selectByExample(example);
+            if (userList != null && userList.size() > 0) {
+                return userList.get(0).getId();
+            }
+        } else if (StrUtil.isNotEmpty(userParam.getMiniCode())) {
+            // 获取openId
+            MiniProgramSession session = miniProgramService.codeToSession(userParam.getMiniCode());
+            if (session.getErrcode() != 0) {
+                Asserts.fail(session.getErrmsg());
+            }
+            String openId = session.getOpenid();
+            example.createCriteria().andOpenIdEqualTo(openId);
+            List<TabUser> userList = userMapper.selectByExample(example);
+            if (userList != null && userList.size() > 0) {
+                return userList.get(0).getId();
+            }
+            // 创建用户
+            userParam.setStudentId(null);
+            // 默认密码
+            userParam.setPassword("111111");
+            return register(userParam);
         }
         return null;
     }
@@ -297,4 +313,5 @@ public class UserServiceImpl implements UserService {
             return CommonResult.failed("验证码不正确");
         }
     }
+
 }

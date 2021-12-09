@@ -48,8 +48,11 @@ public class UmsController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult register(@Validated @RequestBody UserParam userParam) {
-        int status = userService.register(userParam);
-        if (status <= 0) {
+        if (StrUtil.isEmpty(userParam.getStudentId())) {
+            return CommonResult.failed("学号为空");
+        }
+        Long userId = userService.register(userParam);
+        if (userId == null) {
             return CommonResult.failed("注册失败");
         }
         return CommonResult.success(null);
