@@ -86,7 +86,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from tab_message
     where id = #{id,jdbcType=BIGINT}
@@ -105,12 +105,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into tab_message (sender_id, receiver_id, content, 
-      issue_time, read_time, read_status
-      )
-    values (#{senderId,jdbcType=BIGINT}, #{receiverId,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, 
-      #{issueTime,jdbcType=TIMESTAMP}, #{readTime,jdbcType=TIMESTAMP}, #{readStatus,jdbcType=BIT}
-      )
+    insert into tab_message (sender_id, receiver_id, content,
+    issue_time, read_time, read_status
+    )
+    values (#{senderId,jdbcType=BIGINT}, #{receiverId,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR},
+    #{issueTime,jdbcType=TIMESTAMP}, #{readTime,jdbcType=TIMESTAMP}, #{readStatus,jdbcType=BIT}
+    )
   </insert>
   <insert id="insertSelective" parameterType="com.pm.pmapi.mbg.model.TabMessage">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -196,12 +196,12 @@
   <update id="updateByExample" parameterType="map">
     update tab_message
     set id = #{record.id,jdbcType=BIGINT},
-      sender_id = #{record.senderId,jdbcType=BIGINT},
-      receiver_id = #{record.receiverId,jdbcType=BIGINT},
-      content = #{record.content,jdbcType=VARCHAR},
-      issue_time = #{record.issueTime,jdbcType=TIMESTAMP},
-      read_time = #{record.readTime,jdbcType=TIMESTAMP},
-      read_status = #{record.readStatus,jdbcType=BIT}
+    sender_id = #{record.senderId,jdbcType=BIGINT},
+    receiver_id = #{record.receiverId,jdbcType=BIGINT},
+    content = #{record.content,jdbcType=VARCHAR},
+    issue_time = #{record.issueTime,jdbcType=TIMESTAMP},
+    read_time = #{record.readTime,jdbcType=TIMESTAMP},
+    read_status = #{record.readStatus,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -233,11 +233,11 @@
   <update id="updateByPrimaryKey" parameterType="com.pm.pmapi.mbg.model.TabMessage">
     update tab_message
     set sender_id = #{senderId,jdbcType=BIGINT},
-      receiver_id = #{receiverId,jdbcType=BIGINT},
-      content = #{content,jdbcType=VARCHAR},
-      issue_time = #{issueTime,jdbcType=TIMESTAMP},
-      read_time = #{readTime,jdbcType=TIMESTAMP},
-      read_status = #{readStatus,jdbcType=BIT}
+        receiver_id = #{receiverId,jdbcType=BIGINT},
+        content = #{content,jdbcType=VARCHAR},
+        issue_time = #{issueTime,jdbcType=TIMESTAMP},
+        read_time = #{readTime,jdbcType=TIMESTAMP},
+        read_status = #{readStatus,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

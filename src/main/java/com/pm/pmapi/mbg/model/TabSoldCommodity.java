@@ -4,17 +4,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @Description mbg自动生成tab_commodity表实体类
+ * @Description mbg自动生成tab_sold_commodity表实体类
  *
  * @date 2021-12-10 06:49
  */
-public class TabCommodity implements Serializable {
-    /**
-     * 自增主键
-     *
-     * @mbg.generated
-     */
-    private Long id;
+public class TabSoldCommodity implements Serializable {
+    private Long soldId;
 
     private String name;
 
@@ -56,16 +51,18 @@ public class TabCommodity implements Serializable {
 
     private Date modifyTime;
 
+    private Long id;
+
     private byte[] picture;
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
-        return id;
+    public Long getSoldId() {
+        return soldId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setSoldId(Long soldId) {
+        this.soldId = soldId;
     }
 
     public String getName() {
@@ -228,6 +225,14 @@ public class TabCommodity implements Serializable {
         this.modifyTime = modifyTime;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public byte[] getPicture() {
         return picture;
     }
@@ -242,7 +247,7 @@ public class TabCommodity implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
+        sb.append(", soldId=").append(soldId);
         sb.append(", name=").append(name);
         sb.append(", lessonId=").append(lessonId);
         sb.append(", teacherId=").append(teacherId);
@@ -263,6 +268,7 @@ public class TabCommodity implements Serializable {
         sb.append(", unit=").append(unit);
         sb.append(", createTime=").append(createTime);
         sb.append(", modifyTime=").append(modifyTime);
+        sb.append(", id=").append(id);
         sb.append(", picture=").append(picture);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
