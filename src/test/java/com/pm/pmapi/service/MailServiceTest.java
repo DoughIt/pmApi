@@ -17,6 +17,6 @@ class MailServiceTest {
 
     @Test
     void sendHtmlAuthCode() {
-        mailService.sendHtmlAuthCode("16302010059@fuan.edu.cn","3342", 5,"16302010059");
+        mailService.sendHtmlAuthCode("16302010059@fudan.edu.cn","3342", 5,"16302010059");
     }
 }

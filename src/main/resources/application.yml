@@ -37,6 +37,12 @@ spring:
     username: doughit@163.com
     password: OETVVNBYNBKUJFDX
     default-encoding: UTF-8
+    port: 465
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
   thymeleaf:
     enabled: true
     encoding: UTF-8
