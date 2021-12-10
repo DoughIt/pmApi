@@ -48,6 +48,13 @@ public class MmsController {
         Long mine = Long.parseLong(authenticationFacade.getAuthentication().getName());
         if (userId.isPresent()) {
             List<TabMessage> messageList = messageService.listMessagesByTwo(userId.get(), mine, pageNum, pageSize);
+            messageList.forEach(message -> {
+                // 将mine请求的消息设置为已读
+                if (!message.getReadStatus() && message.getReceiverId().equals(mine)) {
+                    message.setReadStatus(true);
+                    messageService.updateReadStatus(message.getId(), true);
+                }
+            });
             return CommonResult.success(CommonPage.restPage(messageList));
         } else {
             List<MessageSummaryInfo> messageSummaryInfoList = messageService.listMessageSummariesByUserId(mine, pageNum, pageSize);

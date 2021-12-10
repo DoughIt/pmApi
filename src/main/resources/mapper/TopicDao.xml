@@ -4,6 +4,8 @@
     <resultMap id="BaseResultMap" type="com.pm.pmapi.dto.TopicInfo">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="lesson_id" jdbcType="BIGINT" property="lessonId"/>
+        <result column="goods_id" jdbcType="BIGINT" property="goodsId"/>
         <result column="title" jdbcType="VARCHAR" property="title"/>
         <result column="content" jdbcType="VARCHAR" property="content"/>
         <result column="issue_time" jdbcType="TIMESTAMP" property="issueTime"/>

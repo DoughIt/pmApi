@@ -83,7 +83,7 @@ public interface UserService {
      * @param userParam
      * @return
      */
-    Long getUserIdByStudentIdOrOpenId(UserParam userParam);
+    TabUser getUserByStudentIdOrOpenId(UserParam userParam);
 
     /**
      * 生成验证码，发送至studentId@fudan.edu.cn邮箱

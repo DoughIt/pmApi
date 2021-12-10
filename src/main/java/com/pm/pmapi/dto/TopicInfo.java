@@ -25,6 +25,14 @@ public class TopicInfo {
      */
     private Long parentId;
     /**
+     * 课程id
+     */
+    private Long lessonId;
+    /**
+     * 商品id
+     */
+    private Long goodsId;
+    /**
      * 帖子标题
      */
     private String title;

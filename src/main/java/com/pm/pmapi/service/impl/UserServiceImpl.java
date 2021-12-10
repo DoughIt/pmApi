@@ -4,13 +4,17 @@ import cn.hutool.core.util.StrUtil;
 import com.pm.pmapi.common.api.CommonResult;
 import com.pm.pmapi.common.exception.Asserts;
 import com.pm.pmapi.common.utils.JwtTokenUtil;
+import com.pm.pmapi.component.IAuthenticationFacade;
+import com.pm.pmapi.dao.UserDao;
 import com.pm.pmapi.dto.AdminUserDetails;
 import com.pm.pmapi.dto.MiniProgramSession;
 import com.pm.pmapi.dto.UpdateUserParam;
 import com.pm.pmapi.dto.UserParam;
+import com.pm.pmapi.mbg.mapper.TabCommodityMapper;
+import com.pm.pmapi.mbg.mapper.TabMessageMapper;
+import com.pm.pmapi.mbg.mapper.TabTopicMapper;
 import com.pm.pmapi.mbg.mapper.TabUserMapper;
-import com.pm.pmapi.mbg.model.TabUser;
-import com.pm.pmapi.mbg.model.TabUserExample;
+import com.pm.pmapi.mbg.model.*;
 import com.pm.pmapi.service.MailService;
 import com.pm.pmapi.service.RedisService;
 import com.pm.pmapi.service.UserCacheService;
@@ -49,11 +53,21 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private TabUserMapper userMapper;
     @Autowired
+    private UserDao userDao;
+    @Autowired
+    private IAuthenticationFacade authenticationFacade;
+    @Autowired
     private MiniProgramServiceImpl miniProgramService;
     @Autowired
     private UserCacheService userCacheService;
     @Autowired
     private RedisService redisService;
+    @Autowired
+    private TabMessageMapper messageMapper;
+    @Autowired
+    private TabTopicMapper topicMapper;
+    @Autowired
+    private TabCommodityMapper commodityMapper;
     @Autowired
     private MailService mailService;
     @Value("${redis.key.authCode}")
@@ -74,6 +88,7 @@ public class UserServiceImpl implements UserService {
         user.setUnthorized(StrUtil.isEmptyOrUndefined(userParam.getStudentId()) ? 0 : 1);
         user.setStatus(true);
         user.setRegisterTime(new Date());
+        user.setNav(0L);
         if (StrUtil.isNotEmpty(userParam.getStudentId())) {
             // 查询是否具有相同studentId的用户
             TabUserExample example = new TabUserExample();
@@ -99,13 +114,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public String login(UserParam userParam) {
         String token = null;
-        Long userId = userParam.getId();
-        if (userId == null) {
-            userId = getUserIdByStudentIdOrOpenId(userParam);
+        TabUser user = getUserByStudentIdOrOpenId(userParam);
+        // 使用学号登录
+        if (StrUtil.isNotEmpty(userParam.getStudentId()) && user.getUnthorized() != 1) {
+            Asserts.fail("邮箱未认证");
         }
         try {
-            UserDetails userDetails = loadUserById(userId);
-            if (!passwordEncoder.matches(userParam.getPassword(), userDetails.getPassword())) {
+            UserDetails userDetails = loadUserById(user.getId());
+            //小程序端使用code不用验证密码
+            if (StrUtil.isEmptyOrUndefined(userParam.getMiniCode())
+                    && !passwordEncoder.matches(userParam.getPassword(), userDetails.getPassword())) {
                 Asserts.fail("密码错误");
             }
             if (!userDetails.isEnabled()) {
@@ -116,7 +134,7 @@ public class UserServiceImpl implements UserService {
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             token = jwtTokenUtil.generateToken(userDetails);
             // 更新登录时间
-            updateLoginTime(userId);
+            updateLoginTime(user.getId());
 
         } catch (AuthenticationException e) {
             LOGGER.warn("登录异常：{}", e.getMessage());
@@ -155,7 +173,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public int delete(Long id) {
         userCacheService.delUser(id);
-        return userMapper.deleteByPrimaryKey(id);
+        TabUserExample example = new TabUserExample();
+        example.createCriteria().andIdEqualTo(id);
+        return userMapper.deleteByExample(example);
     }
 
     /**
@@ -192,7 +212,7 @@ public class UserServiceImpl implements UserService {
         if (StrUtil.isEmpty(userParam.getPassword()) || StrUtil.isEmpty(userParam.getNewPassword())) {
             return -1;
         }
-        TabUser user = getUserById(userParam.getId());
+        TabUser user = getUserById(userParam.getUserId());
         if (user == null) {
             Asserts.fail("用户不存在");
             return -2;
@@ -246,13 +266,13 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public Long getUserIdByStudentIdOrOpenId(UserParam userParam) {
+    public TabUser getUserByStudentIdOrOpenId(UserParam userParam) {
         TabUserExample example = new TabUserExample();
         if (StrUtil.isNotEmpty(userParam.getStudentId())) {
             example.createCriteria().andStudentIdEqualTo(userParam.getStudentId());
             List<TabUser> userList = userMapper.selectByExample(example);
             if (userList != null && userList.size() > 0) {
-                return userList.get(0).getId();
+                return userList.get(0);
             }
         } else if (StrUtil.isNotEmpty(userParam.getMiniCode())) {
             // 获取openId
@@ -264,13 +284,13 @@ public class UserServiceImpl implements UserService {
             example.createCriteria().andOpenIdEqualTo(openId);
             List<TabUser> userList = userMapper.selectByExample(example);
             if (userList != null && userList.size() > 0) {
-                return userList.get(0).getId();
+                return userList.get(0);
             }
             // 创建用户
             userParam.setStudentId(null);
             // 默认密码
             userParam.setPassword("111111");
-            return register(userParam);
+            return getUserById(register(userParam));
         }
         return null;
     }
@@ -283,6 +303,12 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public CommonResult generateAuthCode(String studentId) {
+        UserParam param = new UserParam();
+        param.setStudentId(studentId);
+        TabUser user = getUserByStudentIdOrOpenId(param);
+        if (user.getUnthorized() == 1 && !StrUtil.isEmptyOrUndefined(user.getOpenId())) {
+            return CommonResult.failed("邮箱已认证");
+        }
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
         for (int i = 0; i < 4; i++) {
@@ -293,6 +319,8 @@ public class UserServiceImpl implements UserService {
         redisService.set(key, sb.toString());
         redisService.expire(key, AUTH_CODE_EXPIRE_SECONDS);
         mailService.sendHtmlAuthCode(studentId + "@fudan.edu.cn", sb.toString(), (int) (AUTH_CODE_EXPIRE_SECONDS / 60), studentId);
+        user.setUnthorized(2);
+        userMapper.updateByPrimaryKeySelective(user);
         return CommonResult.success("验证码已发送到" + studentId + "@fudan.edu.cn邮箱");
     }
 
@@ -308,12 +336,35 @@ public class UserServiceImpl implements UserService {
         if (StrUtil.isEmpty(authCode)) {
             return CommonResult.failed("请输入验证码");
         }
+        if (authCode.length() != 4) {
+            return CommonResult.failed("验证码是4位长度数字");
+        }
         String realAuthCode = (String) redisService.get(REDIS_KEY_PREFIX_AUTH_CODE + studentId);
+        if (StrUtil.isEmptyOrUndefined(realAuthCode)) {
+            return CommonResult.failed("验证码已过期");
+        }
+        UserParam param = new UserParam();
+        param.setStudentId(studentId);
+        TabUser user = getUserByStudentIdOrOpenId(param);
         if (authCode.equals(realAuthCode)) {
+            if (StrUtil.isEmptyOrUndefined(user.getOpenId())) {
+                // 网页端已
+                // 小程序端绑定用户
+                TabUser currentUser = getUserById(Long.valueOf(authenticationFacade.getAuthentication().getName()));
+                currentUser.setStudentId(studentId);
+                currentUser.setUnthorized(1);
+                userDao.updateUserNavByPrimaryKey(user.getId(), currentUser.getId(), currentUser.getNav());
+                userMapper.updateByPrimaryKeySelective(currentUser);
+                userDao.updateUserIdAndDeleteByPrimaryKey(currentUser.getId(), user.getId());
+            } else {
+                user.setUnthorized(1);
+                userMapper.updateByPrimaryKeySelective(user);
+            }
             return CommonResult.success(null, "验证码校验成功，authCode=" + realAuthCode);
         } else {
+            user.setUnthorized(0);
+            userMapper.updateByPrimaryKeySelective(user);
             return CommonResult.failed("验证码不正确");
         }
     }
-
 }

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @Description mbg自动生成tab_mini_program表实体类
  *
- * @date 2021-12-09 08:27
+ * @date 2021-12-10 08:08
  */
 public class TabMiniProgram implements Serializable {
     private String appId;
