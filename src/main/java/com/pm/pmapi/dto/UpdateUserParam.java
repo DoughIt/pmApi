@@ -19,7 +19,7 @@ public class UpdateUserParam {
      * 用户id，非空
      */
     @NotEmpty
-    private Long id;
+    private Long userId;
     /**
      * 用户名
      */
@@ -36,4 +36,12 @@ public class UpdateUserParam {
      * 新密码
      */
     private String newPassword;
+    /**
+     * 头像链接
+     */
+    private String avatar;
+    /**
+     * 用户个人描述
+     */
+    private String description;
 }
