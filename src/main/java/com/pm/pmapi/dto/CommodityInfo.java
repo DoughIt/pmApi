@@ -66,6 +66,6 @@ public class CommodityInfo{
     private byte[] picture;
 
 
-    TabUser seller;
+    SimpleUserInfo seller;
     TabLesson lesson;
 }
