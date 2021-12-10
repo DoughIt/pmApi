@@ -11,7 +11,7 @@
     <select id="selectSimpleUserByPrimaryKey" resultMap="SimpleUserMap">
         select id, student_id, open_id, avatar, username
         from tab_user
-        where id = #{userId}
+        where id = #{userId} limit 1
     </select>
     <update id="updateUserIdAndDeleteByPrimaryKey">
         update tab_user
