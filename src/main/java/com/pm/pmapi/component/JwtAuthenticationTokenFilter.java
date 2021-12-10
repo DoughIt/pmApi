@@ -1,6 +1,7 @@
 package com.pm.pmapi.component;
 
 import com.pm.pmapi.common.utils.JwtTokenUtil;
+import com.pm.pmapi.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,8 @@ import java.io.IOException;
  */
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthenticationTokenFilter.class);
-
-    // TODO 获取登录服务接口
-
+    @Autowired
+    private UserService userService;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Value("${jwt.tokenHeader}")
@@ -56,11 +56,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith(this.tokenHead)) {
             String authToken = authHeader.substring(this.tokenHead.length());// "Bearer " 后的数据
             String username = jwtTokenUtil.getUserNameFromToken(authToken);
-            LOGGER.info("checking username:{}", username);
+            LOGGER.info("checking userId:{}", username);
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                // TODO 根据提取到的username获取UserDetails对象
-
-                UserDetails userDetails = null;
+                UserDetails userDetails = this.userService.loadUserById(Long.valueOf(username));
                 if (jwtTokenUtil.validateToken(authToken, userDetails)) {
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

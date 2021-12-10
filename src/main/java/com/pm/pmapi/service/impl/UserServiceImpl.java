@@ -5,11 +5,13 @@ import com.pm.pmapi.common.api.CommonResult;
 import com.pm.pmapi.common.exception.Asserts;
 import com.pm.pmapi.common.utils.JwtTokenUtil;
 import com.pm.pmapi.dto.AdminUserDetails;
+import com.pm.pmapi.dto.MiniProgramSession;
 import com.pm.pmapi.dto.UpdateUserParam;
 import com.pm.pmapi.dto.UserParam;
 import com.pm.pmapi.mbg.mapper.TabUserMapper;
 import com.pm.pmapi.mbg.model.TabUser;
 import com.pm.pmapi.mbg.model.TabUserExample;
+import com.pm.pmapi.service.MailService;
 import com.pm.pmapi.service.RedisService;
 import com.pm.pmapi.service.UserCacheService;
 import com.pm.pmapi.service.UserService;
@@ -22,6 +24,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -46,9 +49,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private TabUserMapper userMapper;
     @Autowired
+    private MiniProgramServiceImpl miniProgramService;
+    @Autowired
     private UserCacheService userCacheService;
     @Autowired
     private RedisService redisService;
+    @Autowired
+    private MailService mailService;
     @Value("${redis.key.authCode}")
     private String REDIS_KEY_PREFIX_AUTH_CODE;
     @Value("${redis.expire.authCode}")
@@ -58,31 +65,29 @@ public class UserServiceImpl implements UserService {
      * 注册用户
      *
      * @param userParam 用户信息
-     * @return 1操作成功，0操作失败
+     * @return 用户id
      */
     @Override
-    public int register(UserParam userParam) {
-        if (StrUtil.isEmptyOrUndefined(userParam.getStudentId()) && StrUtil.isEmptyOrUndefined(userParam.getOpenId()))
-            return 0;
+    public Long register(UserParam userParam) {
         TabUser user = new TabUser();
         BeanUtils.copyProperties(userParam, user);
         user.setUnthorized(StrUtil.isEmptyOrUndefined(userParam.getStudentId()) ? 0 : 1);
         user.setStatus(true);
         user.setRegisterTime(new Date());
-        // 查询是否具有相同studentId 或 openId的用户
-        TabUserExample example = new TabUserExample();
-        if (!StrUtil.isEmptyOrUndefined(user.getStudentId()))
+        if (StrUtil.isNotEmpty(userParam.getStudentId())) {
+            // 查询是否具有相同studentId的用户
+            TabUserExample example = new TabUserExample();
             example.createCriteria().andStudentIdEqualTo(user.getStudentId());
-        if (!StrUtil.isEmptyOrUndefined(user.getOpenId()))
-            example.or(example.createCriteria().andOpenIdEqualTo(user.getOpenId()));
-        List<TabUser> userList = userMapper.selectByExample(example);
-        if (userList != null && userList.size() > 0) {
-            Asserts.fail("用户已存在");
+            List<TabUser> userList = userMapper.selectByExample(example);
+            if (userList != null && userList.size() > 0) {
+                Asserts.fail("用户已存在");
+            }
         }
         // 将密码进行加密
-        String encodePassword = passwordEncoder.encode(user.toString());
+        String encodePassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodePassword);
-        return userMapper.insert(user);
+        userMapper.insert(user);
+        return user.getId();
     }
 
     /**
@@ -94,8 +99,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public String login(UserParam userParam) {
         String token = null;
+        Long userId = userParam.getId();
+        if (userId == null) {
+            userId = getUserIdByStudentIdOrOpenId(userParam);
+        }
         try {
-            UserDetails userDetails = loadUserById(userParam.getId());
+            UserDetails userDetails = loadUserById(userId);
             if (!passwordEncoder.matches(userParam.getPassword(), userDetails.getPassword())) {
                 Asserts.fail("密码错误");
             }
@@ -107,7 +116,7 @@ public class UserServiceImpl implements UserService {
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             token = jwtTokenUtil.generateToken(userDetails);
             // 更新登录时间
-            updateLoginTime(userParam.getId());
+            updateLoginTime(userId);
 
         } catch (AuthenticationException e) {
             LOGGER.warn("登录异常：{}", e.getMessage());
@@ -212,7 +221,7 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             return new AdminUserDetails(user);
         }
-        return null;
+        throw new UsernameNotFoundException("用户名或密码错误");
     }
 
     @Override
@@ -226,6 +235,42 @@ public class UserServiceImpl implements UserService {
             user = userList.get(0);
             userCacheService.setUser(user);
             return user;
+        }
+        return null;
+    }
+
+    /**
+     * 从数据库获取用户信息
+     *
+     * @param userParam
+     * @return
+     */
+    @Override
+    public Long getUserIdByStudentIdOrOpenId(UserParam userParam) {
+        TabUserExample example = new TabUserExample();
+        if (StrUtil.isNotEmpty(userParam.getStudentId())) {
+            example.createCriteria().andStudentIdEqualTo(userParam.getStudentId());
+            List<TabUser> userList = userMapper.selectByExample(example);
+            if (userList != null && userList.size() > 0) {
+                return userList.get(0).getId();
+            }
+        } else if (StrUtil.isNotEmpty(userParam.getMiniCode())) {
+            // 获取openId
+            MiniProgramSession session = miniProgramService.codeToSession(userParam.getMiniCode());
+            if (session.getErrcode() != 0) {
+                Asserts.fail(session.getErrmsg());
+            }
+            String openId = session.getOpenid();
+            example.createCriteria().andOpenIdEqualTo(openId);
+            List<TabUser> userList = userMapper.selectByExample(example);
+            if (userList != null && userList.size() > 0) {
+                return userList.get(0).getId();
+            }
+            // 创建用户
+            userParam.setStudentId(null);
+            // 默认密码
+            userParam.setPassword("111111");
+            return register(userParam);
         }
         return null;
     }
@@ -247,8 +292,7 @@ public class UserServiceImpl implements UserService {
         String key = REDIS_KEY_PREFIX_AUTH_CODE + studentId;
         redisService.set(key, sb.toString());
         redisService.expire(key, AUTH_CODE_EXPIRE_SECONDS);
-        // TODO 将验证码发送到邮箱
-
+        mailService.sendHtmlAuthCode(studentId + "@fudan.edu.cn", sb.toString(), (int) (AUTH_CODE_EXPIRE_SECONDS / 60), studentId);
         return CommonResult.success("验证码已发送到" + studentId + "@fudan.edu.cn邮箱");
     }
 
@@ -271,4 +315,5 @@ public class UserServiceImpl implements UserService {
             return CommonResult.failed("验证码不正确");
         }
     }
+
 }

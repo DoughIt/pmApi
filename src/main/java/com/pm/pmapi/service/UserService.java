@@ -18,9 +18,9 @@ public interface UserService {
      * 注册用户
      *
      * @param userParam 用户信息
-     * @return 1操作成功，0操作失败
+     * @return 用户id
      */
-    int register(UserParam userParam);
+    Long register(UserParam userParam);
 
     /**
      * 用户登录
@@ -77,6 +77,13 @@ public interface UserService {
      * @return
      */
     TabUser getUserById(Long id);
+
+    /**
+     * 从数据库获取用户id
+     * @param userParam
+     * @return
+     */
+    Long getUserIdByStudentIdOrOpenId(UserParam userParam);
 
     /**
      * 生成验证码，发送至studentId@fudan.edu.cn邮箱
