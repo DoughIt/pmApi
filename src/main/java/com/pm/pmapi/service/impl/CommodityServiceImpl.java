@@ -2,8 +2,10 @@ package com.pm.pmapi.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.pm.pmapi.dao.CommodityDao;
+import com.pm.pmapi.dao.UserDao;
 import com.pm.pmapi.dto.CommodityInfo;
 import com.pm.pmapi.dto.CommodityParam;
+import com.pm.pmapi.dto.SimpleUserInfo;
 import com.pm.pmapi.mbg.mapper.TabCommodityMapper;
 import com.pm.pmapi.mbg.mapper.TabSoldCommodityMapper;
 import com.pm.pmapi.mbg.mapper.TabUserMapper;
@@ -30,6 +32,8 @@ public class CommodityServiceImpl implements CommodityService {
     TabCommodityMapper commodityMapper;
 
     @Autowired
+    UserDao userDao;
+    @Autowired
     TabUserMapper userMapper;
 
     @Autowired
@@ -43,12 +47,12 @@ public class CommodityServiceImpl implements CommodityService {
         CommodityInfo commodityInfoToReturn = new CommodityInfo();
         if (null != commodityDao.getCommodityById(id)){
             commodityInfoToReturn = commodityDao.getCommodityById(id);
-            commodityInfoToReturn.setSeller(userMapper.selectByPrimaryKey(commodityInfoToReturn.getSellerId()));
+            commodityInfoToReturn.setSeller(userDao.selectSimpleUserByPrimaryKey(commodityInfoToReturn.getSellerId()));
             // TODO: 课程
             return commodityInfoToReturn;
         }else if (null != commodityMapper.selectByPrimaryKey(id)){
             BeanUtils.copyProperties(commodityMapper.selectByPrimaryKey(id),commodityInfoToReturn);
-            commodityInfoToReturn.setSeller(userMapper.selectByPrimaryKey(commodityMapper.selectByPrimaryKey(id).getSellerId()));
+            commodityInfoToReturn.setSeller(userDao.selectSimpleUserByPrimaryKey(commodityMapper.selectByPrimaryKey(id).getSellerId()));
             // TODO: 课程
             return commodityInfoToReturn;
         }else{
@@ -58,7 +62,7 @@ public class CommodityServiceImpl implements CommodityService {
             List<TabSoldCommodity> list = soldCommodityMapper.selectByExample(example);
             if (list.size() > 0){
                 BeanUtils.copyProperties(list.get(0),commodityInfoToReturn);
-                commodityInfoToReturn.setSeller(userMapper.selectByPrimaryKey(list.get(0).getSellerId()));
+                commodityInfoToReturn.setSeller(userDao.selectSimpleUserByPrimaryKey(list.get(0).getSellerId()));
                 // TODO: 课程
                 return commodityInfoToReturn;
             }else{
@@ -73,10 +77,10 @@ public class CommodityServiceImpl implements CommodityService {
         BeanUtils.copyProperties(commodityParam, commodity);
         commodity.setSellerId(userId);
         commodityMapper.insert(commodity);
-        TabUser user = userMapper.selectByPrimaryKey(userId);
+        SimpleUserInfo simpleUserInfo = userDao.selectSimpleUserByPrimaryKey(userId);
         CommodityInfo info = new CommodityInfo();
         BeanUtils.copyProperties(commodityMapper.selectByPrimaryKey(commodity.getId()), info);
-        info.setSeller(user);
+        info.setSeller(simpleUserInfo);
         return info;
     }
 
@@ -92,7 +96,7 @@ public class CommodityServiceImpl implements CommodityService {
         for (TabCommodity commodity : commodities) {
             CommodityInfo tmp = new CommodityInfo();
             BeanUtils.copyProperties(commodity, tmp);
-            tmp.setSeller(userMapper.selectByPrimaryKey(commodity.getSellerId()));
+            tmp.setSeller(userDao.selectSimpleUserByPrimaryKey(commodity.getSellerId()));
             // TODO: 课程
             commodityInfos.add(tmp);
 
@@ -105,7 +109,7 @@ public class CommodityServiceImpl implements CommodityService {
         PageHelper.startPage(pageNum, pageSize);
         List<CommodityInfo> list = commodityDao.listCommoditiesByType((long) type);
         for (CommodityInfo commodityInfo : list) {
-            commodityInfo.setSeller(userMapper.selectByPrimaryKey(commodityInfo.getSellerId()));
+            commodityInfo.setSeller(userDao.selectSimpleUserByPrimaryKey(commodityInfo.getSellerId()));
             // TODO: 课程
         }
         return list;
@@ -145,7 +149,7 @@ public class CommodityServiceImpl implements CommodityService {
         for (TabSoldCommodity tabSoldCommodity : list) {
             CommodityInfo ci = new CommodityInfo();
             BeanUtils.copyProperties(tabSoldCommodity, ci);
-            ci.setSeller(userMapper.selectByPrimaryKey(user_id));
+            ci.setSeller(userDao.selectSimpleUserByPrimaryKey(user_id));
             // TODO: 课程
             commodityInfos.add(ci);
         }
