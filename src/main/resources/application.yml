@@ -32,6 +32,24 @@ spring:
         max-idle: 8
         min-idle: 0
     timeout: 300ms
+  mail:
+    host: smtp.163.com
+    username: doughit@163.com
+    password: OETVVNBYNBKUJFDX
+    default-encoding: UTF-8
+    port: 465
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+  thymeleaf:
+    enabled: true
+    encoding: UTF-8
+    prefix: classpath:/templates/
+    cache: false
+    mode: HTML
+    suffix: .html
 
 # mybatis mapper映射路径
 mybatis:
@@ -50,7 +68,7 @@ logging:
 # 自定义jwt key
 jwt:
   tokenHeader: Authorization #JWT存储的请求头
-  secret: pm #JWT加解密使用的密钥
+  secret: pmapi #JWT加解密使用的密钥，太短会报错
   expiration: 604800 #JWT的超期限时间(60*60*24)
   tokenHead: Bearer  #JWT负载中拿到开头
 
@@ -80,7 +98,7 @@ redis:
     user: 'ums:user'
   expire:
     common: 86400 # 24小时
-    authCode: 300 # 验证码超期时间，300s
+    authCode: 900 # 验证码超期时间，900s
 management:
   health:
     redis:

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0,
+minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible">
+    <title>注册用户验证码</title>
+</head>
+<body>
+尊敬的用户，您好！
+<p>
+您的账号（账号ID：<span th:text="${username}"></span>）正在验证复旦邮箱，您的验证码为：<span th:text="${authCode}"></span>，请在<span th:text="${minutes}"></span>分钟内输入。我们不会向您索取验证码信息，请勿泄露。
+</p>
+<br/>
+此致<br/>
+DoughIt团队
+</body>
+</html>

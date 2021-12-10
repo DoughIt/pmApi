@@ -2,24 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pm.pmapi.dao.TopicDao">
     <resultMap id="BaseResultMap" type="com.pm.pmapi.dto.TopicInfo">
-        <id column="id" jdbcType="LONG" property="id"/>
-        <result column="parent_id" jdbcType="LONG" property="parentId"/>
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
         <result column="title" jdbcType="VARCHAR" property="title"/>
         <result column="content" jdbcType="VARCHAR" property="content"/>
-        <result column="user" jdbcType="mapper.TabUserMapper.BaseResultMap" property="user"/>
-        <result column="issue_time" jdbcType="DATETIME" property="issueTime"/>
+        <result column="issue_time" jdbcType="TIMESTAMP" property="issueTime"/>
         <result column="state" jdbcType="INTEGER" property="state"/>
-        <collection column="children" resultMap="BaseResultMap" property="children"/>
+        <association column="{userId=user_id}" property="user" javaType="com.pm.pmapi.dto.SimpleUserInfo"
+                     select="com.pm.pmapi.dao.UserDao.selectSimpleUserByPrimaryKey"/>
+        <collection column="{parentId=id}" select="listChildrenByParentId" property="children"/>
     </resultMap>
     <select id="listChildrenByParentId" resultMap="BaseResultMap">
+        select * from tab_topic where parent_id=#{parentId}
     </select>
     <select id="listTopicByFilterType" resultMap="BaseResultMap">
-
+        select * from tab_topic t where related_type=#{filter} and parent_id is null
+        <choose>
+            <when test="filter == '1'.toString() ">
+                and lesson_id=#{relatedId}
+            </when>
+            <when test="filter == '2'.toString() ">
+                and goods_id=#{relatedId}
+            </when>
+        </choose>
     </select>
     <select id="listTopicByUserId" resultMap="BaseResultMap">
-
+        select * from tab_topic where user_id=#{userId}
     </select>
     <select id="getTopicInfoById" resultMap="BaseResultMap">
-
+        select * from tap_topic where id=#{id}
     </select>
 </mapper>
