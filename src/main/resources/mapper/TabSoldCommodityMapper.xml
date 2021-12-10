@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pm.pmapi.mbg.mapper.TabSoldCommodityMapper">
+  <resultMap id="BaseResultMap" type="com.pm.pmapi.mbg.model.TabSoldCommodity">
+    <id column="sold_id" jdbcType="BIGINT" property="soldId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="lesson_id" jdbcType="VARCHAR" property="lessonId" />
+    <result column="teacher_id" jdbcType="BIGINT" property="teacherId" />
+    <result column="seller_id" jdbcType="BIGINT" property="sellerId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="publisher" jdbcType="VARCHAR" property="publisher" />
+    <result column="cover_percentage" jdbcType="VARCHAR" property="coverPercentage" />
+    <result column="image_id" jdbcType="VARCHAR" property="imageId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="single_print" jdbcType="BIT" property="singlePrint" />
+    <result column="deal_method" jdbcType="INTEGER" property="dealMethod" />
+    <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
+    <result column="chapters" jdbcType="INTEGER" property="chapters" />
+    <result column="paper_size" jdbcType="VARCHAR" property="paperSize" />
+    <result column="new_degree" jdbcType="VARCHAR" property="newDegree" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="id" jdbcType="BIGINT" property="id" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.pm.pmapi.mbg.model.TabSoldCommodity">
+    <result column="picture" jdbcType="LONGVARBINARY" property="picture" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    sold_id, name, lesson_id, teacher_id, seller_id, type, author, publisher, cover_percentage, 
+    image_id, content, price, single_print, deal_method, commodity_id, chapters, paper_size, 
+    new_degree, unit, create_time, modify_time, id
+  </sql>
+  <sql id="Blob_Column_List">
+    picture
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.pm.pmapi.mbg.model.TabSoldCommodityExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tab_sold_commodity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.pm.pmapi.mbg.model.TabSoldCommodityExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tab_sold_commodity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tab_sold_commodity
+    where sold_id = #{soldId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tab_sold_commodity
+    where sold_id = #{soldId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pm.pmapi.mbg.model.TabSoldCommodityExample">
+    delete from tab_sold_commodity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pm.pmapi.mbg.model.TabSoldCommodity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tab_sold_commodity (sold_id, name, lesson_id, 
+      teacher_id, seller_id, type, 
+      author, publisher, cover_percentage, 
+      image_id, content, price, 
+      single_print, deal_method, commodity_id, 
+      chapters, paper_size, new_degree, 
+      unit, create_time, modify_time, 
+      picture)
+    values (#{soldId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{lessonId,jdbcType=VARCHAR}, 
+      #{teacherId,jdbcType=BIGINT}, #{sellerId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, 
+      #{author,jdbcType=VARCHAR}, #{publisher,jdbcType=VARCHAR}, #{coverPercentage,jdbcType=VARCHAR}, 
+      #{imageId,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, 
+      #{singlePrint,jdbcType=BIT}, #{dealMethod,jdbcType=INTEGER}, #{commodityId,jdbcType=BIGINT}, 
+      #{chapters,jdbcType=INTEGER}, #{paperSize,jdbcType=VARCHAR}, #{newDegree,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{picture,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pm.pmapi.mbg.model.TabSoldCommodity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tab_sold_commodity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="soldId != null">
+        sold_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="lessonId != null">
+        lesson_id,
+      </if>
+      <if test="teacherId != null">
+        teacher_id,
+      </if>
+      <if test="sellerId != null">
+        seller_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="publisher != null">
+        publisher,
+      </if>
+      <if test="coverPercentage != null">
+        cover_percentage,
+      </if>
+      <if test="imageId != null">
+        image_id,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="singlePrint != null">
+        single_print,
+      </if>
+      <if test="dealMethod != null">
+        deal_method,
+      </if>
+      <if test="commodityId != null">
+        commodity_id,
+      </if>
+      <if test="chapters != null">
+        chapters,
+      </if>
+      <if test="paperSize != null">
+        paper_size,
+      </if>
+      <if test="newDegree != null">
+        new_degree,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="picture != null">
+        picture,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="soldId != null">
+        #{soldId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="lessonId != null">
+        #{lessonId,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherId != null">
+        #{teacherId,jdbcType=BIGINT},
+      </if>
+      <if test="sellerId != null">
+        #{sellerId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="publisher != null">
+        #{publisher,jdbcType=VARCHAR},
+      </if>
+      <if test="coverPercentage != null">
+        #{coverPercentage,jdbcType=VARCHAR},
+      </if>
+      <if test="imageId != null">
+        #{imageId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="singlePrint != null">
+        #{singlePrint,jdbcType=BIT},
+      </if>
+      <if test="dealMethod != null">
+        #{dealMethod,jdbcType=INTEGER},
+      </if>
+      <if test="commodityId != null">
+        #{commodityId,jdbcType=BIGINT},
+      </if>
+      <if test="chapters != null">
+        #{chapters,jdbcType=INTEGER},
+      </if>
+      <if test="paperSize != null">
+        #{paperSize,jdbcType=VARCHAR},
+      </if>
+      <if test="newDegree != null">
+        #{newDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="picture != null">
+        #{picture,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pm.pmapi.mbg.model.TabSoldCommodityExample" resultType="java.lang.Long">
+    select count(*) from tab_sold_commodity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tab_sold_commodity
+    <set>
+      <if test="record.soldId != null">
+        sold_id = #{record.soldId,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lessonId != null">
+        lesson_id = #{record.lessonId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherId != null">
+        teacher_id = #{record.teacherId,jdbcType=BIGINT},
+      </if>
+      <if test="record.sellerId != null">
+        seller_id = #{record.sellerId,jdbcType=BIGINT},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.author != null">
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publisher != null">
+        publisher = #{record.publisher,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coverPercentage != null">
+        cover_percentage = #{record.coverPercentage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imageId != null">
+        image_id = #{record.imageId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=DOUBLE},
+      </if>
+      <if test="record.singlePrint != null">
+        single_print = #{record.singlePrint,jdbcType=BIT},
+      </if>
+      <if test="record.dealMethod != null">
+        deal_method = #{record.dealMethod,jdbcType=INTEGER},
+      </if>
+      <if test="record.commodityId != null">
+        commodity_id = #{record.commodityId,jdbcType=BIGINT},
+      </if>
+      <if test="record.chapters != null">
+        chapters = #{record.chapters,jdbcType=INTEGER},
+      </if>
+      <if test="record.paperSize != null">
+        paper_size = #{record.paperSize,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newDegree != null">
+        new_degree = #{record.newDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifyTime != null">
+        modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.picture != null">
+        picture = #{record.picture,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update tab_sold_commodity
+    set sold_id = #{record.soldId,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      lesson_id = #{record.lessonId,jdbcType=VARCHAR},
+      teacher_id = #{record.teacherId,jdbcType=BIGINT},
+      seller_id = #{record.sellerId,jdbcType=BIGINT},
+      type = #{record.type,jdbcType=INTEGER},
+      author = #{record.author,jdbcType=VARCHAR},
+      publisher = #{record.publisher,jdbcType=VARCHAR},
+      cover_percentage = #{record.coverPercentage,jdbcType=VARCHAR},
+      image_id = #{record.imageId,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DOUBLE},
+      single_print = #{record.singlePrint,jdbcType=BIT},
+      deal_method = #{record.dealMethod,jdbcType=INTEGER},
+      commodity_id = #{record.commodityId,jdbcType=BIGINT},
+      chapters = #{record.chapters,jdbcType=INTEGER},
+      paper_size = #{record.paperSize,jdbcType=VARCHAR},
+      new_degree = #{record.newDegree,jdbcType=VARCHAR},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      id = #{record.id,jdbcType=BIGINT},
+      picture = #{record.picture,jdbcType=LONGVARBINARY}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tab_sold_commodity
+    set sold_id = #{record.soldId,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      lesson_id = #{record.lessonId,jdbcType=VARCHAR},
+      teacher_id = #{record.teacherId,jdbcType=BIGINT},
+      seller_id = #{record.sellerId,jdbcType=BIGINT},
+      type = #{record.type,jdbcType=INTEGER},
+      author = #{record.author,jdbcType=VARCHAR},
+      publisher = #{record.publisher,jdbcType=VARCHAR},
+      cover_percentage = #{record.coverPercentage,jdbcType=VARCHAR},
+      image_id = #{record.imageId,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DOUBLE},
+      single_print = #{record.singlePrint,jdbcType=BIT},
+      deal_method = #{record.dealMethod,jdbcType=INTEGER},
+      commodity_id = #{record.commodityId,jdbcType=BIGINT},
+      chapters = #{record.chapters,jdbcType=INTEGER},
+      paper_size = #{record.paperSize,jdbcType=VARCHAR},
+      new_degree = #{record.newDegree,jdbcType=VARCHAR},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      id = #{record.id,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pm.pmapi.mbg.model.TabSoldCommodity">
+    update tab_sold_commodity
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="lessonId != null">
+        lesson_id = #{lessonId,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherId != null">
+        teacher_id = #{teacherId,jdbcType=BIGINT},
+      </if>
+      <if test="sellerId != null">
+        seller_id = #{sellerId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="publisher != null">
+        publisher = #{publisher,jdbcType=VARCHAR},
+      </if>
+      <if test="coverPercentage != null">
+        cover_percentage = #{coverPercentage,jdbcType=VARCHAR},
+      </if>
+      <if test="imageId != null">
+        image_id = #{imageId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="singlePrint != null">
+        single_print = #{singlePrint,jdbcType=BIT},
+      </if>
+      <if test="dealMethod != null">
+        deal_method = #{dealMethod,jdbcType=INTEGER},
+      </if>
+      <if test="commodityId != null">
+        commodity_id = #{commodityId,jdbcType=BIGINT},
+      </if>
+      <if test="chapters != null">
+        chapters = #{chapters,jdbcType=INTEGER},
+      </if>
+      <if test="paperSize != null">
+        paper_size = #{paperSize,jdbcType=VARCHAR},
+      </if>
+      <if test="newDegree != null">
+        new_degree = #{newDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="picture != null">
+        picture = #{picture,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where sold_id = #{soldId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pm.pmapi.mbg.model.TabSoldCommodity">
+    update tab_sold_commodity
+    set name = #{name,jdbcType=VARCHAR},
+      lesson_id = #{lessonId,jdbcType=VARCHAR},
+      teacher_id = #{teacherId,jdbcType=BIGINT},
+      seller_id = #{sellerId,jdbcType=BIGINT},
+      type = #{type,jdbcType=INTEGER},
+      author = #{author,jdbcType=VARCHAR},
+      publisher = #{publisher,jdbcType=VARCHAR},
+      cover_percentage = #{coverPercentage,jdbcType=VARCHAR},
+      image_id = #{imageId,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      single_print = #{singlePrint,jdbcType=BIT},
+      deal_method = #{dealMethod,jdbcType=INTEGER},
+      commodity_id = #{commodityId,jdbcType=BIGINT},
+      chapters = #{chapters,jdbcType=INTEGER},
+      paper_size = #{paperSize,jdbcType=VARCHAR},
+      new_degree = #{newDegree,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      id = #{id,jdbcType=BIGINT},
+      picture = #{picture,jdbcType=LONGVARBINARY}
+    where sold_id = #{soldId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pm.pmapi.mbg.model.TabSoldCommodity">
+    update tab_sold_commodity
+    set name = #{name,jdbcType=VARCHAR},
+      lesson_id = #{lessonId,jdbcType=VARCHAR},
+      teacher_id = #{teacherId,jdbcType=BIGINT},
+      seller_id = #{sellerId,jdbcType=BIGINT},
+      type = #{type,jdbcType=INTEGER},
+      author = #{author,jdbcType=VARCHAR},
+      publisher = #{publisher,jdbcType=VARCHAR},
+      cover_percentage = #{coverPercentage,jdbcType=VARCHAR},
+      image_id = #{imageId,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      single_print = #{singlePrint,jdbcType=BIT},
+      deal_method = #{dealMethod,jdbcType=INTEGER},
+      commodity_id = #{commodityId,jdbcType=BIGINT},
+      chapters = #{chapters,jdbcType=INTEGER},
+      paper_size = #{paperSize,jdbcType=VARCHAR},
+      new_degree = #{newDegree,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      id = #{id,jdbcType=BIGINT}
+    where sold_id = #{soldId,jdbcType=BIGINT}
+  </update>
+</mapper>
