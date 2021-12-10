@@ -44,6 +44,35 @@ CREATE TABLE `tab_commodity`
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
+
+CREATE TABLE `tab_sold_commodity`
+(
+    `sold_id`          bigint unsigned NOT NULL AUTO_INCREMENT,
+    `name`             varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `lesson_id`        varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `teacher_id`       bigint unsigned                                         DEFAULT NULL,
+    `seller_id`        bigint unsigned                                         DEFAULT NULL,
+    `type`             int                                                     DEFAULT NULL,
+    `author`           varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `publisher`        varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `cover_percentage` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `image_id`         varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `content`          varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `price`            double                                                  DEFAULT NULL,
+    `single_print`     tinyint(1)                                              DEFAULT NULL,
+    `deal_method`      int                                                     DEFAULT NULL,
+    `commodity_id`     bigint unsigned                                         DEFAULT NULL,
+    `chapters`         int                                                     DEFAULT NULL,
+    `paper_size`       varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `new_degree`       varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `unit`             varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `create_time`      datetime                                                DEFAULT CURRENT_TIMESTAMP,
+    `modify_time`      datetime                                                DEFAULT CURRENT_TIMESTAMP,
+    `picture`          blob,
+    `id`               bigint unsigned                                         DEFAULT NULL,
+    PRIMARY KEY (`sold_id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 -- ----------------------------
 -- Table structure for tab_message
 -- ----------------------------
