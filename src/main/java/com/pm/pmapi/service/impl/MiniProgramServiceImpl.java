@@ -14,6 +14,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @Description 自定义小程序服务实现类
+ *
+ * @Copyright DoughIt Studio - Powered By DoughIt
+ * @author Jerry Zhang <https://github.com/doughit>
+ * @date 2021-12-10 08:54
+ */
 @Service
 public class MiniProgramServiceImpl implements MiniProgramService {
 

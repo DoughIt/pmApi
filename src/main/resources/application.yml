@@ -32,6 +32,11 @@ spring:
         max-idle: 8
         min-idle: 0
     timeout: 300ms
+  mail:
+    host: smtp.163.com
+    username: doughit@163.com
+    password: OETVVNBYNBKUJFDX
+    default-encoding: UTF-8
 
 # mybatis mapper映射路径
 mybatis:
