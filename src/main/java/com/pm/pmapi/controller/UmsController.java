@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.pm.pmapi.common.api.CommonPage;
 import com.pm.pmapi.common.api.CommonResult;
 import com.pm.pmapi.common.constant.TopicFilter;
+import com.pm.pmapi.common.utils.UploadUtil;
 import com.pm.pmapi.component.IAuthenticationFacade;
 import com.pm.pmapi.dto.*;
 import com.pm.pmapi.mbg.model.TabUser;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -36,6 +38,8 @@ public class UmsController {
     private UserService userService;
     @Autowired
     private TopicService topicService;
+    @Autowired
+    private UploadUtil uploadUtil;
     @Autowired
     private IAuthenticationFacade authenticationFacade;
 
@@ -110,14 +114,16 @@ public class UmsController {
     /**
      * 修改用户基本信息
      */
-    @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/info", method = RequestMethod.PUT)
     @ResponseBody
     public CommonResult updateUser(@Validated @RequestBody UpdateUserParam userParam) {
-        // 更新用户名
+        // 更新用户基本信息
         if (!StrUtil.isEmpty(userParam.getUsername())) {
             TabUser user = new TabUser();
-            user.setId(userParam.getId());
+            user.setId(userParam.getUserId());
             user.setUsername(userParam.getUsername());
+            user.setAvatar(userParam.getAvatar());
+            user.setDescription(userParam.getDescription());
             userService.update(user);
         }
         if (!StrUtil.isEmpty(userParam.getNewPassword())) {
@@ -169,6 +175,19 @@ public class UmsController {
         return userService.verifyAuthCode(authCodeParam.getStudentId(), authCodeParam.getAuthCode());
     }
 
+    @RequestMapping(value = "/avatar", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult uploadAvatar(@RequestParam("file") MultipartFile file) {
+        if (file == null || file.isEmpty()) {
+            return CommonResult.failed("请选择图片");
+        }
+        String url = uploadUtil.uploadFile(file, null);
+        if (StrUtil.isEmptyOrUndefined(url)) {
+            return CommonResult.failed("上传失败");
+        }
+        return CommonResult.success(url);
+    }
+
     /**
      * 获取帖子列表
      *
@@ -184,8 +203,8 @@ public class UmsController {
     public CommonResult<CommonPage<TopicInfo>> getTopicList(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                                             @RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize,
                                                             @RequestParam("lessonId") Optional<Long> lessonId,
-                                                            @RequestParam("goodsId") Optional<Long>  goodsId,
-                                                            @RequestParam("topicId") Optional<Long>  topicId) {
+                                                            @RequestParam("goodsId") Optional<Long> goodsId,
+                                                            @RequestParam("topicId") Optional<Long> topicId) {
         List<TopicInfo> topicInfoList = new ArrayList<>();
         if (topicId.isPresent()) {
             topicInfoList = topicService.listChildrenByParentId(topicId.get(), pageNum, pageSize);
@@ -193,7 +212,7 @@ public class UmsController {
             topicInfoList = topicService.listTopicByFilterType(TopicFilter.LESSON, lessonId.get(), pageNum, pageSize);
         } else if (goodsId.isPresent()) {
             topicInfoList = topicService.listTopicByFilterType(TopicFilter.GOODS, goodsId.get(), pageNum, pageSize);
-        } else{
+        } else {
             topicInfoList = topicService.listTopicByFilterType(TopicFilter.ALL, null, pageNum, pageSize);
         }
         return CommonResult.success(CommonPage.restPage(topicInfoList));
