@@ -37,6 +37,13 @@ spring:
     username: doughit@163.com
     password: OETVVNBYNBKUJFDX
     default-encoding: UTF-8
+  thymeleaf:
+    enabled: true
+    encoding: UTF-8
+    prefix: classpath:/templates/
+    cache: false
+    mode: HTML
+    suffix: .html
 
 # mybatis mapper映射路径
 mybatis:
@@ -85,7 +92,7 @@ redis:
     user: 'ums:user'
   expire:
     common: 86400 # 24小时
-    authCode: 300 # 验证码超期时间，300s
+    authCode: 900 # 验证码超期时间，900s
 management:
   health:
     redis:

@@ -11,6 +11,7 @@ import com.pm.pmapi.dto.UserParam;
 import com.pm.pmapi.mbg.mapper.TabUserMapper;
 import com.pm.pmapi.mbg.model.TabUser;
 import com.pm.pmapi.mbg.model.TabUserExample;
+import com.pm.pmapi.service.MailService;
 import com.pm.pmapi.service.RedisService;
 import com.pm.pmapi.service.UserCacheService;
 import com.pm.pmapi.service.UserService;
@@ -53,6 +54,8 @@ public class UserServiceImpl implements UserService {
     private UserCacheService userCacheService;
     @Autowired
     private RedisService redisService;
+    @Autowired
+    private MailService mailService;
     @Value("${redis.key.authCode}")
     private String REDIS_KEY_PREFIX_AUTH_CODE;
     @Value("${redis.expire.authCode}")
@@ -289,8 +292,7 @@ public class UserServiceImpl implements UserService {
         String key = REDIS_KEY_PREFIX_AUTH_CODE + studentId;
         redisService.set(key, sb.toString());
         redisService.expire(key, AUTH_CODE_EXPIRE_SECONDS);
-        // TODO 将验证码发送到邮箱
-
+        mailService.sendHtmlAuthCode(studentId + "@fudan.edu.cn", sb.toString(), (int) (AUTH_CODE_EXPIRE_SECONDS / 60), studentId);
         return CommonResult.success("验证码已发送到" + studentId + "@fudan.edu.cn邮箱");
     }
 

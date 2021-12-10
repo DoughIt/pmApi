@@ -9,18 +9,18 @@ package com.pm.pmapi.service;
  */
 public interface MailService {
     /**
-     * 发送普通文本邮件
-     * @param to
-     * @param subject
-     * @param content
+     * 发送验证码
+     * @param receiver
+     * @param code
      */
-    void sendSimpleMail(String to, String subject, String content);
+    void sendAuthCode(String receiver, String code);
 
     /**
-     * 发送HTML邮件
-     * @param to
-     * @param subject
-     * @param content
+     * 内容为html模板，发送包含账号信息的验证码
+     * @param receiver
+     * @param code
+     * @param minutes
+     * @param username
      */
-    void sendHtmlMail(String to, String subject, String content);
+    void sendHtmlAuthCode(String receiver, String code, Integer minutes, String username);
 }
