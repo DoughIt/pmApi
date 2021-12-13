@@ -8,9 +8,16 @@ import java.util.List;
 
 public interface CommodityDao {
 
+    List<CommodityInfo> listCommodities();
 
     CommodityInfo getCommodityById(@Param("commodityId") Long id);
 
+    List<CommodityInfo> listCommoditiesBySellerIdAndLessonId(@Param("sellerId") Long sellerId, @Param("lessonId") String lessonId);
+
+    List<CommodityInfo> listCommoditiesBySellerId(@Param("sellerId") Long sellerId);
+
+
+    List<CommodityInfo> listCommoditiesByLessonId(@Param("lessonId") String lessonId);
 
     List<CommodityInfo> listCommoditiesByType(@Param("type") Long type);
 
