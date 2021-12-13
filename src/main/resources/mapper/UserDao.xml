@@ -13,6 +13,11 @@
         from tab_user
         where id = #{userId}
     </select>
+    <select id="selectSimpleUserByRelatedTopic" resultMap="SimpleUserMap">
+        select u.id, u.student_id, u.open_id, u.avatar, u.username
+        from tab_user u
+        where u.id = (select t.user_id from tab_topic t where t.id=#{topicId} limit 1)
+    </select>
     <update id="updateUserIdAndDeleteByPrimaryKey">
         update tab_user
         set id=#{newId}

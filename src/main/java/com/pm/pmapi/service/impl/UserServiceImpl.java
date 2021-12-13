@@ -348,7 +348,7 @@ public class UserServiceImpl implements UserService {
         TabUser user = getUserByStudentIdOrOpenId(param);
         if (authCode.equals(realAuthCode)) {
             if (StrUtil.isEmptyOrUndefined(user.getOpenId())) {
-                // 网页端已
+                // 网页端已认证
                 // 小程序端绑定用户
                 TabUser currentUser = getUserById(Long.valueOf(authenticationFacade.getAuthentication().getName()));
                 currentUser.setStudentId(studentId);

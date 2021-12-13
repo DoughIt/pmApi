@@ -25,6 +25,10 @@ public class TopicInfo {
      */
     private Long parentId;
     /**
+     * 父贴发言者
+     */
+    private SimpleUserInfo parentUser;
+    /**
      * 课程id
      */
     private Long lessonId;
