@@ -2,6 +2,7 @@ package com.pm.pmapi.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.pm.pmapi.dao.CommodityDao;
+import com.pm.pmapi.dao.SoldCommodityDao;
 import com.pm.pmapi.dao.UserDao;
 import com.pm.pmapi.dto.CommodityInfo;
 import com.pm.pmapi.dto.CommodityParam;
@@ -38,6 +39,9 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Autowired
     CommodityDao commodityDao;
+
+    @Autowired
+    SoldCommodityDao soldCommodityDao;
 
     @Autowired
     TabSoldCommodityMapper soldCommodityMapper;
@@ -139,20 +143,79 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
+    public List<CommodityInfo> getCommodities(Long userId, String lessonId, Boolean isSold, Boolean isMine, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        if (isSold){
+            if (isMine){
+                if (null == lessonId){
+                    return append(soldCommodityDao.listCommoditiesBySellerId(userId));
+                }else{
+                    return append(soldCommodityDao.listCommoditiesBySellerIdAndLessonId(userId, lessonId));
+                }
+            }else{
+                //查看所有
+                if (null == lessonId){
+                    return append(soldCommodityDao.listCommodities());
+                }else{
+                    return append(soldCommodityDao.listCommoditiesByLessonId(lessonId));
+                }
+            }
+        }else{
+            if (isMine){
+                if (null == lessonId){
+                    return append(commodityDao.listCommoditiesBySellerId(userId));
+                }else{
+                    return append(commodityDao.listCommoditiesBySellerIdAndLessonId(userId, lessonId));
+                }
+            }else{
+                //查看所有
+                if (null == lessonId){
+                    return append(commodityDao.listCommodities());
+                }else{
+                    return append(commodityDao.listCommoditiesByLessonId(lessonId));
+                }
+            }
+        }
+    }
+
+    @Override
     public List<CommodityInfo> getSoldCommodityByUserId(Long user_id,Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         TabSoldCommodityExample example = new TabSoldCommodityExample();
         TabSoldCommodityExample.Criteria criteria = example.createCriteria();
         criteria.andSellerIdEqualTo(user_id);
         List<TabSoldCommodity> list = soldCommodityMapper.selectByExample(example);
-        List<CommodityInfo> commodityInfos = new ArrayList<>();
-        for (TabSoldCommodity tabSoldCommodity : list) {
-            CommodityInfo ci = new CommodityInfo();
-            BeanUtils.copyProperties(tabSoldCommodity, ci);
-            ci.setSeller(userDao.selectSimpleUserByPrimaryKey(user_id));
-            // TODO: 课程
-            commodityInfos.add(ci);
+        return convert(null, list);
+    }
+
+    private List<CommodityInfo> convert(List<TabCommodity> tabCommodities, List<TabSoldCommodity> tabSoldCommodities){
+        List<CommodityInfo> result = new ArrayList<>();
+        if (null == tabCommodities){
+            CommodityInfo tmp = new CommodityInfo();
+            for (TabCommodity tabCommodity : tabCommodities) {
+                BeanUtils.copyProperties(tabCommodity, tmp);
+                tmp.setSeller(userDao.selectSimpleUserByPrimaryKey(tabCommodity.getSellerId()));
+                // TODO: 课程
+                result.add(tmp);
+            }
+            return result;
+        }else{
+            CommodityInfo tmp = new CommodityInfo();
+            for (TabSoldCommodity tabCommodity : tabSoldCommodities) {
+                BeanUtils.copyProperties(tabCommodity, tmp);
+                tmp.setSeller(userDao.selectSimpleUserByPrimaryKey(tabCommodity.getSellerId()));
+                // TODO: 课程
+                result.add(tmp);
+            }
+            return result;
         }
-        return commodityInfos;
+    }
+
+    private List<CommodityInfo> append(List<CommodityInfo> tabCommodities){
+        for (CommodityInfo tabCommodity : tabCommodities) {
+            tabCommodity.setSeller(userDao.selectSimpleUserByPrimaryKey(tabCommodity.getSellerId()));
+            // TODO: 课程
+        }
+        return tabCommodities;
     }
 }

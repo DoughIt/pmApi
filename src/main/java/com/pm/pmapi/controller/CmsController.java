@@ -2,11 +2,15 @@ package com.pm.pmapi.controller;
 
 import com.pm.pmapi.common.api.CommonResult;
 import com.pm.pmapi.component.IAuthenticationFacade;
+import com.pm.pmapi.dto.CommodityInfo;
 import com.pm.pmapi.dto.CommodityParam;
 import com.pm.pmapi.service.impl.CommodityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @program: pmApi
@@ -124,7 +128,11 @@ public class CmsController {
 
     @RequestMapping(value = "/commodities", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<Object> getCommoditiesByUserId(@RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
-        return CommonResult.success(commodityService.getSoldCommodityByUserId(Long.parseLong(authenticationFacade.getAuthentication().getName()),pageNum,pageSize));
+    public CommonResult<Object> getCommodities(@RequestParam(value = "") Boolean isMine, @RequestParam(value = "isSold") Boolean isSold, @RequestParam(value = "lessonId") String lessonId, @RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
+        Long userId = null;
+        if (isMine){
+            userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
+        }
+        return CommonResult.success(commodityService.getCommodities(userId, lessonId, isSold, isMine, pageNum,pageSize));
     }
 }
