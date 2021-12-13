@@ -128,11 +128,11 @@ public class CmsController {
 
     @RequestMapping(value = "/commodities", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<Object> getCommodities(@RequestParam(value = "") Boolean isMine, @RequestParam(value = "isSold") Boolean isSold, @RequestParam(value = "lessonId") String lessonId, @RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
+    public CommonResult<Object> getCommodities(@RequestParam(value = "isMine") Boolean isMine,@RequestParam(value = "type") Integer type ,@RequestParam(value = "isSold") Boolean isSold, @RequestParam(value = "lessonId") String lessonId, @RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
         Long userId = null;
         if (isMine){
             userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
         }
-        return CommonResult.success(commodityService.getCommodities(userId, lessonId, isSold, isMine, pageNum,pageSize));
+        return CommonResult.success(commodityService.getCommodities(userId, type, lessonId, isSold, isMine, pageNum,pageSize));
     }
 }
