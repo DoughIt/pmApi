@@ -7,7 +7,14 @@ import java.util.List;
 
 public interface SoldCommodityDao {
 
-    List<CommodityInfo> listCommodities();
+
+    List<CommodityInfo> listCommoditiesByType(@Param("type") Integer type);
+
+    List<CommodityInfo> listCommoditiesByLessonIdAndType(@Param("lessonId") String lessonId, @Param("type") Integer type);
+
+    List<CommodityInfo> listCommoditiesBySellerIdAndType(@Param("sellerId") Long sellerId, @Param("type") Integer type);
+
+    List<CommodityInfo> listCommoditiesBySellerIdAndLessonIdAndType(@Param("sellerId") Long sellerId, @Param("lessonId") String lessonId, @Param("type") Integer type);
 
     List<CommodityInfo> listCommoditiesByLessonId(@Param("lessonId") String lessonId);
 

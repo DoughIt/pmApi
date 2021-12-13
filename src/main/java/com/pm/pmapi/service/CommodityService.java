@@ -26,7 +26,7 @@ public interface CommodityService {
 
     void deleteCommodityById(Long id);
 
-    List<CommodityInfo> getCommodities(Long userId, String lessonId, Boolean isSold, Boolean isMine, Integer pageNum, Integer pageSize);
+    List<CommodityInfo> getCommodities(Long userId, Integer type, String lessonId, Boolean isSold, Boolean isMine, Integer pageNum, Integer pageSize);
 
     List<CommodityInfo> getSoldCommodityByUserId(Long id, Integer pageNum, Integer pageSize);
 }

@@ -143,36 +143,68 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public List<CommodityInfo> getCommodities(Long userId, String lessonId, Boolean isSold, Boolean isMine, Integer pageNum, Integer pageSize) {
+    public List<CommodityInfo> getCommodities(Long userId, Integer type, String lessonId, Boolean isSold, Boolean isMine, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         if (isSold){
             if (isMine){
                 if (null == lessonId){
-                    return append(soldCommodityDao.listCommoditiesBySellerId(userId));
+                    if (type == 0){
+                        return append(soldCommodityDao.listCommoditiesBySellerId(userId));
+                    }else{
+                        return append(soldCommodityDao.listCommoditiesBySellerIdAndType(userId, type));
+                    }
                 }else{
-                    return append(soldCommodityDao.listCommoditiesBySellerIdAndLessonId(userId, lessonId));
+                    if (type == 0){
+                        return append(soldCommodityDao.listCommoditiesBySellerIdAndLessonId(userId, lessonId));
+                    }else{
+                        return append(soldCommodityDao.listCommoditiesBySellerIdAndLessonIdAndType(userId, lessonId, type));
+                    }
                 }
             }else{
                 //查看所有
                 if (null == lessonId){
-                    return append(soldCommodityDao.listCommodities());
+                    if (type == 0){
+                        return append(mix(soldCommodityDao.listCommoditiesByType(1), soldCommodityDao.listCommoditiesByType(2), soldCommodityDao.listCommoditiesByType(3)));
+                    }else{
+                        return append(soldCommodityDao.listCommoditiesByType(type));
+                    }
                 }else{
-                    return append(soldCommodityDao.listCommoditiesByLessonId(lessonId));
+                    if (type == 0){
+                        return append(soldCommodityDao.listCommoditiesByLessonId(lessonId));
+                    }else{
+                        return append(soldCommodityDao.listCommoditiesByLessonIdAndType(lessonId, type));
+                    }
                 }
             }
         }else{
             if (isMine){
                 if (null == lessonId){
-                    return append(commodityDao.listCommoditiesBySellerId(userId));
+                    if (type == 0){
+                        return append(commodityDao.listCommoditiesBySellerId(userId));
+                    }else{
+                        return append(commodityDao.listCommoditiesBySellerIdAndType(userId, type));
+                    }
                 }else{
-                    return append(commodityDao.listCommoditiesBySellerIdAndLessonId(userId, lessonId));
+                    if (type == 0){
+                        return append(commodityDao.listCommoditiesBySellerIdAndLessonId(userId, lessonId));
+                    }else{
+                        return append(commodityDao.listCommoditiesBySellerIdAndLessonIdAndType(userId, lessonId, type));
+                    }
                 }
             }else{
                 //查看所有
                 if (null == lessonId){
-                    return append(commodityDao.listCommodities());
+                    if (type == 0){
+                        return append(mix(commodityDao.listCommoditiesByType(1), commodityDao.listCommoditiesByType(2), commodityDao.listCommoditiesByType(3)));
+                    }else{
+                        return append(commodityDao.listCommoditiesByType(type));
+                    }
                 }else{
-                    return append(commodityDao.listCommoditiesByLessonId(lessonId));
+                    if (type == 0){
+                        return append(commodityDao.listCommoditiesByLessonId(lessonId));
+                    }else{
+                        return append(commodityDao.listCommoditiesByLessonIdAndType(lessonId, type));
+                    }
                 }
             }
         }
@@ -217,5 +249,13 @@ public class CommodityServiceImpl implements CommodityService {
             // TODO: 课程
         }
         return tabCommodities;
+    }
+
+    private List<CommodityInfo> mix(List<CommodityInfo> list1, List<CommodityInfo> list2, List<CommodityInfo> list3){
+        List<CommodityInfo> allInfo = new ArrayList<>();
+        allInfo.addAll(list1);
+        allInfo.addAll(list2);
+        allInfo.addAll(list3);
+        return allInfo;
     }
 }
