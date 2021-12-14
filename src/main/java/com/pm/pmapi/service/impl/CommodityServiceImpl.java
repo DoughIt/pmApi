@@ -261,7 +261,7 @@ public class CommodityServiceImpl implements CommodityService {
         TabSoldCommodityExample.Criteria criteria = example.createCriteria();
         criteria.andSellerIdEqualTo(user_id);
         List<TabSoldCommodity> list = soldCommodityMapper.selectByExample(example);
-        return convert(null, list);
+        return append(convert(null, list));
     }
 
     private List<CommodityInfo> convert(List<TabCommodity> tabCommodities, List<TabSoldCommodity> tabSoldCommodities){
@@ -270,8 +270,6 @@ public class CommodityServiceImpl implements CommodityService {
             CommodityInfo tmp = new CommodityInfo();
             for (TabCommodity tabCommodity : tabCommodities) {
                 BeanUtils.copyProperties(tabCommodity, tmp);
-                tmp.setSeller(userDao.selectSimpleUserByPrimaryKey(tabCommodity.getSellerId()));
-                // TODO: 课程
                 result.add(tmp);
             }
             return result;
@@ -279,8 +277,6 @@ public class CommodityServiceImpl implements CommodityService {
             CommodityInfo tmp = new CommodityInfo();
             for (TabSoldCommodity tabCommodity : tabSoldCommodities) {
                 BeanUtils.copyProperties(tabCommodity, tmp);
-                tmp.setSeller(userDao.selectSimpleUserByPrimaryKey(tabCommodity.getSellerId()));
-                // TODO: 课程
                 result.add(tmp);
             }
             return result;
@@ -290,6 +286,18 @@ public class CommodityServiceImpl implements CommodityService {
     private List<CommodityInfo> append(List<CommodityInfo> tabCommodities){
         for (CommodityInfo tabCommodity : tabCommodities) {
             tabCommodity.setSeller(userDao.selectSimpleUserByPrimaryKey(tabCommodity.getSellerId()));
+            tabCommodity.setSinglePrintChinese(tabCommodity.getSinglePrint() ? "是" : "否");
+            tabCommodity.setSinglePrint(null);
+            if ("".equals(tabCommodity.getAuthor())) tabCommodity.setAuthor(null);
+            if ("".equals(tabCommodity.getPublisher())) tabCommodity.setPublisher(null);
+            if ("".equals(tabCommodity.getCoverPercentage())) tabCommodity.setCoverPercentage(null);
+            if ("".equals(tabCommodity.getImageId())) tabCommodity.setImageId(null);
+            if ("".equals(tabCommodity.getContent())) tabCommodity.setContent(null);
+            if ("".equals(tabCommodity.getPaperSize())) tabCommodity.setPaperSize(null);
+            if ("".equals(tabCommodity.getNewDegree())) tabCommodity.setNewDegree(null);
+            if ("".equals(tabCommodity.getUnit())) tabCommodity.setUnit(null);
+            if (0 == tabCommodity.getChapters()) tabCommodity.setChapters(null);
+            tabCommodity.setType(null);
             // TODO: 课程
         }
         return tabCommodities;

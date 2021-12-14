@@ -47,7 +47,7 @@ public class CommodityInfo{
 
     private Boolean singlePrint;
 
-    private Integer dealMethod;
+    private String singlePrintChinese;
 
     private Long commodityId;
 
