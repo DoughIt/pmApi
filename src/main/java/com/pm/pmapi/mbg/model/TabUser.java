@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * @Description mbg自动生成tab_user表实体类
  *
- * @date 2021-12-10 08:08
+ * @date 2021-12-14 10:19
  */
 public class TabUser implements Serializable {
     /**
@@ -15,13 +15,6 @@ public class TabUser implements Serializable {
      * @mbg.generated
      */
     private Long id;
-
-    /**
-     * 多账号时指向主账号
-     *
-     * @mbg.generated
-     */
-    private Long nav;
 
     /**
      * 学号
@@ -108,14 +101,6 @@ public class TabUser implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getNav() {
-        return nav;
-    }
-
-    public void setNav(Long nav) {
-        this.nav = nav;
     }
 
     public String getStudentId() {
@@ -213,7 +198,6 @@ public class TabUser implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", nav=").append(nav);
         sb.append(", studentId=").append(studentId);
         sb.append(", openId=").append(openId);
         sb.append(", username=").append(username);

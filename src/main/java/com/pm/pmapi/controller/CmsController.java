@@ -70,19 +70,19 @@ public class CmsController {
     @RequestMapping(value = "/ppt", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<Object> addPPT(@RequestBody CommodityParam commodityParam) {
-        return CommonResult.success(commodityService.createCommodity(Long.parseLong(authenticationFacade.getAuthentication().getName()),1 , commodityParam));
+        return CommonResult.success(commodityService.createCommodity(Long.parseLong(authenticationFacade.getAuthentication().getName()), 1, commodityParam));
     }
 
     @RequestMapping(value = "/book", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<Object> addBooks(@RequestBody CommodityParam commodityParam) {
-        return CommonResult.success(commodityService.createCommodity(Long.parseLong(authenticationFacade.getAuthentication().getName()), 2,commodityParam));
+        return CommonResult.success(commodityService.createCommodity(Long.parseLong(authenticationFacade.getAuthentication().getName()), 2, commodityParam));
     }
 
     @RequestMapping(value = "/notes", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<Object> addNotes(@RequestBody CommodityParam commodityParam) {
-        return CommonResult.success(commodityService.createCommodity(Long.parseLong(authenticationFacade.getAuthentication().getName()), 3,commodityParam));
+        return CommonResult.success(commodityService.createCommodity(Long.parseLong(authenticationFacade.getAuthentication().getName()), 3, commodityParam));
     }
 
     @RequestMapping(value = "/ppt", method = RequestMethod.PUT)
@@ -112,6 +112,7 @@ public class CmsController {
         commodityService.deleteCommodityById(id);
         return CommonResult.success(null);
     }
+
     @RequestMapping(value = "/book", method = RequestMethod.DELETE)
     @ResponseBody
     public CommonResult<Object> deleteBook(@RequestParam(value = "id") Long id) {
@@ -128,11 +129,33 @@ public class CmsController {
 
     @RequestMapping(value = "/commodities", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<Object> getCommodities(@RequestParam(value = "isMine") Boolean isMine,@RequestParam(value = "type") Integer type ,@RequestParam(value = "isSold") Boolean isSold, @RequestParam(value = "lessonId") String lessonId, @RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
+    public CommonResult<Object> getCommodities(@RequestParam(value = "isMine") Boolean isMine, @RequestParam(value = "type") Integer type, @RequestParam(value = "isSold") Boolean isSold, @RequestParam(value = "lessonId") String lessonId, @RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
         Long userId = null;
-        if (isMine){
+        if (isMine) {
             userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
         }
-        return CommonResult.success(commodityService.getCommodities(userId, type, lessonId, isSold, isMine, pageNum,pageSize));
+        return CommonResult.success(commodityService.getCommodities(userId, type, lessonId, isSold, isMine, pageNum, pageSize));
+    }
+
+    @RequestMapping(value = "/favorite", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult<Object> addFavorite(@RequestParam(value = "id") Long commodity_id) {
+        Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
+        return CommonResult.success(commodityService.addFavoriteCommodity(userId, commodity_id));
+    }
+
+    @RequestMapping(value = "/favorite", method = RequestMethod.DELETE)
+    @ResponseBody
+    public CommonResult<Object> deleteFavorite(@RequestParam(value = "id") Long commodity_id) {
+        Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
+        return CommonResult.success(commodityService.deleteFavoriteCommodity(userId, commodity_id));
+
+    }
+
+    @RequestMapping(value = "/favorite", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<Object> getFavorites() {
+        Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
+        return CommonResult.success(commodityService.listFavoriteCommodities(userId));
     }
 }

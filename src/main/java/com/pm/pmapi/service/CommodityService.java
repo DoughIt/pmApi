@@ -29,4 +29,11 @@ public interface CommodityService {
     List<CommodityInfo> getCommodities(Long userId, Integer type, String lessonId, Boolean isSold, Boolean isMine, Integer pageNum, Integer pageSize);
 
     List<CommodityInfo> getSoldCommodityByUserId(Long id, Integer pageNum, Integer pageSize);
+
+    boolean deleteFavoriteCommodity(Long user_id, Long commodity_id);
+
+    boolean addFavoriteCommodity(Long user_id, Long commodity_id);
+
+    List<CommodityInfo> listFavoriteCommodities(Long user_id);
+
 }
