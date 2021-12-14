@@ -165,66 +165,6 @@ public class TabUserExample {
             return (Criteria) this;
         }
 
-        public Criteria andNavIsNull() {
-            addCriterion("nav is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNavIsNotNull() {
-            addCriterion("nav is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNavEqualTo(Long value) {
-            addCriterion("nav =", value, "nav");
-            return (Criteria) this;
-        }
-
-        public Criteria andNavNotEqualTo(Long value) {
-            addCriterion("nav <>", value, "nav");
-            return (Criteria) this;
-        }
-
-        public Criteria andNavGreaterThan(Long value) {
-            addCriterion("nav >", value, "nav");
-            return (Criteria) this;
-        }
-
-        public Criteria andNavGreaterThanOrEqualTo(Long value) {
-            addCriterion("nav >=", value, "nav");
-            return (Criteria) this;
-        }
-
-        public Criteria andNavLessThan(Long value) {
-            addCriterion("nav <", value, "nav");
-            return (Criteria) this;
-        }
-
-        public Criteria andNavLessThanOrEqualTo(Long value) {
-            addCriterion("nav <=", value, "nav");
-            return (Criteria) this;
-        }
-
-        public Criteria andNavIn(List<Long> values) {
-            addCriterion("nav in", values, "nav");
-            return (Criteria) this;
-        }
-
-        public Criteria andNavNotIn(List<Long> values) {
-            addCriterion("nav not in", values, "nav");
-            return (Criteria) this;
-        }
-
-        public Criteria andNavBetween(Long value1, Long value2) {
-            addCriterion("nav between", value1, value2, "nav");
-            return (Criteria) this;
-        }
-
-        public Criteria andNavNotBetween(Long value1, Long value2) {
-            addCriterion("nav not between", value1, value2, "nav");
-            return (Criteria) this;
-        }
-
         public Criteria andStudentIdIsNull() {
             addCriterion("student_id is null");
             return (Criteria) this;

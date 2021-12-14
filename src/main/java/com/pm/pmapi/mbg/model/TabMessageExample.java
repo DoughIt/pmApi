@@ -475,63 +475,63 @@ public class TabMessageExample {
             return (Criteria) this;
         }
 
-        public Criteria andReadStatusIsNull() {
-            addCriterion("read_status is null");
+        public Criteria andReadIsNull() {
+            addCriterion("read is null");
             return (Criteria) this;
         }
 
-        public Criteria andReadStatusIsNotNull() {
-            addCriterion("read_status is not null");
+        public Criteria andReadIsNotNull() {
+            addCriterion("read is not null");
             return (Criteria) this;
         }
 
-        public Criteria andReadStatusEqualTo(Boolean value) {
-            addCriterion("read_status =", value, "readStatus");
+        public Criteria andReadEqualTo(Boolean value) {
+            addCriterion("read =", value, "read");
             return (Criteria) this;
         }
 
-        public Criteria andReadStatusNotEqualTo(Boolean value) {
-            addCriterion("read_status <>", value, "readStatus");
+        public Criteria andReadNotEqualTo(Boolean value) {
+            addCriterion("read <>", value, "read");
             return (Criteria) this;
         }
 
-        public Criteria andReadStatusGreaterThan(Boolean value) {
-            addCriterion("read_status >", value, "readStatus");
+        public Criteria andReadGreaterThan(Boolean value) {
+            addCriterion("read >", value, "read");
             return (Criteria) this;
         }
 
-        public Criteria andReadStatusGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("read_status >=", value, "readStatus");
+        public Criteria andReadGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("read >=", value, "read");
             return (Criteria) this;
         }
 
-        public Criteria andReadStatusLessThan(Boolean value) {
-            addCriterion("read_status <", value, "readStatus");
+        public Criteria andReadLessThan(Boolean value) {
+            addCriterion("read <", value, "read");
             return (Criteria) this;
         }
 
-        public Criteria andReadStatusLessThanOrEqualTo(Boolean value) {
-            addCriterion("read_status <=", value, "readStatus");
+        public Criteria andReadLessThanOrEqualTo(Boolean value) {
+            addCriterion("read <=", value, "read");
             return (Criteria) this;
         }
 
-        public Criteria andReadStatusIn(List<Boolean> values) {
-            addCriterion("read_status in", values, "readStatus");
+        public Criteria andReadIn(List<Boolean> values) {
+            addCriterion("read in", values, "read");
             return (Criteria) this;
         }
 
-        public Criteria andReadStatusNotIn(List<Boolean> values) {
-            addCriterion("read_status not in", values, "readStatus");
+        public Criteria andReadNotIn(List<Boolean> values) {
+            addCriterion("read not in", values, "read");
             return (Criteria) this;
         }
 
-        public Criteria andReadStatusBetween(Boolean value1, Boolean value2) {
-            addCriterion("read_status between", value1, value2, "readStatus");
+        public Criteria andReadBetween(Boolean value1, Boolean value2) {
+            addCriterion("read between", value1, value2, "read");
             return (Criteria) this;
         }
 
-        public Criteria andReadStatusNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("read_status not between", value1, value2, "readStatus");
+        public Criteria andReadNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("read not between", value1, value2, "read");
             return (Criteria) this;
         }
     }

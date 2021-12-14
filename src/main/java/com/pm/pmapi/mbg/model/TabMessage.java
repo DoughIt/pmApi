@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * @Description mbg自动生成tab_message表实体类
  *
- * @date 2021-12-10 08:08
+ * @date 2021-12-14 10:19
  */
 public class TabMessage implements Serializable {
     private Long id;
@@ -51,7 +51,7 @@ public class TabMessage implements Serializable {
      *
      * @mbg.generated
      */
-    private Boolean readStatus;
+    private Boolean read;
 
     private static final long serialVersionUID = 1L;
 
@@ -103,12 +103,12 @@ public class TabMessage implements Serializable {
         this.readTime = readTime;
     }
 
-    public Boolean getReadStatus() {
-        return readStatus;
+    public Boolean getRead() {
+        return read;
     }
 
-    public void setReadStatus(Boolean readStatus) {
-        this.readStatus = readStatus;
+    public void setRead(Boolean read) {
+        this.read = read;
     }
 
     @Override
@@ -123,7 +123,7 @@ public class TabMessage implements Serializable {
         sb.append(", content=").append(content);
         sb.append(", issueTime=").append(issueTime);
         sb.append(", readTime=").append(readTime);
-        sb.append(", readStatus=").append(readStatus);
+        sb.append(", read=").append(read);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

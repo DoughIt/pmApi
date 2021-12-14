@@ -10,7 +10,7 @@ public interface TabUserMapper {
 
     int deleteByExample(TabUserExample example);
 
-    int deleteByPrimaryKey(@Param("id") Long id, @Param("nav") Long nav);
+    int deleteByPrimaryKey(Long id);
 
     int insert(TabUser record);
 
@@ -18,7 +18,7 @@ public interface TabUserMapper {
 
     List<TabUser> selectByExample(TabUserExample example);
 
-    TabUser selectByPrimaryKey(@Param("id") Long id, @Param("nav") Long nav);
+    TabUser selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") TabUser record, @Param("example") TabUserExample example);
 

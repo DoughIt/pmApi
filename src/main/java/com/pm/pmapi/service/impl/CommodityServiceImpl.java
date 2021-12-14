@@ -2,12 +2,14 @@ package com.pm.pmapi.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.pm.pmapi.dao.CommodityDao;
+import com.pm.pmapi.dao.FavoriteDao;
 import com.pm.pmapi.dao.SoldCommodityDao;
 import com.pm.pmapi.dao.UserDao;
 import com.pm.pmapi.dto.CommodityInfo;
 import com.pm.pmapi.dto.CommodityParam;
 import com.pm.pmapi.dto.SimpleUserInfo;
 import com.pm.pmapi.mbg.mapper.TabCommodityMapper;
+import com.pm.pmapi.mbg.mapper.TabFavoriteMapper;
 import com.pm.pmapi.mbg.mapper.TabSoldCommodityMapper;
 import com.pm.pmapi.mbg.mapper.TabUserMapper;
 import com.pm.pmapi.mbg.model.*;
@@ -33,10 +35,15 @@ public class CommodityServiceImpl implements CommodityService {
     TabCommodityMapper commodityMapper;
 
     @Autowired
+    TabFavoriteMapper favoriteMapper;
+
+    @Autowired
     UserDao userDao;
     @Autowired
     TabUserMapper userMapper;
 
+    @Autowired
+    FavoriteDao favoriteDao;
     @Autowired
     CommodityDao commodityDao;
 
@@ -140,6 +147,43 @@ public class CommodityServiceImpl implements CommodityService {
         tabSoldCommodity.setCommodityId(tabCommodity.getId());
         soldCommodityMapper.insert(tabSoldCommodity);
         commodityMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public boolean deleteFavoriteCommodity(Long user_id, Long commodity_id) {
+        TabFavorite favorite = favoriteDao.getFavoriteByUserIdAndCommodityId(user_id, commodity_id);
+        if (null != favorite){
+            favoriteMapper.deleteByPrimaryKey(favorite.getId());
+        }else{
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean addFavoriteCommodity(Long user_id, Long commodity_id) {
+        TabFavorite favorite = favoriteDao.getFavoriteByUserIdAndCommodityId(user_id, commodity_id);
+        if (null != favorite){
+            return false;
+        }else{
+            TabFavorite tmp = new TabFavorite();
+            tmp.setCommodityId(commodity_id);
+            tmp.setUserId(user_id);
+            favoriteMapper.insert(tmp);
+        }
+        return true;
+    }
+
+    @Override
+    public List<CommodityInfo> listFavoriteCommodities(Long user_id) {
+        List<TabFavorite> favorites = favoriteDao.getFavoriteByUserId(user_id);
+        List<CommodityInfo> toReturn = new ArrayList<>();
+        for (TabFavorite favorite : favorites) {
+            CommodityInfo commodityInfo = commodityDao.getCommodityById(favorite.getCommodityId());
+            toReturn.add(commodityInfo);
+        }
+        append(toReturn);
+        return toReturn;
     }
 
     @Override
