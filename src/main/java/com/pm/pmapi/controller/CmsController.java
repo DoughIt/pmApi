@@ -33,37 +33,45 @@ public class CmsController {
     @RequestMapping(value = "/ppt", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<Object> getPPT(@RequestParam(value = "id") Long id) {
-        return CommonResult.success(commodityService.getCommodityById(id));
+        Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
+        return CommonResult.success(commodityService.getCommodityById(userId, id));
     }
 
     @RequestMapping(value = "/book", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<Object> getBook(@RequestParam(value = "id") Long id) {
-        return CommonResult.success(commodityService.getCommodityById(id));
+        Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
+
+        return CommonResult.success(commodityService.getCommodityById(userId, id));
     }
 
     @RequestMapping(value = "/notes", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<Object> getNotes(@RequestParam(value = "id") Long id) {
-        return CommonResult.success(commodityService.getCommodityById(id));
+        Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
+
+        return CommonResult.success(commodityService.getCommodityById(userId, id));
     }
 
     @RequestMapping(value = "/ppts", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<Object> getPPTs(@RequestParam(value = "key") String key, @RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
-        return CommonResult.success(commodityService.listCommoditiesByTypeAndKey(1, key, pageNum, pageSize));
+        Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
+        return CommonResult.success(commodityService.listCommoditiesByTypeAndKey(userId, 1, key, pageNum, pageSize));
     }
 
     @RequestMapping(value = "/books", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<Object> getBooks(@RequestParam(value = "key") String key, @RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
-        return CommonResult.success(commodityService.listCommoditiesByTypeAndKey(2, key, pageNum, pageSize));
+        Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
+        return CommonResult.success(commodityService.listCommoditiesByTypeAndKey(userId, 2, key, pageNum, pageSize));
     }
 
     @RequestMapping(value = "/notses", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<Object> getNotses(@RequestParam(value = "key") String key, @RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
-        return CommonResult.success(commodityService.listCommoditiesByTypeAndKey(3, key, pageNum, pageSize));
+        Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
+        return CommonResult.success(commodityService.listCommoditiesByTypeAndKey(userId, 3, key, pageNum, pageSize));
     }
 
 
@@ -89,41 +97,47 @@ public class CmsController {
     @ResponseBody
     public CommonResult<Object> updatePPT(@RequestBody CommodityParam commodityParam) {
         Long id = commodityParam.getId();
-        return CommonResult.success(commodityService.updateCommodityByPrimaryKey(id, commodityParam));
+        Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
+        return CommonResult.success(commodityService.updateCommodityByPrimaryKey(userId, id, commodityParam));
     }
 
     @RequestMapping(value = "/book", method = RequestMethod.PUT)
     @ResponseBody
     public CommonResult<Object> updateBook(@RequestBody CommodityParam commodityParam) {
         Long id = commodityParam.getId();
-        return CommonResult.success(commodityService.updateCommodityByPrimaryKey(id, commodityParam));
+        Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
+        return CommonResult.success(commodityService.updateCommodityByPrimaryKey(userId, id, commodityParam));
     }
 
     @RequestMapping(value = "/notes", method = RequestMethod.PUT)
     @ResponseBody
     public CommonResult<Object> updateNotes(@RequestBody CommodityParam commodityParam) {
         Long id = commodityParam.getId();
-        return CommonResult.success(commodityService.updateCommodityByPrimaryKey(id, commodityParam));
+        Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
+        return CommonResult.success(commodityService.updateCommodityByPrimaryKey(userId, id, commodityParam));
     }
 
     @RequestMapping(value = "/notes", method = RequestMethod.DELETE)
     @ResponseBody
     public CommonResult<Object> deleteNotes(@RequestParam(value = "id") Long id) {
-        commodityService.deleteCommodityById(id);
+        Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
+        commodityService.deleteCommodityById(userId, id);
         return CommonResult.success(null);
     }
 
     @RequestMapping(value = "/book", method = RequestMethod.DELETE)
     @ResponseBody
     public CommonResult<Object> deleteBook(@RequestParam(value = "id") Long id) {
-        commodityService.deleteCommodityById(id);
+        Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
+        commodityService.deleteCommodityById(userId, id);
         return CommonResult.success(null);
     }
 
     @RequestMapping(value = "/ppt", method = RequestMethod.DELETE)
     @ResponseBody
     public CommonResult<Object> deletePPT(@RequestParam(value = "id") Long id) {
-        commodityService.deleteCommodityById(id);
+        Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
+        commodityService.deleteCommodityById(userId, id);
         return CommonResult.success(null);
     }
 

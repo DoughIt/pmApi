@@ -63,6 +63,8 @@ public class CommodityInfo{
 
     private Date modifyTime;
 
+    private Boolean isFavorite;
+
     private byte[] picture;
 
 
