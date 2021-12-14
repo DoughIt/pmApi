@@ -54,7 +54,7 @@ public class CommodityServiceImpl implements CommodityService {
     TabSoldCommodityMapper soldCommodityMapper;
 
     @Override
-    public CommodityInfo getCommodityById(Long id) {
+    public CommodityInfo getCommodityById(Long userId, Long id) {
         CommodityInfo commodityInfoToReturn = new CommodityInfo();
         if (null != commodityDao.getCommodityById(id)){
             commodityInfoToReturn = commodityDao.getCommodityById(id);
@@ -96,7 +96,7 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public List<CommodityInfo> listCommoditiesByTypeAndKey(Integer type, String key, Integer pageNum, Integer pageSize) {
+    public List<CommodityInfo> listCommoditiesByTypeAndKey(Long userId, Integer type, String key, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         TabCommodityExample example = new TabCommodityExample();
         TabCommodityExample.Criteria criteria = example.createCriteria();
@@ -116,7 +116,7 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public List<CommodityInfo> listCommoditiesByType(Integer type, Integer pageNum, Integer pageSize) {
+    public List<CommodityInfo> listCommoditiesByType(Long userId, Integer type, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<CommodityInfo> list = commodityDao.listCommoditiesByType((long) type);
         for (CommodityInfo commodityInfo : list) {
@@ -127,7 +127,7 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public CommodityInfo updateCommodityByPrimaryKey(Long id, CommodityParam commodityParam) {
+    public CommodityInfo updateCommodityByPrimaryKey(Long userId, Long id, CommodityParam commodityParam) {
         TabCommodity commodity = commodityMapper.selectByPrimaryKey(id);
         BeanUtils.copyProperties(commodityParam, commodity);
         commodity.setModifyTime(new Date());
@@ -140,7 +140,7 @@ public class CommodityServiceImpl implements CommodityService {
 
 
     @Override
-    public void deleteCommodityById(Long id) {
+    public void deleteCommodityById(Long userId, Long id) {
         TabCommodity tabCommodity = commodityMapper.selectByPrimaryKey(id);
         TabSoldCommodity tabSoldCommodity = new TabSoldCommodity();
         BeanUtils.copyProperties(tabCommodity,tabSoldCommodity);
@@ -182,7 +182,7 @@ public class CommodityServiceImpl implements CommodityService {
             CommodityInfo commodityInfo = commodityDao.getCommodityById(favorite.getCommodityId());
             toReturn.add(commodityInfo);
         }
-        append(toReturn);
+        append(user_id, toReturn);
         return toReturn;
     }
 
@@ -193,30 +193,30 @@ public class CommodityServiceImpl implements CommodityService {
             if (isMine){
                 if (null == lessonId){
                     if (type == 0){
-                        return append(soldCommodityDao.listCommoditiesBySellerId(userId));
+                        return append(userId, soldCommodityDao.listCommoditiesBySellerId(userId));
                     }else{
-                        return append(soldCommodityDao.listCommoditiesBySellerIdAndType(userId, type));
+                        return append(userId, soldCommodityDao.listCommoditiesBySellerIdAndType(userId, type));
                     }
                 }else{
                     if (type == 0){
-                        return append(soldCommodityDao.listCommoditiesBySellerIdAndLessonId(userId, lessonId));
+                        return append(userId, soldCommodityDao.listCommoditiesBySellerIdAndLessonId(userId, lessonId));
                     }else{
-                        return append(soldCommodityDao.listCommoditiesBySellerIdAndLessonIdAndType(userId, lessonId, type));
+                        return append(userId, soldCommodityDao.listCommoditiesBySellerIdAndLessonIdAndType(userId, lessonId, type));
                     }
                 }
             }else{
                 //查看所有
                 if (null == lessonId){
                     if (type == 0){
-                        return append(mix(soldCommodityDao.listCommoditiesByType(1), soldCommodityDao.listCommoditiesByType(2), soldCommodityDao.listCommoditiesByType(3)));
+                        return append(userId, mix(soldCommodityDao.listCommoditiesByType(1), soldCommodityDao.listCommoditiesByType(2), soldCommodityDao.listCommoditiesByType(3)));
                     }else{
-                        return append(soldCommodityDao.listCommoditiesByType(type));
+                        return append(userId, soldCommodityDao.listCommoditiesByType(type));
                     }
                 }else{
                     if (type == 0){
-                        return append(soldCommodityDao.listCommoditiesByLessonId(lessonId));
+                        return append(userId, soldCommodityDao.listCommoditiesByLessonId(lessonId));
                     }else{
-                        return append(soldCommodityDao.listCommoditiesByLessonIdAndType(lessonId, type));
+                        return append(userId, soldCommodityDao.listCommoditiesByLessonIdAndType(lessonId, type));
                     }
                 }
             }
@@ -224,30 +224,30 @@ public class CommodityServiceImpl implements CommodityService {
             if (isMine){
                 if (null == lessonId){
                     if (type == 0){
-                        return append(commodityDao.listCommoditiesBySellerId(userId));
+                        return append(userId, commodityDao.listCommoditiesBySellerId(userId));
                     }else{
-                        return append(commodityDao.listCommoditiesBySellerIdAndType(userId, type));
+                        return append(userId, commodityDao.listCommoditiesBySellerIdAndType(userId, type));
                     }
                 }else{
                     if (type == 0){
-                        return append(commodityDao.listCommoditiesBySellerIdAndLessonId(userId, lessonId));
+                        return append(userId, commodityDao.listCommoditiesBySellerIdAndLessonId(userId, lessonId));
                     }else{
-                        return append(commodityDao.listCommoditiesBySellerIdAndLessonIdAndType(userId, lessonId, type));
+                        return append(userId, commodityDao.listCommoditiesBySellerIdAndLessonIdAndType(userId, lessonId, type));
                     }
                 }
             }else{
                 //查看所有
                 if (null == lessonId){
                     if (type == 0){
-                        return append(mix(commodityDao.listCommoditiesByType(1), commodityDao.listCommoditiesByType(2), commodityDao.listCommoditiesByType(3)));
+                        return append(userId, mix(commodityDao.listCommoditiesByType(1), commodityDao.listCommoditiesByType(2), commodityDao.listCommoditiesByType(3)));
                     }else{
-                        return append(commodityDao.listCommoditiesByType(type));
+                        return append(userId, commodityDao.listCommoditiesByType(type));
                     }
                 }else{
                     if (type == 0){
-                        return append(commodityDao.listCommoditiesByLessonId(lessonId));
+                        return append(userId, commodityDao.listCommoditiesByLessonId(lessonId));
                     }else{
-                        return append(commodityDao.listCommoditiesByLessonIdAndType(lessonId, type));
+                        return append(userId, commodityDao.listCommoditiesByLessonIdAndType(lessonId, type));
                     }
                 }
             }
@@ -257,11 +257,7 @@ public class CommodityServiceImpl implements CommodityService {
     @Override
     public List<CommodityInfo> getSoldCommodityByUserId(Long user_id,Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        TabSoldCommodityExample example = new TabSoldCommodityExample();
-        TabSoldCommodityExample.Criteria criteria = example.createCriteria();
-        criteria.andSellerIdEqualTo(user_id);
-        List<TabSoldCommodity> list = soldCommodityMapper.selectByExample(example);
-        return append(convert(null, list));
+        return append(user_id, soldCommodityDao.listCommoditiesBySellerId(user_id));
     }
 
     private List<CommodityInfo> convert(List<TabCommodity> tabCommodities, List<TabSoldCommodity> tabSoldCommodities){
@@ -283,7 +279,7 @@ public class CommodityServiceImpl implements CommodityService {
         }
     }
 
-    private List<CommodityInfo> append(List<CommodityInfo> tabCommodities){
+    private List<CommodityInfo> append(Long userId, List<CommodityInfo> tabCommodities){
         for (CommodityInfo tabCommodity : tabCommodities) {
             tabCommodity.setSeller(userDao.selectSimpleUserByPrimaryKey(tabCommodity.getSellerId()));
             tabCommodity.setSinglePrintChinese(tabCommodity.getSinglePrint() ? "是" : "否");
@@ -298,6 +294,11 @@ public class CommodityServiceImpl implements CommodityService {
             if ("".equals(tabCommodity.getUnit())) tabCommodity.setUnit(null);
             if (0 == tabCommodity.getChapters()) tabCommodity.setChapters(null);
             tabCommodity.setType(null);
+            if (null == favoriteDao.getFavoriteByUserIdAndCommodityId(userId, tabCommodity.getId())){
+                tabCommodity.setIsFavorite(false);
+            }else{
+                tabCommodity.setIsFavorite(true);
+            }
             // TODO: 课程
         }
         return tabCommodities;
