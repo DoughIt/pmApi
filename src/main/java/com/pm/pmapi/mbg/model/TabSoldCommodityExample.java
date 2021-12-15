@@ -1085,52 +1085,62 @@ public class TabSoldCommodityExample {
             return (Criteria) this;
         }
 
-        public Criteria andChaptersEqualTo(Integer value) {
+        public Criteria andChaptersEqualTo(String value) {
             addCriterion("chapters =", value, "chapters");
             return (Criteria) this;
         }
 
-        public Criteria andChaptersNotEqualTo(Integer value) {
+        public Criteria andChaptersNotEqualTo(String value) {
             addCriterion("chapters <>", value, "chapters");
             return (Criteria) this;
         }
 
-        public Criteria andChaptersGreaterThan(Integer value) {
+        public Criteria andChaptersGreaterThan(String value) {
             addCriterion("chapters >", value, "chapters");
             return (Criteria) this;
         }
 
-        public Criteria andChaptersGreaterThanOrEqualTo(Integer value) {
+        public Criteria andChaptersGreaterThanOrEqualTo(String value) {
             addCriterion("chapters >=", value, "chapters");
             return (Criteria) this;
         }
 
-        public Criteria andChaptersLessThan(Integer value) {
+        public Criteria andChaptersLessThan(String value) {
             addCriterion("chapters <", value, "chapters");
             return (Criteria) this;
         }
 
-        public Criteria andChaptersLessThanOrEqualTo(Integer value) {
+        public Criteria andChaptersLessThanOrEqualTo(String value) {
             addCriterion("chapters <=", value, "chapters");
             return (Criteria) this;
         }
 
-        public Criteria andChaptersIn(List<Integer> values) {
+        public Criteria andChaptersLike(String value) {
+            addCriterion("chapters like", value, "chapters");
+            return (Criteria) this;
+        }
+
+        public Criteria andChaptersNotLike(String value) {
+            addCriterion("chapters not like", value, "chapters");
+            return (Criteria) this;
+        }
+
+        public Criteria andChaptersIn(List<String> values) {
             addCriterion("chapters in", values, "chapters");
             return (Criteria) this;
         }
 
-        public Criteria andChaptersNotIn(List<Integer> values) {
+        public Criteria andChaptersNotIn(List<String> values) {
             addCriterion("chapters not in", values, "chapters");
             return (Criteria) this;
         }
 
-        public Criteria andChaptersBetween(Integer value1, Integer value2) {
+        public Criteria andChaptersBetween(String value1, String value2) {
             addCriterion("chapters between", value1, value2, "chapters");
             return (Criteria) this;
         }
 
-        public Criteria andChaptersNotBetween(Integer value1, Integer value2) {
+        public Criteria andChaptersNotBetween(String value1, String value2) {
             addCriterion("chapters not between", value1, value2, "chapters");
             return (Criteria) this;
         }

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @Description mbg自动生成tab_favorite表实体类
  *
- * @date 2021-12-15 06:15
+ * @date 2021-12-15 08:43
  */
 public class TabFavorite implements Serializable {
     private Integer id;

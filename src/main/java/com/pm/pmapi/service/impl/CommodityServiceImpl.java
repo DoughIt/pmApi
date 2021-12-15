@@ -289,7 +289,7 @@ public class CommodityServiceImpl implements CommodityService {
             if ("".equals(tabCommodity.getPaperSize())) tabCommodity.setPaperSize(null);
             if ("".equals(tabCommodity.getNewDegree())) tabCommodity.setNewDegree(null);
             if ("".equals(tabCommodity.getUnit())) tabCommodity.setUnit(null);
-            if (0 == tabCommodity.getChapters()) tabCommodity.setChapters(null);
+            if ("".equals(tabCommodity.getChapters())) tabCommodity.setChapters(null);
             tabCommodity.setType(null);
             if (null == favoriteDao.getFavoriteByUserIdAndCommodityId(userId, tabCommodity.getId())){
                 tabCommodity.setIsFavorite(false);

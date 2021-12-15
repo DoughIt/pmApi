@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * @Description mbg自动生成tab_commodity表实体类
  *
- * @date 2021-12-15 06:18
+ * @date 2021-12-15 08:43
  */
 public class TabCommodity implements Serializable {
     /**
@@ -44,7 +44,7 @@ public class TabCommodity implements Serializable {
 
     private Long commodityId;
 
-    private Integer chapters;
+    private String chapters;
 
     private String paperSize;
 
@@ -178,11 +178,11 @@ public class TabCommodity implements Serializable {
         this.commodityId = commodityId;
     }
 
-    public Integer getChapters() {
+    public String getChapters() {
         return chapters;
     }
 
-    public void setChapters(Integer chapters) {
+    public void setChapters(String chapters) {
         this.chapters = chapters;
     }
 

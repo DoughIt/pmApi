@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pm.pmapi.dao.FavoriteDao">
+    <resultMap id="BaseResultMap" type="com.pm.pmapi.mbg.model.TabFavorite">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
+        <result column="user_id" jdbcType="BIGINT" property="userId" />
+    </resultMap>
+    <select id="getFavoriteByUserId" resultMap="BaseResultMap">
+        select * from tab_favorite where user_id = #{user_id}
+    </select>
+
+    <select id="getFavoriteByUserIdAndCommodityId" resultMap="BaseResultMap">
+        select * from tab_favorite where user_id = #{user_id} and commodity_id = #{commodity_id}
+    </select>
+</mapper>

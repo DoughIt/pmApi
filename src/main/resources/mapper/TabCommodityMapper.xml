@@ -17,7 +17,7 @@
     <result column="single_print" jdbcType="BIT" property="singlePrint" />
     <result column="deal_method" jdbcType="INTEGER" property="dealMethod" />
     <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
-    <result column="chapters" jdbcType="INTEGER" property="chapters" />
+    <result column="chapters" jdbcType="VARCHAR" property="chapters" />
     <result column="paper_size" jdbcType="VARCHAR" property="paperSize" />
     <result column="new_degree" jdbcType="VARCHAR" property="newDegree" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
@@ -132,7 +132,7 @@
       #{sellerId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{author,jdbcType=VARCHAR}, 
       #{publisher,jdbcType=VARCHAR}, #{coverPercentage,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR}, 
       #{content,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{singlePrint,jdbcType=BIT}, 
-      #{dealMethod,jdbcType=INTEGER}, #{commodityId,jdbcType=BIGINT}, #{chapters,jdbcType=INTEGER}, 
+      #{dealMethod,jdbcType=INTEGER}, #{commodityId,jdbcType=BIGINT}, #{chapters,jdbcType=VARCHAR}, 
       #{paperSize,jdbcType=VARCHAR}, #{newDegree,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
@@ -247,7 +247,7 @@
         #{commodityId,jdbcType=BIGINT},
       </if>
       <if test="chapters != null">
-        #{chapters,jdbcType=INTEGER},
+        #{chapters,jdbcType=VARCHAR},
       </if>
       <if test="paperSize != null">
         #{paperSize,jdbcType=VARCHAR},
@@ -321,7 +321,7 @@
         commodity_id = #{record.commodityId,jdbcType=BIGINT},
       </if>
       <if test="record.chapters != null">
-        chapters = #{record.chapters,jdbcType=INTEGER},
+        chapters = #{record.chapters,jdbcType=VARCHAR},
       </if>
       <if test="record.paperSize != null">
         paper_size = #{record.paperSize,jdbcType=VARCHAR},
@@ -360,7 +360,7 @@
       single_print = #{record.singlePrint,jdbcType=BIT},
       deal_method = #{record.dealMethod,jdbcType=INTEGER},
       commodity_id = #{record.commodityId,jdbcType=BIGINT},
-      chapters = #{record.chapters,jdbcType=INTEGER},
+      chapters = #{record.chapters,jdbcType=VARCHAR},
       paper_size = #{record.paperSize,jdbcType=VARCHAR},
       new_degree = #{record.newDegree,jdbcType=VARCHAR},
       unit = #{record.unit,jdbcType=VARCHAR},
@@ -416,7 +416,7 @@
         commodity_id = #{commodityId,jdbcType=BIGINT},
       </if>
       <if test="chapters != null">
-        chapters = #{chapters,jdbcType=INTEGER},
+        chapters = #{chapters,jdbcType=VARCHAR},
       </if>
       <if test="paperSize != null">
         paper_size = #{paperSize,jdbcType=VARCHAR},
@@ -452,7 +452,7 @@
       single_print = #{singlePrint,jdbcType=BIT},
       deal_method = #{dealMethod,jdbcType=INTEGER},
       commodity_id = #{commodityId,jdbcType=BIGINT},
-      chapters = #{chapters,jdbcType=INTEGER},
+      chapters = #{chapters,jdbcType=VARCHAR},
       paper_size = #{paperSize,jdbcType=VARCHAR},
       new_degree = #{newDegree,jdbcType=VARCHAR},
       unit = #{unit,jdbcType=VARCHAR},
