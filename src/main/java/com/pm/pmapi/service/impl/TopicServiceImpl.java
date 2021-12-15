@@ -103,11 +103,6 @@ public class TopicServiceImpl implements TopicService {
         topic.setParentId(topicParam.getTopicId());
         topic.setUserId(userId);
         topicMapper.insert(topic);
-        SimpleUserInfo userInfo = userDao.selectSimpleUserByPrimaryKey(userId);
-        TopicInfo info = new TopicInfo();
-        BeanUtils.copyProperties(topicMapper.selectByPrimaryKey(topic.getId()), info);
-        info.setChildren(null);
-        info.setUser(userInfo);
-        return info;
+        return getTopicInfoById(topic.getId());
     }
 }
