@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 15/12/2021 17:43:32
+ Date: 15/12/2021 18:52:57
 */
 
 SET NAMES utf8mb4;
@@ -58,14 +58,15 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tab_lesson`;
 CREATE TABLE `tab_lesson` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `lesson_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `lesson_number` varchar(14) NOT NULL,
   `lesson_name` varchar(255) NOT NULL,
-  `credit` int(2) NOT NULL,
+  `credit` decimal(10,0) NOT NULL,
   `teacher_id` bigint(20) NOT NULL,
-  `school_id` varchar(15) NOT NULL,
-  `semester_id` varchar(15) NOT NULL,
+  `school_id` bigint(20) NOT NULL,
+  `semester` varchar(15) NOT NULL,
   `score` decimal(10,0) DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`lesson_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
@@ -116,6 +117,22 @@ CREATE TABLE `tab_mini_program` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `tab_mini_program` VALUES ('wxa338748af669c502', 'b679fccf897d1c5b25b8e49818d693e0');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tab_school
+-- ----------------------------
+DROP TABLE IF EXISTS `tab_school`;
+CREATE TABLE `tab_school` (
+  `school_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `school_name` varchar(255) NOT NULL,
+  PRIMARY KEY (`school_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of tab_school
+-- ----------------------------
+BEGIN;
 COMMIT;
 
 -- ----------------------------
@@ -177,10 +194,10 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tab_teacher`;
 CREATE TABLE `tab_teacher` (
-  `teacher_id` bigint(20) NOT NULL,
+  `teacher_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `teacher_name` varchar(255) NOT NULL,
-  `school_id` varchar(15) NOT NULL,
-  `school_name` varchar(255) NOT NULL
+  `school_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`teacher_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
