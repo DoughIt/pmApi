@@ -14,7 +14,7 @@ com.pm.pmapi
 ├── controller -- 业务调度与跳转，采用RestFul化api接口
 ├── dao -- 自定义数据库操作抽象接口
 ├── dto -- 自定义数据类
-├── mybatis -- MyBatisGenerator生成的数据库操作代码
+├── mbg -- MyBatisGenerator生成的数据库操作代码
 ├── service -- 功能服务
     ├── impl -- 服务接口的具体实现
 ```

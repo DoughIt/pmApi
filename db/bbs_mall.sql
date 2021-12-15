@@ -17,36 +17,49 @@
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
+
+DROP TABLE IF EXISTS `tab_favorite`;
+CREATE TABLE `tab_favorite`
+(
+    id           INT auto_increment NOT NULL,
+    commodity_id BIGINT UNSIGNED    NULL,
+    user_id      BIGINT UNSIGNED    NULL,
+    CONSTRAINT tab_favorite_pk PRIMARY KEY (id)
+)
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8
+    COLLATE = utf8_general_ci;
+
 -- ----------------------------
 -- Table structure for tab_commodity
 -- ----------------------------
 DROP TABLE IF EXISTS `tab_commodity`;
-CREATE TABLE `tab_commodity` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `name` varchar(100) DEFAULT NULL,
-  `lesson_id` varchar(100) DEFAULT NULL,
-  `teacher_id` bigint(20) unsigned DEFAULT NULL,
-  `seller_id` bigint(20) unsigned DEFAULT NULL,
-  `type` int(11) DEFAULT NULL,
-  `author` varchar(100) DEFAULT NULL,
-  `publisher` varchar(100) DEFAULT NULL,
-  `cover_percentage` varchar(100) DEFAULT NULL,
-  `image_id` varchar(100) DEFAULT NULL,
-  `content` varchar(100) DEFAULT NULL,
-  `price` double DEFAULT NULL,
-  `single_print` tinyint(1) DEFAULT NULL,
-  `deal_method` int(11) DEFAULT NULL,
-  `commodity_id` bigint(20) unsigned DEFAULT NULL,
-  `chapters` int(11) DEFAULT NULL,
-  `paper_size` varchar(100) DEFAULT NULL,
-  `new_degree` varchar(100) DEFAULT NULL,
-  `unit` varchar(100) DEFAULT NULL,
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
-  `modify_time` datetime DEFAULT CURRENT_TIMESTAMP,
-  `picture` blob,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+CREATE TABLE `tab_commodity`
+(
+    `id`               bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+    `name`             varchar(100)    DEFAULT NULL,
+    `lesson_id`        varchar(100)    DEFAULT NULL,
+    `teacher_id`       bigint unsigned DEFAULT NULL,
+    `seller_id`        bigint unsigned DEFAULT NULL,
+    `type`             int             DEFAULT NULL,
+    `author`           varchar(100)    DEFAULT NULL,
+    `publisher`        varchar(100)    DEFAULT NULL,
+    `cover_percentage` varchar(100)    DEFAULT NULL,
+    `content`          varchar(100)    DEFAULT NULL,
+    `price`            double          DEFAULT NULL,
+    `single_print`     tinyint(1)      DEFAULT NULL,
+    `deal_method`      int             DEFAULT NULL,
+    `commodity_id`     bigint unsigned DEFAULT NULL,
+    `chapters`         int             DEFAULT NULL,
+    `paper_size`       varchar(100)    DEFAULT NULL,
+    `new_degree`       varchar(100)    DEFAULT NULL,
+    `unit`             varchar(100)    DEFAULT NULL,
+    `create_time`      datetime        DEFAULT CURRENT_TIMESTAMP,
+    `modify_time`      datetime        DEFAULT CURRENT_TIMESTAMP,
+    `image_url`        varchar(100)    DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 -- ----------------------------
 -- Records of tab_commodity
 -- ----------------------------
@@ -138,33 +151,35 @@ COMMIT;
 -- ----------------------------
 -- Table structure for tab_sold_commodity
 -- ----------------------------
-DROP TABLE IF EXISTS `tab_sold_commodity`;
-CREATE TABLE `tab_sold_commodity` (
-  `sold_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) DEFAULT NULL,
-  `lesson_id` varchar(100) DEFAULT NULL,
-  `teacher_id` bigint(20) unsigned DEFAULT NULL,
-  `seller_id` bigint(20) unsigned DEFAULT NULL,
-  `type` int(11) DEFAULT NULL,
-  `author` varchar(100) DEFAULT NULL,
-  `publisher` varchar(100) DEFAULT NULL,
-  `cover_percentage` varchar(100) DEFAULT NULL,
-  `image_id` varchar(100) DEFAULT NULL,
-  `content` varchar(100) DEFAULT NULL,
-  `price` double DEFAULT NULL,
-  `single_print` tinyint(1) DEFAULT NULL,
-  `deal_method` int(11) DEFAULT NULL,
-  `commodity_id` bigint(20) unsigned DEFAULT NULL,
-  `chapters` int(11) DEFAULT NULL,
-  `paper_size` varchar(100) DEFAULT NULL,
-  `new_degree` varchar(100) DEFAULT NULL,
-  `unit` varchar(100) DEFAULT NULL,
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
-  `modify_time` datetime DEFAULT CURRENT_TIMESTAMP,
-  `picture` blob,
-  `id` bigint(20) unsigned DEFAULT NULL,
-  PRIMARY KEY (`sold_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tab_sold_commodity`
+(
+    `sold_id`          bigint unsigned NOT NULL AUTO_INCREMENT,
+    `name`             varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `lesson_id`        varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `teacher_id`       bigint unsigned                                         DEFAULT NULL,
+    `seller_id`        bigint unsigned                                         DEFAULT NULL,
+    `type`             int                                                     DEFAULT NULL,
+    `author`           varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `publisher`        varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `cover_percentage` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `image_id`         varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `content`          varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `price`            double                                                  DEFAULT NULL,
+    `single_print`     tinyint(1)                                              DEFAULT NULL,
+    `deal_method`      int                                                     DEFAULT NULL,
+    `commodity_id`     bigint unsigned                                         DEFAULT NULL,
+    `chapters`         int                                                     DEFAULT NULL,
+    `paper_size`       varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `new_degree`       varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `unit`             varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `create_time`      datetime                                                DEFAULT CURRENT_TIMESTAMP,
+    `modify_time`      datetime                                                DEFAULT CURRENT_TIMESTAMP,
+    `picture`          blob,
+    `id`               bigint unsigned                                         DEFAULT NULL,
+    PRIMARY KEY (`sold_id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 -- ----------------------------
 -- Records of tab_sold_commodity
