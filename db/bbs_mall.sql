@@ -11,57 +11,64 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 15/12/2021 18:52:57
+ Date: 15/12/2021 22:58:40
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
-
-DROP TABLE IF EXISTS `tab_favorite`;
-CREATE TABLE `tab_favorite`
-(
-    id           INT auto_increment NOT NULL,
-    commodity_id BIGINT UNSIGNED    NULL,
-    user_id      BIGINT UNSIGNED    NULL,
-    CONSTRAINT tab_favorite_pk PRIMARY KEY (id)
-)
-    ENGINE = InnoDB
-    DEFAULT CHARSET = utf8
-    COLLATE = utf8_general_ci;
-
 -- ----------------------------
 -- Table structure for tab_commodity
 -- ----------------------------
 DROP TABLE IF EXISTS `tab_commodity`;
-CREATE TABLE `tab_commodity`
-(
-    `id`               bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-    `name`             varchar(100)    DEFAULT NULL,
-    `lesson_id`        varchar(100)    DEFAULT NULL,
-    `teacher_id`       bigint unsigned DEFAULT NULL,
-    `seller_id`        bigint unsigned DEFAULT NULL,
-    `type`             int             DEFAULT NULL,
-    `author`           varchar(100)    DEFAULT NULL,
-    `publisher`        varchar(100)    DEFAULT NULL,
-    `cover_percentage` varchar(100)    DEFAULT NULL,
-    `content`          varchar(100)    DEFAULT NULL,
-    `price`            double          DEFAULT NULL,
-    `single_print`     tinyint(1)      DEFAULT NULL,
-    `deal_method`      int             DEFAULT NULL,
-    `commodity_id`     bigint unsigned DEFAULT NULL,
-    `chapters`         int             DEFAULT NULL,
-    `paper_size`       varchar(100)    DEFAULT NULL,
-    `new_degree`       varchar(100)    DEFAULT NULL,
-    `unit`             varchar(100)    DEFAULT NULL,
-    `create_time`      datetime        DEFAULT CURRENT_TIMESTAMP,
-    `modify_time`      datetime        DEFAULT CURRENT_TIMESTAMP,
-    `image_url`        varchar(100)    DEFAULT NULL,
-    PRIMARY KEY (`id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
+CREATE TABLE `tab_commodity` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `name` varchar(100) DEFAULT NULL,
+  `lesson_id` varchar(100) DEFAULT NULL,
+  `teacher_id` bigint(20) unsigned DEFAULT NULL,
+  `seller_id` bigint(20) unsigned DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  `author` varchar(100) DEFAULT NULL,
+  `publisher` varchar(100) DEFAULT NULL,
+  `cover_percentage` varchar(100) DEFAULT NULL,
+  `content` varchar(100) DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  `single_print` tinyint(1) DEFAULT NULL,
+  `deal_method` int(11) DEFAULT NULL,
+  `commodity_id` bigint(20) unsigned DEFAULT NULL,
+  `chapters` int(11) DEFAULT NULL,
+  `paper_size` varchar(100) DEFAULT NULL,
+  `new_degree` varchar(100) DEFAULT NULL,
+  `unit` varchar(100) DEFAULT NULL,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `modify_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `image_url` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `seller_id` (`seller_id`),
+  CONSTRAINT `tab_commodity_ibfk_1` FOREIGN KEY (`seller_id`) REFERENCES `tab_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 -- ----------------------------
 -- Records of tab_commodity
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tab_favorite
+-- ----------------------------
+DROP TABLE IF EXISTS `tab_favorite`;
+CREATE TABLE `tab_favorite` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `commodity_id` bigint(20) unsigned DEFAULT NULL,
+  `user_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tab_favorite_ibfk_1` (`user_id`),
+  CONSTRAINT `tab_favorite_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tab_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tab_favorite
 -- ----------------------------
 BEGIN;
 COMMIT;
@@ -105,7 +112,7 @@ CREATE TABLE `tab_message` (
   KEY `tab_message_ibfk_2` (`receiver_id`),
   CONSTRAINT `tab_message_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `tab_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `tab_message_ibfk_2` FOREIGN KEY (`receiver_id`) REFERENCES `tab_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tab_message
@@ -113,6 +120,7 @@ CREATE TABLE `tab_message` (
 BEGIN;
 INSERT INTO `tab_message` VALUES (1, 2, 1, 'ddd', '2021-12-07 10:26:26', '2021-12-07 10:48:10', b'1');
 INSERT INTO `tab_message` VALUES (2, 1, 2, 'fdadf', '2021-12-07 23:21:45', NULL, b'0');
+INSERT INTO `tab_message` VALUES (3, 1, 2, '阿凡达舒服', '2021-12-15 22:32:35', NULL, b'0');
 COMMIT;
 
 -- ----------------------------
@@ -151,35 +159,35 @@ COMMIT;
 -- ----------------------------
 -- Table structure for tab_sold_commodity
 -- ----------------------------
-
-CREATE TABLE `tab_sold_commodity`
-(
-    `sold_id`          bigint unsigned NOT NULL AUTO_INCREMENT,
-    `name`             varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `lesson_id`        varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `teacher_id`       bigint unsigned                                         DEFAULT NULL,
-    `seller_id`        bigint unsigned                                         DEFAULT NULL,
-    `type`             int                                                     DEFAULT NULL,
-    `author`           varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `publisher`        varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `cover_percentage` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `image_id`         varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `content`          varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `price`            double                                                  DEFAULT NULL,
-    `single_print`     tinyint(1)                                              DEFAULT NULL,
-    `deal_method`      int                                                     DEFAULT NULL,
-    `commodity_id`     bigint unsigned                                         DEFAULT NULL,
-    `chapters`         int                                                     DEFAULT NULL,
-    `paper_size`       varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `new_degree`       varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `unit`             varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `create_time`      datetime                                                DEFAULT CURRENT_TIMESTAMP,
-    `modify_time`      datetime                                                DEFAULT CURRENT_TIMESTAMP,
-    `picture`          blob,
-    `id`               bigint unsigned                                         DEFAULT NULL,
-    PRIMARY KEY (`sold_id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
+DROP TABLE IF EXISTS `tab_sold_commodity`;
+CREATE TABLE `tab_sold_commodity` (
+  `sold_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `lesson_id` varchar(100) DEFAULT NULL,
+  `teacher_id` bigint(20) unsigned DEFAULT NULL,
+  `seller_id` bigint(20) unsigned DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  `author` varchar(100) DEFAULT NULL,
+  `publisher` varchar(100) DEFAULT NULL,
+  `cover_percentage` varchar(100) DEFAULT NULL,
+  `image_id` varchar(100) DEFAULT NULL,
+  `content` varchar(100) DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  `single_print` tinyint(1) DEFAULT NULL,
+  `deal_method` int(11) DEFAULT NULL,
+  `commodity_id` bigint(20) unsigned DEFAULT NULL,
+  `chapters` int(11) DEFAULT NULL,
+  `paper_size` varchar(100) DEFAULT NULL,
+  `new_degree` varchar(100) DEFAULT NULL,
+  `unit` varchar(100) DEFAULT NULL,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `modify_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `picture` blob,
+  `id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`sold_id`),
+  KEY `seller_id` (`seller_id`),
+  CONSTRAINT `tab_sold_commodity_ibfk_1` FOREIGN KEY (`seller_id`) REFERENCES `tab_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tab_sold_commodity
@@ -239,7 +247,7 @@ CREATE TABLE `tab_topic` (
   PRIMARY KEY (`id`),
   KEY `tab_topic_ibfk_1` (`user_id`),
   CONSTRAINT `tab_topic_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tab_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tab_topic
@@ -248,6 +256,8 @@ BEGIN;
 INSERT INTO `tab_topic` VALUES (1, NULL, NULL, 222, 2, 2, 'hh', 'balabala', '2021-12-07 10:52:51', 1);
 INSERT INTO `tab_topic` VALUES (2, 1, NULL, 222, 2, 3, NULL, 'dfadfda', '2021-12-07 22:18:21', 1);
 INSERT INTO `tab_topic` VALUES (3, 2, NULL, 222, 2, 3, NULL, NULL, '2021-12-07 22:33:39', 1);
+INSERT INTO `tab_topic` VALUES (4, 2, NULL, NULL, 0, 1, NULL, 'balabala', NULL, NULL);
+INSERT INTO `tab_topic` VALUES (5, NULL, 22, NULL, 1, 1, NULL, 'balabala', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -280,19 +290,6 @@ INSERT INTO `tab_user` VALUES (1, '16302010059', NULL, NULL, '$2a$10$nLpdFqP44VT
 INSERT INTO `tab_user` VALUES (2, NULL, 'doughit', NULL, '$2a$10$nLpdFqP44VT0ZOqPBWNYFe3uXdy0umeX5uuNfsk7B5lmDCbxbBGIm', NULL, NULL, NULL, '2021-12-10 18:09:52', '2021-12-10 18:10:26', 0, b'1', 0);
 INSERT INTO `tab_user` VALUES (3, '16302010010', NULL, NULL, '$2a$10$bt3CvXkjEFQrq6tO2oGzlO0AHYBZK/Wvh7cx8BzhrYrzKlaoURI4S', NULL, NULL, NULL, '2021-12-13 22:09:13', '2021-12-14 08:26:15', 1, b'1', 0);
 COMMIT;
-
--- ----------------------------
--- Triggers structure for table tab_message
--- ----------------------------
-DROP TRIGGER IF EXISTS `update_read_status`;
-delimiter ;;
-CREATE TRIGGER `update_read_status` BEFORE UPDATE ON `tab_message` FOR EACH ROW IF NEW.read_time IS NOT NULL THEN
-SET NEW.read_status=1;
-ELSE
-SET NEW.read_status=0;
-END IF
-;;
-delimiter ;
 
 -- ----------------------------
 -- Triggers structure for table tab_topic
