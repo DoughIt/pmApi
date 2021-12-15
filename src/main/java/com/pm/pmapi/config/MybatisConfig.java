@@ -13,6 +13,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
-@MapperScan({"com.pm.pmApi.mybatis.mapper", "com.pm.pmApi.dao"})
+@MapperScan({"com.pm.pmapi.mbg.mapper", "com.pm.pmapi.dao"})
 public class MybatisConfig {
 }

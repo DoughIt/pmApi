@@ -5,13 +5,13 @@
  Source Server Type    : MySQL
  Source Server Version : 50720
  Source Host           : localhost:3306
- Source Schema         : pm_course
+ Source Schema         : bbs_mall
 
  Target Server Type    : MySQL
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 13/12/2021 22:26:23
+ Date: 15/12/2021 17:43:32
 */
 
 SET NAMES utf8mb4;
@@ -21,67 +21,55 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- Table structure for tab_commodity
 -- ----------------------------
 DROP TABLE IF EXISTS `tab_commodity`;
-
-CREATE TABLE `tab_commodity`
-(
-    `id`               bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-    `name`             varchar(100)    DEFAULT NULL,
-    `lesson_id`        varchar(100)    DEFAULT NULL,
-    `teacher_id`       bigint unsigned DEFAULT NULL,
-    `seller_id`        bigint unsigned DEFAULT NULL,
-    `type`             int             DEFAULT NULL,
-    `author`           varchar(100)    DEFAULT NULL,
-    `publisher`        varchar(100)    DEFAULT NULL,
-    `cover_percentage` varchar(100)    DEFAULT NULL,
-    `image_id`         varchar(100)    DEFAULT NULL,
-    `content`          varchar(100)    DEFAULT NULL,
-    `price`            double          DEFAULT NULL,
-    `single_print`     tinyint(1)      DEFAULT NULL,
-    `deal_method`      int             DEFAULT NULL,
-    `commodity_id`     bigint unsigned DEFAULT NULL,
-    `chapters`         int             DEFAULT NULL,
-    `paper_size`       varchar(100)    DEFAULT NULL,
-    `new_degree`       varchar(100)    DEFAULT NULL,
-    `unit`             varchar(100)    DEFAULT NULL,
-    `create_time`      datetime        DEFAULT CURRENT_TIMESTAMP,
-    `modify_time`      datetime        DEFAULT CURRENT_TIMESTAMP,
-    `picture`          blob,
-    PRIMARY KEY (`id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
-
-CREATE TABLE `tab_sold_commodity`
-(
-    `sold_id`          bigint unsigned NOT NULL AUTO_INCREMENT,
-    `name`             varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `lesson_id`        varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `teacher_id`       bigint unsigned                                         DEFAULT NULL,
-    `seller_id`        bigint unsigned                                         DEFAULT NULL,
-    `type`             int                                                     DEFAULT NULL,
-    `author`           varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `publisher`        varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `cover_percentage` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `image_id`         varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `content`          varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `price`            double                                                  DEFAULT NULL,
-    `single_print`     tinyint(1)                                              DEFAULT NULL,
-    `deal_method`      int                                                     DEFAULT NULL,
-    `commodity_id`     bigint unsigned                                         DEFAULT NULL,
-    `chapters`         int                                                     DEFAULT NULL,
-    `paper_size`       varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `new_degree`       varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `unit`             varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `create_time`      datetime                                                DEFAULT CURRENT_TIMESTAMP,
-    `modify_time`      datetime                                                DEFAULT CURRENT_TIMESTAMP,
-    `picture`          blob,
-    `id`               bigint unsigned                                         DEFAULT NULL,
-    PRIMARY KEY (`sold_id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
-
+CREATE TABLE `tab_commodity` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `name` varchar(100) DEFAULT NULL,
+  `lesson_id` varchar(100) DEFAULT NULL,
+  `teacher_id` bigint(20) unsigned DEFAULT NULL,
+  `seller_id` bigint(20) unsigned DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  `author` varchar(100) DEFAULT NULL,
+  `publisher` varchar(100) DEFAULT NULL,
+  `cover_percentage` varchar(100) DEFAULT NULL,
+  `image_id` varchar(100) DEFAULT NULL,
+  `content` varchar(100) DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  `single_print` tinyint(1) DEFAULT NULL,
+  `deal_method` int(11) DEFAULT NULL,
+  `commodity_id` bigint(20) unsigned DEFAULT NULL,
+  `chapters` int(11) DEFAULT NULL,
+  `paper_size` varchar(100) DEFAULT NULL,
+  `new_degree` varchar(100) DEFAULT NULL,
+  `unit` varchar(100) DEFAULT NULL,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `modify_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `picture` blob,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tab_commodity
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tab_lesson
+-- ----------------------------
+DROP TABLE IF EXISTS `tab_lesson`;
+CREATE TABLE `tab_lesson` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `lesson_name` varchar(255) NOT NULL,
+  `credit` int(2) NOT NULL,
+  `teacher_id` bigint(20) NOT NULL,
+  `school_id` varchar(15) NOT NULL,
+  `semester_id` varchar(15) NOT NULL,
+  `score` decimal(10,0) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of tab_lesson
 -- ----------------------------
 BEGIN;
 COMMIT;
@@ -128,6 +116,77 @@ CREATE TABLE `tab_mini_program` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `tab_mini_program` VALUES ('wxa338748af669c502', 'b679fccf897d1c5b25b8e49818d693e0');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tab_sold_commodity
+-- ----------------------------
+DROP TABLE IF EXISTS `tab_sold_commodity`;
+CREATE TABLE `tab_sold_commodity` (
+  `sold_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `lesson_id` varchar(100) DEFAULT NULL,
+  `teacher_id` bigint(20) unsigned DEFAULT NULL,
+  `seller_id` bigint(20) unsigned DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  `author` varchar(100) DEFAULT NULL,
+  `publisher` varchar(100) DEFAULT NULL,
+  `cover_percentage` varchar(100) DEFAULT NULL,
+  `image_id` varchar(100) DEFAULT NULL,
+  `content` varchar(100) DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  `single_print` tinyint(1) DEFAULT NULL,
+  `deal_method` int(11) DEFAULT NULL,
+  `commodity_id` bigint(20) unsigned DEFAULT NULL,
+  `chapters` int(11) DEFAULT NULL,
+  `paper_size` varchar(100) DEFAULT NULL,
+  `new_degree` varchar(100) DEFAULT NULL,
+  `unit` varchar(100) DEFAULT NULL,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `modify_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `picture` blob,
+  `id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`sold_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tab_sold_commodity
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tab_tag
+-- ----------------------------
+DROP TABLE IF EXISTS `tab_tag`;
+CREATE TABLE `tab_tag` (
+  `tag_id` varchar(14) NOT NULL,
+  `tag` varchar(255) NOT NULL,
+  `positive` int(10) DEFAULT '0',
+  `negative` int(10) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of tab_tag
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tab_teacher
+-- ----------------------------
+DROP TABLE IF EXISTS `tab_teacher`;
+CREATE TABLE `tab_teacher` (
+  `teacher_id` bigint(20) NOT NULL,
+  `teacher_name` varchar(255) NOT NULL,
+  `school_id` varchar(15) NOT NULL,
+  `school_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of tab_teacher
+-- ----------------------------
+BEGIN;
 COMMIT;
 
 -- ----------------------------
@@ -187,7 +246,7 @@ CREATE TABLE `tab_user` (
 BEGIN;
 INSERT INTO `tab_user` VALUES (1, '16302010059', NULL, NULL, '$2a$10$nLpdFqP44VT0ZOqPBWNYFe3uXdy0umeX5uuNfsk7B5lmDCbxbBGIm', NULL, NULL, NULL, '2021-12-10 18:08:39', NULL, 1, b'1', 0);
 INSERT INTO `tab_user` VALUES (2, NULL, 'doughit', NULL, '$2a$10$nLpdFqP44VT0ZOqPBWNYFe3uXdy0umeX5uuNfsk7B5lmDCbxbBGIm', NULL, NULL, NULL, '2021-12-10 18:09:52', '2021-12-10 18:10:26', 0, b'1', 0);
-INSERT INTO `tab_user` VALUES (3, '16302010010', NULL, NULL, '$2a$10$bt3CvXkjEFQrq6tO2oGzlO0AHYBZK/Wvh7cx8BzhrYrzKlaoURI4S', NULL, NULL, NULL, '2021-12-13 22:09:13', '2021-12-13 22:09:36', 1, b'1', 0);
+INSERT INTO `tab_user` VALUES (3, '16302010010', NULL, NULL, '$2a$10$bt3CvXkjEFQrq6tO2oGzlO0AHYBZK/Wvh7cx8BzhrYrzKlaoURI4S', NULL, NULL, NULL, '2021-12-13 22:09:13', '2021-12-14 08:26:15', 1, b'1', 0);
 COMMIT;
 
 -- ----------------------------
