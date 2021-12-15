@@ -2,12 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pm.pmapi.mbg.mapper.TabLessonMapper">
   <resultMap id="BaseResultMap" type="com.pm.pmapi.mbg.model.TabLesson">
-    <id column="id" jdbcType="BIGINT" property="id" />
+    <id column="lesson_id" jdbcType="BIGINT" property="lessonId" />
+    <result column="lesson_number" jdbcType="VARCHAR" property="lessonNumber" />
     <result column="lesson_name" jdbcType="VARCHAR" property="lessonName" />
-    <result column="credit" jdbcType="INTEGER" property="credit" />
+    <result column="credit" jdbcType="DECIMAL" property="credit" />
     <result column="teacher_id" jdbcType="BIGINT" property="teacherId" />
-    <result column="school_id" jdbcType="VARCHAR" property="schoolId" />
-    <result column="semester_id" jdbcType="VARCHAR" property="semesterId" />
+    <result column="school_id" jdbcType="BIGINT" property="schoolId" />
+    <result column="semester" jdbcType="VARCHAR" property="semester" />
     <result column="score" jdbcType="DECIMAL" property="score" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, lesson_name, credit, teacher_id, school_id, semester_id, score
+    lesson_id, lesson_number, lesson_name, credit, teacher_id, school_id, semester, score
   </sql>
   <select id="selectByExample" parameterType="com.pm.pmapi.mbg.model.TabLessonExample" resultMap="BaseResultMap">
     select
@@ -89,11 +90,11 @@
     select 
     <include refid="Base_Column_List" />
     from tab_lesson
-    where id = #{id,jdbcType=BIGINT}
+    where lesson_id = #{lessonId,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from tab_lesson
-    where id = #{id,jdbcType=BIGINT}
+    where lesson_id = #{lessonId,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.pm.pmapi.mbg.model.TabLessonExample">
     delete from tab_lesson
@@ -102,22 +103,22 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.pm.pmapi.mbg.model.TabLesson">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into tab_lesson (lesson_name, credit, teacher_id, 
-      school_id, semester_id, score
-      )
-    values (#{lessonName,jdbcType=VARCHAR}, #{credit,jdbcType=INTEGER}, #{teacherId,jdbcType=BIGINT}, 
-      #{schoolId,jdbcType=VARCHAR}, #{semesterId,jdbcType=VARCHAR}, #{score,jdbcType=DECIMAL}
-      )
+    insert into tab_lesson (lesson_id, lesson_number, lesson_name, 
+      credit, teacher_id, school_id, 
+      semester, score)
+    values (#{lessonId,jdbcType=BIGINT}, #{lessonNumber,jdbcType=VARCHAR}, #{lessonName,jdbcType=VARCHAR}, 
+      #{credit,jdbcType=DECIMAL}, #{teacherId,jdbcType=BIGINT}, #{schoolId,jdbcType=BIGINT}, 
+      #{semester,jdbcType=VARCHAR}, #{score,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.pm.pmapi.mbg.model.TabLesson">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into tab_lesson
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="lessonId != null">
+        lesson_id,
+      </if>
+      <if test="lessonNumber != null">
+        lesson_number,
+      </if>
       <if test="lessonName != null">
         lesson_name,
       </if>
@@ -130,28 +131,34 @@
       <if test="schoolId != null">
         school_id,
       </if>
-      <if test="semesterId != null">
-        semester_id,
+      <if test="semester != null">
+        semester,
       </if>
       <if test="score != null">
         score,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="lessonId != null">
+        #{lessonId,jdbcType=BIGINT},
+      </if>
+      <if test="lessonNumber != null">
+        #{lessonNumber,jdbcType=VARCHAR},
+      </if>
       <if test="lessonName != null">
         #{lessonName,jdbcType=VARCHAR},
       </if>
       <if test="credit != null">
-        #{credit,jdbcType=INTEGER},
+        #{credit,jdbcType=DECIMAL},
       </if>
       <if test="teacherId != null">
         #{teacherId,jdbcType=BIGINT},
       </if>
       <if test="schoolId != null">
-        #{schoolId,jdbcType=VARCHAR},
+        #{schoolId,jdbcType=BIGINT},
       </if>
-      <if test="semesterId != null">
-        #{semesterId,jdbcType=VARCHAR},
+      <if test="semester != null">
+        #{semester,jdbcType=VARCHAR},
       </if>
       <if test="score != null">
         #{score,jdbcType=DECIMAL},
@@ -167,23 +174,26 @@
   <update id="updateByExampleSelective" parameterType="map">
     update tab_lesson
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
+      <if test="record.lessonId != null">
+        lesson_id = #{record.lessonId,jdbcType=BIGINT},
+      </if>
+      <if test="record.lessonNumber != null">
+        lesson_number = #{record.lessonNumber,jdbcType=VARCHAR},
       </if>
       <if test="record.lessonName != null">
         lesson_name = #{record.lessonName,jdbcType=VARCHAR},
       </if>
       <if test="record.credit != null">
-        credit = #{record.credit,jdbcType=INTEGER},
+        credit = #{record.credit,jdbcType=DECIMAL},
       </if>
       <if test="record.teacherId != null">
         teacher_id = #{record.teacherId,jdbcType=BIGINT},
       </if>
       <if test="record.schoolId != null">
-        school_id = #{record.schoolId,jdbcType=VARCHAR},
+        school_id = #{record.schoolId,jdbcType=BIGINT},
       </if>
-      <if test="record.semesterId != null">
-        semester_id = #{record.semesterId,jdbcType=VARCHAR},
+      <if test="record.semester != null">
+        semester = #{record.semester,jdbcType=VARCHAR},
       </if>
       <if test="record.score != null">
         score = #{record.score,jdbcType=DECIMAL},
@@ -195,12 +205,13 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update tab_lesson
-    set id = #{record.id,jdbcType=BIGINT},
+    set lesson_id = #{record.lessonId,jdbcType=BIGINT},
+      lesson_number = #{record.lessonNumber,jdbcType=VARCHAR},
       lesson_name = #{record.lessonName,jdbcType=VARCHAR},
-      credit = #{record.credit,jdbcType=INTEGER},
+      credit = #{record.credit,jdbcType=DECIMAL},
       teacher_id = #{record.teacherId,jdbcType=BIGINT},
-      school_id = #{record.schoolId,jdbcType=VARCHAR},
-      semester_id = #{record.semesterId,jdbcType=VARCHAR},
+      school_id = #{record.schoolId,jdbcType=BIGINT},
+      semester = #{record.semester,jdbcType=VARCHAR},
       score = #{record.score,jdbcType=DECIMAL}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -209,35 +220,39 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.pm.pmapi.mbg.model.TabLesson">
     update tab_lesson
     <set>
+      <if test="lessonNumber != null">
+        lesson_number = #{lessonNumber,jdbcType=VARCHAR},
+      </if>
       <if test="lessonName != null">
         lesson_name = #{lessonName,jdbcType=VARCHAR},
       </if>
       <if test="credit != null">
-        credit = #{credit,jdbcType=INTEGER},
+        credit = #{credit,jdbcType=DECIMAL},
       </if>
       <if test="teacherId != null">
         teacher_id = #{teacherId,jdbcType=BIGINT},
       </if>
       <if test="schoolId != null">
-        school_id = #{schoolId,jdbcType=VARCHAR},
+        school_id = #{schoolId,jdbcType=BIGINT},
       </if>
-      <if test="semesterId != null">
-        semester_id = #{semesterId,jdbcType=VARCHAR},
+      <if test="semester != null">
+        semester = #{semester,jdbcType=VARCHAR},
       </if>
       <if test="score != null">
         score = #{score,jdbcType=DECIMAL},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where lesson_id = #{lessonId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pm.pmapi.mbg.model.TabLesson">
     update tab_lesson
-    set lesson_name = #{lessonName,jdbcType=VARCHAR},
-      credit = #{credit,jdbcType=INTEGER},
+    set lesson_number = #{lessonNumber,jdbcType=VARCHAR},
+      lesson_name = #{lessonName,jdbcType=VARCHAR},
+      credit = #{credit,jdbcType=DECIMAL},
       teacher_id = #{teacherId,jdbcType=BIGINT},
-      school_id = #{schoolId,jdbcType=VARCHAR},
-      semester_id = #{semesterId,jdbcType=VARCHAR},
+      school_id = #{schoolId,jdbcType=BIGINT},
+      semester = #{semester,jdbcType=VARCHAR},
       score = #{score,jdbcType=DECIMAL}
-    where id = #{id,jdbcType=BIGINT}
+    where lesson_id = #{lessonId,jdbcType=BIGINT}
   </update>
 </mapper>

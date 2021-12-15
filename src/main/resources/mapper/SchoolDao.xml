@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pm.pmapi.dao.SchoolDao">
+    <resultMap id="BaseResultMap" type="com.pm.pmapi.dto.SchoolInfo">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="school_id" jdbcType="BIGINT" property="schoolId"/>
+        <result column="school_name" jdbcType="VARCHAR" property="schoolName"/>
+    </resultMap>
+    <select id="getSchoolBySchoolId" resultMap="BaseResultMap">
+        select school_id, school_name
+        from tab_school
+        where school_id = #{schoolId}
+    </select>
+</mapper>

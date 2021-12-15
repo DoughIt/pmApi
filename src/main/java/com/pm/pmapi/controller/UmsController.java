@@ -118,14 +118,12 @@ public class UmsController {
     @ResponseBody
     public CommonResult updateUser(@Validated @RequestBody UpdateUserParam userParam) {
         // 更新用户基本信息
-        if (!StrUtil.isEmpty(userParam.getUsername())) {
-            TabUser user = new TabUser();
-            user.setId(userParam.getUserId());
-            user.setUsername(userParam.getUsername());
-            user.setAvatar(userParam.getAvatar());
-            user.setDescription(userParam.getDescription());
-            userService.update(user);
-        }
+        TabUser user = new TabUser();
+        user.setId(userParam.getUserId());
+        user.setUsername(userParam.getUsername());
+        user.setAvatar(userParam.getAvatar());
+        user.setDescription(userParam.getDescription());
+        userService.update(user);
         if (!StrUtil.isEmpty(userParam.getNewPassword())) {
             int status = userService.updatePassword(userParam);
             if (status > 0) {
@@ -185,6 +183,10 @@ public class UmsController {
         if (StrUtil.isEmptyOrUndefined(url)) {
             return CommonResult.failed("上传失败");
         }
+        UpdateUserParam userParam = new UpdateUserParam();
+        userParam.setAvatar(url);
+        userParam.setUserId(Long.valueOf(authenticationFacade.getAuthentication().getName()));
+        updateUser(userParam);
         return CommonResult.success(url);
     }
 

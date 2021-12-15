@@ -12,6 +12,8 @@
         <result column="state" jdbcType="INTEGER" property="state"/>
         <association column="{userId=user_id}" property="user" javaType="com.pm.pmapi.dto.SimpleUserInfo"
                      select="com.pm.pmapi.dao.UserDao.selectSimpleUserByPrimaryKey"/>
+        <association column="{topicId=parent_id}" property="parentUser" javaType="com.pm.pmapi.dto.SimpleUserInfo"
+                     select="com.pm.pmapi.dao.UserDao.selectSimpleUserByRelatedTopic"/>
         <collection column="{parentId=id}" select="listChildrenByParentId" property="children"/>
     </resultMap>
     <select id="listChildrenByParentId" resultMap="BaseResultMap">

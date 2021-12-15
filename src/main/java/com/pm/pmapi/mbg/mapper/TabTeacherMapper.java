@@ -10,13 +10,21 @@ public interface TabTeacherMapper {
 
     int deleteByExample(TabTeacherExample example);
 
+    int deleteByPrimaryKey(Long teacherId);
+
     int insert(TabTeacher record);
 
     int insertSelective(TabTeacher record);
 
     List<TabTeacher> selectByExample(TabTeacherExample example);
 
+    TabTeacher selectByPrimaryKey(Long teacherId);
+
     int updateByExampleSelective(@Param("record") TabTeacher record, @Param("example") TabTeacherExample example);
 
     int updateByExample(@Param("record") TabTeacher record, @Param("example") TabTeacherExample example);
+
+    int updateByPrimaryKeySelective(TabTeacher record);
+
+    int updateByPrimaryKey(TabTeacher record);
 }

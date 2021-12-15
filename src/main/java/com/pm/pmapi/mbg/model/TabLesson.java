@@ -5,31 +5,41 @@ import java.io.Serializable;
 /**
  * @Description mbg自动生成tab_lesson表实体类
  *
- * @date 2021-12-15 08:43
+ * @date 2021-12-15 06:37
  */
 public class TabLesson implements Serializable {
-    private Long id;
+    private Long lessonId;
+
+    private String lessonNumber;
 
     private String lessonName;
 
-    private Integer credit;
+    private Long credit;
 
     private Long teacherId;
 
-    private String schoolId;
+    private Long schoolId;
 
-    private String semesterId;
+    private String semester;
 
     private Long score;
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
-        return id;
+    public Long getLessonId() {
+        return lessonId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setLessonId(Long lessonId) {
+        this.lessonId = lessonId;
+    }
+
+    public String getLessonNumber() {
+        return lessonNumber;
+    }
+
+    public void setLessonNumber(String lessonNumber) {
+        this.lessonNumber = lessonNumber;
     }
 
     public String getLessonName() {
@@ -40,11 +50,11 @@ public class TabLesson implements Serializable {
         this.lessonName = lessonName;
     }
 
-    public Integer getCredit() {
+    public Long getCredit() {
         return credit;
     }
 
-    public void setCredit(Integer credit) {
+    public void setCredit(Long credit) {
         this.credit = credit;
     }
 
@@ -56,20 +66,20 @@ public class TabLesson implements Serializable {
         this.teacherId = teacherId;
     }
 
-    public String getSchoolId() {
+    public Long getSchoolId() {
         return schoolId;
     }
 
-    public void setSchoolId(String schoolId) {
+    public void setSchoolId(Long schoolId) {
         this.schoolId = schoolId;
     }
 
-    public String getSemesterId() {
-        return semesterId;
+    public String getSemester() {
+        return semester;
     }
 
-    public void setSemesterId(String semesterId) {
-        this.semesterId = semesterId;
+    public void setSemester(String semester) {
+        this.semester = semester;
     }
 
     public Long getScore() {
@@ -86,12 +96,13 @@ public class TabLesson implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
+        sb.append(", lessonId=").append(lessonId);
+        sb.append(", lessonNumber=").append(lessonNumber);
         sb.append(", lessonName=").append(lessonName);
         sb.append(", credit=").append(credit);
         sb.append(", teacherId=").append(teacherId);
         sb.append(", schoolId=").append(schoolId);
-        sb.append(", semesterId=").append(semesterId);
+        sb.append(", semester=").append(semester);
         sb.append(", score=").append(score);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pm.pmapi.mbg.mapper.TabTeacherMapper">
-  <resultMap id="BaseResultMap" type="com.pm.pmapi.mbg.model.TabTeacher">
-    <id column="teacher_id" jdbcType="BIGINT" property="teacherId" />
-    <result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
-    <result column="school_id" jdbcType="BIGINT" property="schoolId" />
+<mapper namespace="com.pm.pmapi.mbg.mapper.TabSchoolMapper">
+  <resultMap id="BaseResultMap" type="com.pm.pmapi.mbg.model.TabSchool">
+    <id column="school_id" jdbcType="BIGINT" property="schoolId" />
+    <result column="school_name" jdbcType="VARCHAR" property="schoolName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,15 +64,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    teacher_id, teacher_name, school_id
+    school_id, school_name
   </sql>
-  <select id="selectByExample" parameterType="com.pm.pmapi.mbg.model.TabTeacherExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.pm.pmapi.mbg.model.TabSchoolExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from tab_teacher
+    from tab_school
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -84,67 +83,56 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from tab_teacher
-    where teacher_id = #{teacherId,jdbcType=BIGINT}
+    from tab_school
+    where school_id = #{schoolId,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from tab_teacher
-    where teacher_id = #{teacherId,jdbcType=BIGINT}
+    delete from tab_school
+    where school_id = #{schoolId,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.pm.pmapi.mbg.model.TabTeacherExample">
-    delete from tab_teacher
+  <delete id="deleteByExample" parameterType="com.pm.pmapi.mbg.model.TabSchoolExample">
+    delete from tab_school
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.pm.pmapi.mbg.model.TabTeacher">
-    insert into tab_teacher (teacher_id, teacher_name, school_id
-      )
-    values (#{teacherId,jdbcType=BIGINT}, #{teacherName,jdbcType=VARCHAR}, #{schoolId,jdbcType=BIGINT}
-      )
+  <insert id="insert" parameterType="com.pm.pmapi.mbg.model.TabSchool">
+    insert into tab_school (school_id, school_name)
+    values (#{schoolId,jdbcType=BIGINT}, #{schoolName,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.pm.pmapi.mbg.model.TabTeacher">
-    insert into tab_teacher
+  <insert id="insertSelective" parameterType="com.pm.pmapi.mbg.model.TabSchool">
+    insert into tab_school
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="teacherId != null">
-        teacher_id,
-      </if>
-      <if test="teacherName != null">
-        teacher_name,
-      </if>
       <if test="schoolId != null">
         school_id,
       </if>
+      <if test="schoolName != null">
+        school_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="teacherId != null">
-        #{teacherId,jdbcType=BIGINT},
-      </if>
-      <if test="teacherName != null">
-        #{teacherName,jdbcType=VARCHAR},
-      </if>
       <if test="schoolId != null">
         #{schoolId,jdbcType=BIGINT},
       </if>
+      <if test="schoolName != null">
+        #{schoolName,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.pm.pmapi.mbg.model.TabTeacherExample" resultType="java.lang.Long">
-    select count(*) from tab_teacher
+  <select id="countByExample" parameterType="com.pm.pmapi.mbg.model.TabSchoolExample" resultType="java.lang.Long">
+    select count(*) from tab_school
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update tab_teacher
+    update tab_school
     <set>
-      <if test="record.teacherId != null">
-        teacher_id = #{record.teacherId,jdbcType=BIGINT},
-      </if>
-      <if test="record.teacherName != null">
-        teacher_name = #{record.teacherName,jdbcType=VARCHAR},
-      </if>
       <if test="record.schoolId != null">
         school_id = #{record.schoolId,jdbcType=BIGINT},
+      </if>
+      <if test="record.schoolName != null">
+        school_name = #{record.schoolName,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -152,30 +140,25 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update tab_teacher
-    set teacher_id = #{record.teacherId,jdbcType=BIGINT},
-      teacher_name = #{record.teacherName,jdbcType=VARCHAR},
-      school_id = #{record.schoolId,jdbcType=BIGINT}
+    update tab_school
+    set school_id = #{record.schoolId,jdbcType=BIGINT},
+      school_name = #{record.schoolName,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pm.pmapi.mbg.model.TabTeacher">
-    update tab_teacher
+  <update id="updateByPrimaryKeySelective" parameterType="com.pm.pmapi.mbg.model.TabSchool">
+    update tab_school
     <set>
-      <if test="teacherName != null">
-        teacher_name = #{teacherName,jdbcType=VARCHAR},
-      </if>
-      <if test="schoolId != null">
-        school_id = #{schoolId,jdbcType=BIGINT},
+      <if test="schoolName != null">
+        school_name = #{schoolName,jdbcType=VARCHAR},
       </if>
     </set>
-    where teacher_id = #{teacherId,jdbcType=BIGINT}
+    where school_id = #{schoolId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.pm.pmapi.mbg.model.TabTeacher">
-    update tab_teacher
-    set teacher_name = #{teacherName,jdbcType=VARCHAR},
-      school_id = #{schoolId,jdbcType=BIGINT}
-    where teacher_id = #{teacherId,jdbcType=BIGINT}
+  <update id="updateByPrimaryKey" parameterType="com.pm.pmapi.mbg.model.TabSchool">
+    update tab_school
+    set school_name = #{schoolName,jdbcType=VARCHAR}
+    where school_id = #{schoolId,jdbcType=BIGINT}
   </update>
 </mapper>

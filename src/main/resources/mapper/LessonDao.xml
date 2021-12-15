@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pm.pmapi.dao.LessonDao">
+    <resultMap id="BaseResultMap" type="com.pm.pmapi.dto.LessonInfo">
+        <id column="id" jdbcType="BIGINT" property="lessonId"/>
+        <result column="lesson_number" jdbcType="VARCHAR" property="lessonNumber"/>
+        <result column="lesson_name" jdbcType="VARCHAR" property="lessonName"/>
+        <result column="school_id" jdbcType="BIGINT" property="schoolId"/>
+        <result column="credit" jdbcType="DOUBLE" property="credit"/>
+        <result column="teacher_id" jdbcType="BIGINT" property="teacherId"/>
+        <result column="semester" jdbcType="VARCHAR" property="semester"/>
+        <result column="score" jdbcType="DOUBLE" property="score"/>
+    </resultMap>
+    <select id="getLessonByLessonId" resultMap="BaseResultMap">
+        select lesson_id, lesson_number, school_id, credit, teacher_id, semester, score
+        from tab_lesson where lesson_id=#{lessonId}
+    </select>
+</mapper>

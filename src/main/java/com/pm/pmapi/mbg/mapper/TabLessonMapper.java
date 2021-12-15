@@ -10,7 +10,7 @@ public interface TabLessonMapper {
 
     int deleteByExample(TabLessonExample example);
 
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Long lessonId);
 
     int insert(TabLesson record);
 
@@ -18,7 +18,7 @@ public interface TabLessonMapper {
 
     List<TabLesson> selectByExample(TabLessonExample example);
 
-    TabLesson selectByPrimaryKey(Long id);
+    TabLesson selectByPrimaryKey(Long lessonId);
 
     int updateByExampleSelective(@Param("record") TabLesson record, @Param("example") TabLessonExample example);
 
