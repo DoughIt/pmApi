@@ -2,8 +2,11 @@ package com.pm.pmapi.controller;
 
 
 import com.pm.pmapi.common.api.CommonResult;
+import com.pm.pmapi.service.LessonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import com.pm.pmapi.component.IAuthenticationFacade;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
@@ -18,15 +21,19 @@ import java.util.ArrayList;
 @RequestMapping("/api/lms")
 public class LmsController {
 
+    @Autowired
+    private LessonService lessonService;
+
+    @Autowired
+    private IAuthenticationFacade authenticationFacade;
 
     /**
      * 获取课程信息
      */
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<Object> getInfo(@RequestParam(value = "lessonId") String lessonId) {
-        // TODO 创建课程dto作为返回类型
-        return CommonResult.validateFailed("课程编号不存在！");
+    public CommonResult<Object> getInfo(@RequestParam(value = "lessonId") Long lessonId) {
+        return CommonResult.success(lessonService.getLessonByLessonId(lessonId));
     }
 
 
