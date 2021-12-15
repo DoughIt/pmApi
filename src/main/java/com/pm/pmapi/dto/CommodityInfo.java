@@ -39,7 +39,7 @@ public class CommodityInfo{
 
     private String coverPercentage;
 
-    private String imageId;
+    private String imageUrl;
 
     private String content;
 
@@ -49,9 +49,13 @@ public class CommodityInfo{
 
     private String singlePrintChinese;
 
+    private Boolean isFavorite;
+
+    private Integer dealMethod;
+
     private Long commodityId;
 
-    private Integer chapters;
+    private String chapters;
 
     private String paperSize;
 
@@ -63,11 +67,32 @@ public class CommodityInfo{
 
     private Date modifyTime;
 
-    private Boolean isFavorite;
-
-    private byte[] picture;
-
-
-    SimpleUserInfo seller;
-    TabLesson lesson;
+    @Override
+    public String toString() {
+        return "CommodityInfo{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lessonId='" + lessonId + '\'' +
+                ", teacherId=" + teacherId +
+                ", sellerId=" + sellerId +
+                ", type=" + type +
+                ", author='" + author + '\'' +
+                ", publisher='" + publisher + '\'' +
+                ", coverPercentage='" + coverPercentage + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", content='" + content + '\'' +
+                ", price=" + price +
+                ", singlePrint=" + singlePrint +
+                ", singlePrintChinese='" + singlePrintChinese + '\'' +
+                ", isFavorite=" + isFavorite +
+                ", dealMethod=" + dealMethod +
+                ", commodityId=" + commodityId +
+                ", chapters=" + chapters +
+                ", paperSize='" + paperSize + '\'' +
+                ", newDegree='" + newDegree + '\'' +
+                ", unit='" + unit + '\'' +
+                ", createTime=" + createTime +
+                ", modifyTime=" + modifyTime +
+                '}';
+    }
 }

@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * @Description mbg自动生成tab_commodity表实体类
  *
- * @date 2021-12-14 10:19
+ * @date 2021-12-15 06:18
  */
 public class TabCommodity implements Serializable {
     /**
@@ -32,7 +32,7 @@ public class TabCommodity implements Serializable {
 
     private String coverPercentage;
 
-    private String imageId;
+    private String imageUrl;
 
     private String content;
 
@@ -55,8 +55,6 @@ public class TabCommodity implements Serializable {
     private Date createTime;
 
     private Date modifyTime;
-
-    private byte[] picture;
 
     private static final long serialVersionUID = 1L;
 
@@ -132,12 +130,12 @@ public class TabCommodity implements Serializable {
         this.coverPercentage = coverPercentage;
     }
 
-    public String getImageId() {
-        return imageId;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImageId(String imageId) {
-        this.imageId = imageId;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getContent() {
@@ -228,14 +226,6 @@ public class TabCommodity implements Serializable {
         this.modifyTime = modifyTime;
     }
 
-    public byte[] getPicture() {
-        return picture;
-    }
-
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -251,7 +241,7 @@ public class TabCommodity implements Serializable {
         sb.append(", author=").append(author);
         sb.append(", publisher=").append(publisher);
         sb.append(", coverPercentage=").append(coverPercentage);
-        sb.append(", imageId=").append(imageId);
+        sb.append(", imageUrl=").append(imageUrl);
         sb.append(", content=").append(content);
         sb.append(", price=").append(price);
         sb.append(", singlePrint=").append(singlePrint);
@@ -263,7 +253,6 @@ public class TabCommodity implements Serializable {
         sb.append(", unit=").append(unit);
         sb.append(", createTime=").append(createTime);
         sb.append(", modifyTime=").append(modifyTime);
-        sb.append(", picture=").append(picture);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

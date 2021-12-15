@@ -37,7 +37,7 @@ public class CommodityParam{
 
     private String coverPercentage;
 
-    private String imageId;
+    private String imageUrl;
 
     private String content;
 
@@ -49,13 +49,11 @@ public class CommodityParam{
 
     private Long commodityId;
 
-    private Integer chapters;
+    private String chapters;
 
     private String paperSize;
 
     private String newDegree;
 
     private String unit;
-
-    private byte[] picture;
 }

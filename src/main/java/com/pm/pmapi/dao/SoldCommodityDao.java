@@ -16,11 +16,14 @@ public interface SoldCommodityDao {
 
     List<CommodityInfo> listCommoditiesBySellerIdAndLessonIdAndType(@Param("sellerId") Long sellerId, @Param("lessonId") String lessonId, @Param("type") Integer type);
 
-    List<CommodityInfo> listCommoditiesByLessonId(@Param("lessonId") String lessonId);
+    List<CommodityInfo> listCommoditiesBySellerIdAndLessonId(@Param("sellerId") Long sellerId, @Param("lessonId") String lessonId);
 
     List<CommodityInfo> listCommoditiesBySellerId(@Param("sellerId") Long sellerId);
 
-    List<CommodityInfo> listCommoditiesBySellerIdAndLessonId(@Param("sellerId") Long sellerId, @Param("lessonId") String lessonId);
+
+    List<CommodityInfo> listCommoditiesByLessonId(@Param("lessonId") String lessonId);
+
+
 
 
 }

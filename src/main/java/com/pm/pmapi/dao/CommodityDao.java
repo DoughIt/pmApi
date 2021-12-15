@@ -2,11 +2,14 @@ package com.pm.pmapi.dao;
 
 import com.pm.pmapi.dto.CommodityInfo;
 import com.pm.pmapi.dto.CommodityParam;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-
+@Mapper
 public interface CommodityDao {
+
+    List<CommodityInfo> listCommodities();
 
     List<CommodityInfo> listCommoditiesByType(@Param("type") Integer type);
 
@@ -25,8 +28,8 @@ public interface CommodityDao {
 
     List<CommodityInfo> listCommoditiesByLessonId(@Param("lessonId") String lessonId);
 
-    List<CommodityInfo> listCommoditiesByType(@Param("type") Long type);
 
-    List<CommodityInfo> listCommoditiesByTypeAndKey(@Param("type") Long type, String key);
+    //使用时两边加入%%
+    List<CommodityInfo> listCommoditiesByTypeAndKey(@Param("type") Integer type, @Param("key") String key);
 
 }

@@ -58,12 +58,12 @@ public class CommodityServiceImpl implements CommodityService {
         CommodityInfo commodityInfoToReturn = new CommodityInfo();
         if (null != commodityDao.getCommodityById(id)){
             commodityInfoToReturn = commodityDao.getCommodityById(id);
-            commodityInfoToReturn.setSeller(userDao.selectSimpleUserByPrimaryKey(commodityInfoToReturn.getSellerId()));
+//            commodityInfoToReturn.setSeller(userDao.selectSimpleUserByPrimaryKey(commodityInfoToReturn.getSellerId()));
             // TODO: 课程
             return commodityInfoToReturn;
         }else if (null != commodityMapper.selectByPrimaryKey(id)){
             BeanUtils.copyProperties(commodityMapper.selectByPrimaryKey(id),commodityInfoToReturn);
-            commodityInfoToReturn.setSeller(userDao.selectSimpleUserByPrimaryKey(commodityMapper.selectByPrimaryKey(id).getSellerId()));
+//            commodityInfoToReturn.setSeller(userDao.selectSimpleUserByPrimaryKey(commodityMapper.selectByPrimaryKey(id).getSellerId()));
             // TODO: 课程
             return commodityInfoToReturn;
         }else{
@@ -73,7 +73,7 @@ public class CommodityServiceImpl implements CommodityService {
             List<TabSoldCommodity> list = soldCommodityMapper.selectByExample(example);
             if (list.size() > 0){
                 BeanUtils.copyProperties(list.get(0),commodityInfoToReturn);
-                commodityInfoToReturn.setSeller(userDao.selectSimpleUserByPrimaryKey(list.get(0).getSellerId()));
+//                commodityInfoToReturn.setSeller(userDao.selectSimpleUserByPrimaryKey(list.get(0).getSellerId()));
                 // TODO: 课程
                 return commodityInfoToReturn;
             }else{
@@ -91,7 +91,7 @@ public class CommodityServiceImpl implements CommodityService {
         SimpleUserInfo simpleUserInfo = userDao.selectSimpleUserByPrimaryKey(userId);
         CommodityInfo info = new CommodityInfo();
         BeanUtils.copyProperties(commodityMapper.selectByPrimaryKey(commodity.getId()), info);
-        info.setSeller(simpleUserInfo);
+//        info.setSeller(simpleUserInfo);
         return info;
     }
 
@@ -107,7 +107,7 @@ public class CommodityServiceImpl implements CommodityService {
         for (TabCommodity commodity : commodities) {
             CommodityInfo tmp = new CommodityInfo();
             BeanUtils.copyProperties(commodity, tmp);
-            tmp.setSeller(userDao.selectSimpleUserByPrimaryKey(commodity.getSellerId()));
+//            tmp.setSeller(userDao.selectSimpleUserByPrimaryKey(commodity.getSellerId()));
             // TODO: 课程
             commodityInfos.add(tmp);
 
@@ -117,12 +117,8 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public List<CommodityInfo> listCommoditiesByType(Long userId, Integer type, Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<CommodityInfo> list = commodityDao.listCommoditiesByType((long) type);
-        for (CommodityInfo commodityInfo : list) {
-            commodityInfo.setSeller(userDao.selectSimpleUserByPrimaryKey(commodityInfo.getSellerId()));
-            // TODO: 课程
-        }
+        List<CommodityInfo> list = commodityDao.listCommoditiesByType(type);
+        append(userId, list);
         return list;
     }
 
@@ -281,13 +277,14 @@ public class CommodityServiceImpl implements CommodityService {
 
     private List<CommodityInfo> append(Long userId, List<CommodityInfo> tabCommodities){
         for (CommodityInfo tabCommodity : tabCommodities) {
-            tabCommodity.setSeller(userDao.selectSimpleUserByPrimaryKey(tabCommodity.getSellerId()));
+            Long id = tabCommodity.getSellerId();
+//            tabCommodity.setSeller(userDao.selectSimpleUserByPrimaryKey(id));
             tabCommodity.setSinglePrintChinese(tabCommodity.getSinglePrint() ? "是" : "否");
             tabCommodity.setSinglePrint(null);
             if ("".equals(tabCommodity.getAuthor())) tabCommodity.setAuthor(null);
             if ("".equals(tabCommodity.getPublisher())) tabCommodity.setPublisher(null);
             if ("".equals(tabCommodity.getCoverPercentage())) tabCommodity.setCoverPercentage(null);
-            if ("".equals(tabCommodity.getImageId())) tabCommodity.setImageId(null);
+            if ("".equals(tabCommodity.getImageUrl())) tabCommodity.setImageUrl(null);
             if ("".equals(tabCommodity.getContent())) tabCommodity.setContent(null);
             if ("".equals(tabCommodity.getPaperSize())) tabCommodity.setPaperSize(null);
             if ("".equals(tabCommodity.getNewDegree())) tabCommodity.setNewDegree(null);

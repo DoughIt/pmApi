@@ -32,6 +32,6 @@
         select * from tab_topic where user_id=#{userId}
     </select>
     <select id="getTopicInfoById" resultMap="BaseResultMap">
-        select * from tap_topic where id=#{id}
+        select * from tab_topic where id=#{id}
     </select>
 </mapper>

@@ -44,7 +44,6 @@ CREATE TABLE `tab_commodity`
     `author`           varchar(100)    DEFAULT NULL,
     `publisher`        varchar(100)    DEFAULT NULL,
     `cover_percentage` varchar(100)    DEFAULT NULL,
-    `image_id`         varchar(100)    DEFAULT NULL,
     `content`          varchar(100)    DEFAULT NULL,
     `price`            double          DEFAULT NULL,
     `single_print`     tinyint(1)      DEFAULT NULL,
@@ -56,7 +55,7 @@ CREATE TABLE `tab_commodity`
     `unit`             varchar(100)    DEFAULT NULL,
     `create_time`      datetime        DEFAULT CURRENT_TIMESTAMP,
     `modify_time`      datetime        DEFAULT CURRENT_TIMESTAMP,
-    `picture`          blob,
+    `image_url`        varchar(100)    DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;

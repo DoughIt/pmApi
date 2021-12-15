@@ -8,7 +8,7 @@
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="issue_time" jdbcType="TIMESTAMP" property="issueTime" />
     <result column="read_time" jdbcType="TIMESTAMP" property="readTime" />
-    <result column="read" jdbcType="BIT" property="read" />
+    <result column="read_status" jdbcType="BIT" property="readStatus" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, sender_id, receiver_id, content, issue_time, read_time, read
+    id, sender_id, receiver_id, content, issue_time, read_time, read_status
   </sql>
   <select id="selectByExample" parameterType="com.pm.pmapi.mbg.model.TabMessageExample" resultMap="BaseResultMap">
     select
@@ -106,10 +106,10 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into tab_message (sender_id, receiver_id, content, 
-      issue_time, read_time, read
+      issue_time, read_time, read_status
       )
     values (#{senderId,jdbcType=BIGINT}, #{receiverId,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, 
-      #{issueTime,jdbcType=TIMESTAMP}, #{readTime,jdbcType=TIMESTAMP}, #{read,jdbcType=BIT}
+      #{issueTime,jdbcType=TIMESTAMP}, #{readTime,jdbcType=TIMESTAMP}, #{readStatus,jdbcType=BIT}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pm.pmapi.mbg.model.TabMessage">
@@ -133,8 +133,8 @@
       <if test="readTime != null">
         read_time,
       </if>
-      <if test="read != null">
-        read,
+      <if test="readStatus != null">
+        read_status,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -153,8 +153,8 @@
       <if test="readTime != null">
         #{readTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="read != null">
-        #{read,jdbcType=BIT},
+      <if test="readStatus != null">
+        #{readStatus,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -185,8 +185,8 @@
       <if test="record.readTime != null">
         read_time = #{record.readTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.read != null">
-        read = #{record.read,jdbcType=BIT},
+      <if test="record.readStatus != null">
+        read_status = #{record.readStatus,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -201,7 +201,7 @@
       content = #{record.content,jdbcType=VARCHAR},
       issue_time = #{record.issueTime,jdbcType=TIMESTAMP},
       read_time = #{record.readTime,jdbcType=TIMESTAMP},
-      read = #{record.read,jdbcType=BIT}
+      read_status = #{record.readStatus,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -224,8 +224,8 @@
       <if test="readTime != null">
         read_time = #{readTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="read != null">
-        read = #{read,jdbcType=BIT},
+      <if test="readStatus != null">
+        read_status = #{readStatus,jdbcType=BIT},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -237,7 +237,7 @@
       content = #{content,jdbcType=VARCHAR},
       issue_time = #{issueTime,jdbcType=TIMESTAMP},
       read_time = #{readTime,jdbcType=TIMESTAMP},
-      read = #{read,jdbcType=BIT}
+      read_status = #{readStatus,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

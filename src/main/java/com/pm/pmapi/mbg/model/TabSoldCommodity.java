@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * @Description mbg自动生成tab_sold_commodity表实体类
  *
- * @date 2021-12-14 10:19
+ * @date 2021-12-15 06:18
  */
 public class TabSoldCommodity implements Serializable {
     private Long soldId;
@@ -27,7 +27,7 @@ public class TabSoldCommodity implements Serializable {
 
     private String coverPercentage;
 
-    private String imageId;
+    private String imageUrl;
 
     private String content;
 
@@ -52,8 +52,6 @@ public class TabSoldCommodity implements Serializable {
     private Date modifyTime;
 
     private Long id;
-
-    private byte[] picture;
 
     private static final long serialVersionUID = 1L;
 
@@ -129,12 +127,12 @@ public class TabSoldCommodity implements Serializable {
         this.coverPercentage = coverPercentage;
     }
 
-    public String getImageId() {
-        return imageId;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImageId(String imageId) {
-        this.imageId = imageId;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getContent() {
@@ -233,14 +231,6 @@ public class TabSoldCommodity implements Serializable {
         this.id = id;
     }
 
-    public byte[] getPicture() {
-        return picture;
-    }
-
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -256,7 +246,7 @@ public class TabSoldCommodity implements Serializable {
         sb.append(", author=").append(author);
         sb.append(", publisher=").append(publisher);
         sb.append(", coverPercentage=").append(coverPercentage);
-        sb.append(", imageId=").append(imageId);
+        sb.append(", imageUrl=").append(imageUrl);
         sb.append(", content=").append(content);
         sb.append(", price=").append(price);
         sb.append(", singlePrint=").append(singlePrint);
@@ -269,7 +259,6 @@ public class TabSoldCommodity implements Serializable {
         sb.append(", createTime=").append(createTime);
         sb.append(", modifyTime=").append(modifyTime);
         sb.append(", id=").append(id);
-        sb.append(", picture=").append(picture);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

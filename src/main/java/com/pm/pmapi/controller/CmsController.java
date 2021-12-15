@@ -1,6 +1,9 @@
 package com.pm.pmapi.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.pm.pmapi.common.api.CommonResult;
+import com.pm.pmapi.common.utils.FormDataUtil;
+import com.pm.pmapi.common.utils.UploadUtil;
 import com.pm.pmapi.component.IAuthenticationFacade;
 import com.pm.pmapi.dto.CommodityInfo;
 import com.pm.pmapi.dto.CommodityParam;
@@ -8,9 +11,13 @@ import com.pm.pmapi.service.impl.CommodityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: pmApi
@@ -27,6 +34,8 @@ public class CmsController {
     @Autowired
     private IAuthenticationFacade authenticationFacade;
 
+    UploadUtil uploadUtil = new UploadUtil();
+    FormDataUtil formDataUtil = new FormDataUtil();
     /**
      * 获取PPT信息
      */
@@ -77,19 +86,73 @@ public class CmsController {
 
     @RequestMapping(value = "/ppt", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<Object> addPPT(@RequestBody CommodityParam commodityParam) {
+    public CommonResult<Object> addPPT(@RequestParam("picture")MultipartFile file, @RequestParam("lessonId") String lessonId, @RequestParam("chapters") String chapters, @RequestParam("paperSize") String paperSize,
+                                       @RequestParam("singlePrint") boolean singlePrint, @RequestParam("newDegree") String newDegree, @RequestParam("price") Double price, @RequestParam("content") String content) {
+        if (null == file || file.isEmpty()){
+            return CommonResult.failed("请选择图片");
+        }
+        String url = uploadUtil.uploadFile(file,null);
+        if (StrUtil.isEmptyOrUndefined(url)){
+            return CommonResult.failed("上传失败");
+        }
+        Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
+        CommodityParam commodityParam = new CommodityParam();
+        commodityParam.setImageUrl(url);
+        commodityParam.setSellerId(userId);
+        commodityParam.setLessonId(lessonId);
+        commodityParam.setSinglePrint(singlePrint);
+        commodityParam.setNewDegree(newDegree);
+        commodityParam.setPaperSize(paperSize);
+        commodityParam.setPrice(price);
+        commodityParam.setContent(content);
+        commodityParam.setChapters(chapters);
         return CommonResult.success(commodityService.createCommodity(Long.parseLong(authenticationFacade.getAuthentication().getName()), 1, commodityParam));
     }
 
     @RequestMapping(value = "/book", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<Object> addBooks(@RequestBody CommodityParam commodityParam) {
+    public CommonResult<Object> addBooks(@RequestParam("picture")MultipartFile file, @RequestParam("lessonId") String lessonId, @RequestParam("name") String name, @RequestParam("author") String author,
+                                         @RequestParam("publisher") String publisher, @RequestParam("newDegree") String newDegree, @RequestParam("price") Double price, @RequestParam("content") String content) {
+        if (null == file || file.isEmpty()){
+            return CommonResult.failed("请选择图片");
+        }
+        String url = uploadUtil.uploadFile(file,null);
+        if (StrUtil.isEmptyOrUndefined(url)){
+            return CommonResult.failed("上传失败");
+        }
+        Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
+        CommodityParam commodityParam = new CommodityParam();
+        commodityParam.setImageUrl(url);
+        commodityParam.setSellerId(userId);
+        commodityParam.setLessonId(lessonId);
+        commodityParam.setName(name);
+        commodityParam.setAuthor(author);
+        commodityParam.setContent(content);
+        commodityParam.setPublisher(publisher);
+        commodityParam.setNewDegree(newDegree);
+        commodityParam.setPrice(price);
         return CommonResult.success(commodityService.createCommodity(Long.parseLong(authenticationFacade.getAuthentication().getName()), 2, commodityParam));
     }
 
     @RequestMapping(value = "/notes", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<Object> addNotes(@RequestBody CommodityParam commodityParam) {
+    public CommonResult<Object> addNotes(@RequestParam("picture")MultipartFile file, @RequestParam("lessonId") String lessonId, @RequestParam("coverPercentage") String coverPercentage,
+                                         @RequestParam("price") Double price, @RequestParam("content") String content) {
+        if (null == file || file.isEmpty()){
+            return CommonResult.failed("请选择图片");
+        }
+        String url = uploadUtil.uploadFile(file,null);
+        if (StrUtil.isEmptyOrUndefined(url)){
+            return CommonResult.failed("上传失败");
+        }
+        Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
+        CommodityParam commodityParam = new CommodityParam();
+        commodityParam.setImageUrl(url);
+        commodityParam.setSellerId(userId);
+        commodityParam.setLessonId(lessonId);
+        commodityParam.setPrice(price);
+        commodityParam.setContent(content);
+        commodityParam.setCoverPercentage(coverPercentage);
         return CommonResult.success(commodityService.createCommodity(Long.parseLong(authenticationFacade.getAuthentication().getName()), 3, commodityParam));
     }
 
