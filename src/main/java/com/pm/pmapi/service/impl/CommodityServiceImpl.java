@@ -60,26 +60,24 @@ public class CommodityServiceImpl implements CommodityService {
             commodityInfoToReturn = commodityDao.getCommodityById(id);
 //            commodityInfoToReturn.setSeller(userDao.selectSimpleUserByPrimaryKey(commodityInfoToReturn.getSellerId()));
             // TODO: 课程
-            return commodityInfoToReturn;
         }else if (null != commodityMapper.selectByPrimaryKey(id)){
             BeanUtils.copyProperties(commodityMapper.selectByPrimaryKey(id),commodityInfoToReturn);
 //            commodityInfoToReturn.setSeller(userDao.selectSimpleUserByPrimaryKey(commodityMapper.selectByPrimaryKey(id).getSellerId()));
             // TODO: 课程
-            return commodityInfoToReturn;
         }else{
             TabSoldCommodityExample example = new TabSoldCommodityExample();
             TabSoldCommodityExample.Criteria criteria = example.createCriteria();
             criteria.andIdEqualTo(id);
             List<TabSoldCommodity> list = soldCommodityMapper.selectByExample(example);
-            if (list.size() > 0){
+            if (list.isEmpty()){
                 BeanUtils.copyProperties(list.get(0),commodityInfoToReturn);
-//                commodityInfoToReturn.setSeller(userDao.selectSimpleUserByPrimaryKey(list.get(0).getSellerId()));
-                // TODO: 课程
-                return commodityInfoToReturn;
-            }else{
-                return null;
             }
         }
+        if (null == commodityInfoToReturn) return null;
+        ArrayList<CommodityInfo> infos = new ArrayList<>();
+        infos.add(commodityInfoToReturn);
+        append(userId, infos);
+        return infos.get(0);
     }
 
     @Override

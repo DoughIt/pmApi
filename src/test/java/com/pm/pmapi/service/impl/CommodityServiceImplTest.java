@@ -55,6 +55,10 @@ class CommodityServiceImplTest {
             System.out.println(commodityInfo);
         }
     }
+    @Test
+    void getSoldCommodityById() {
+        System.out.println(commodityService.getCommodityById(1L, 23L));
+    }
 
     @Test
     void getSoldCommodityByUserId() {
