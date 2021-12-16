@@ -282,7 +282,7 @@ public class CommodityServiceImpl implements CommodityService {
             if ("".equals(tabCommodity.getAuthor())) tabCommodity.setAuthor(null);
             if ("".equals(tabCommodity.getPublisher())) tabCommodity.setPublisher(null);
             if ("".equals(tabCommodity.getCoverPercentage())) tabCommodity.setCoverPercentage(null);
-            if ("".equals(tabCommodity.getImageUrl())) tabCommodity.setImageUrl(null);
+            if ("".equals(tabCommodity.getFilename())) tabCommodity.setFilename(null);
             if ("".equals(tabCommodity.getContent())) tabCommodity.setContent(null);
             if ("".equals(tabCommodity.getPaperSize())) tabCommodity.setPaperSize(null);
             if ("".equals(tabCommodity.getNewDegree())) tabCommodity.setNewDegree(null);
@@ -294,7 +294,6 @@ public class CommodityServiceImpl implements CommodityService {
             }else{
                 tabCommodity.setIsFavorite(true);
             }
-            // TODO: 课程
         }
         return tabCommodities;
     }
