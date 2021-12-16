@@ -11,7 +11,7 @@
         <result column="author" jdbcType="VARCHAR" property="author" />
         <result column="publisher" jdbcType="VARCHAR" property="publisher" />
         <result column="cover_percentage" jdbcType="VARCHAR" property="coverPercentage" />
-        <result column="image_url" jdbcType="VARCHAR" property="imageUrl" />
+        <result column="filename" jdbcType="VARCHAR" property="filename" />
         <result column="content" jdbcType="VARCHAR" property="content" />
         <result column="price" jdbcType="DOUBLE" property="price" />
         <result column="single_print" jdbcType="BIT" property="singlePrint" />

@@ -11,7 +11,7 @@
     <result column="author" jdbcType="VARCHAR" property="author" />
     <result column="publisher" jdbcType="VARCHAR" property="publisher" />
     <result column="cover_percentage" jdbcType="VARCHAR" property="coverPercentage" />
-    <result column="image_url" jdbcType="VARCHAR" property="imageUrl" />
+    <result column="filename" jdbcType="VARCHAR" property="filename" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="price" jdbcType="DOUBLE" property="price" />
     <result column="single_print" jdbcType="BIT" property="singlePrint" />
@@ -84,7 +84,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, name, lesson_id, teacher_id, seller_id, type, author, publisher, cover_percentage, 
-    image_url, content, price, single_print, deal_method, commodity_id, chapters, paper_size, 
+    filename, content, price, single_print, deal_method, commodity_id, chapters, paper_size, 
     new_degree, unit, create_time, modify_time
   </sql>
   <select id="selectByExample" parameterType="com.pm.pmapi.mbg.model.TabCommodityExample" resultMap="BaseResultMap">
@@ -123,14 +123,14 @@
     </selectKey>
     insert into tab_commodity (name, lesson_id, teacher_id, 
       seller_id, type, author, 
-      publisher, cover_percentage, image_url, 
+      publisher, cover_percentage, filename, 
       content, price, single_print, 
       deal_method, commodity_id, chapters, 
       paper_size, new_degree, unit, 
       create_time, modify_time)
     values (#{name,jdbcType=VARCHAR}, #{lessonId,jdbcType=VARCHAR}, #{teacherId,jdbcType=BIGINT}, 
       #{sellerId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{author,jdbcType=VARCHAR}, 
-      #{publisher,jdbcType=VARCHAR}, #{coverPercentage,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR}, 
+      #{publisher,jdbcType=VARCHAR}, #{coverPercentage,jdbcType=VARCHAR}, #{filename,jdbcType=VARCHAR}, 
       #{content,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{singlePrint,jdbcType=BIT}, 
       #{dealMethod,jdbcType=INTEGER}, #{commodityId,jdbcType=BIGINT}, #{chapters,jdbcType=VARCHAR}, 
       #{paperSize,jdbcType=VARCHAR}, #{newDegree,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
@@ -166,8 +166,8 @@
       <if test="coverPercentage != null">
         cover_percentage,
       </if>
-      <if test="imageUrl != null">
-        image_url,
+      <if test="filename != null">
+        filename,
       </if>
       <if test="content != null">
         content,
@@ -228,8 +228,8 @@
       <if test="coverPercentage != null">
         #{coverPercentage,jdbcType=VARCHAR},
       </if>
-      <if test="imageUrl != null">
-        #{imageUrl,jdbcType=VARCHAR},
+      <if test="filename != null">
+        #{filename,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
@@ -302,8 +302,8 @@
       <if test="record.coverPercentage != null">
         cover_percentage = #{record.coverPercentage,jdbcType=VARCHAR},
       </if>
-      <if test="record.imageUrl != null">
-        image_url = #{record.imageUrl,jdbcType=VARCHAR},
+      <if test="record.filename != null">
+        filename = #{record.filename,jdbcType=VARCHAR},
       </if>
       <if test="record.content != null">
         content = #{record.content,jdbcType=VARCHAR},
@@ -354,7 +354,7 @@
       author = #{record.author,jdbcType=VARCHAR},
       publisher = #{record.publisher,jdbcType=VARCHAR},
       cover_percentage = #{record.coverPercentage,jdbcType=VARCHAR},
-      image_url = #{record.imageUrl,jdbcType=VARCHAR},
+      filename = #{record.filename,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
       price = #{record.price,jdbcType=DOUBLE},
       single_print = #{record.singlePrint,jdbcType=BIT},
@@ -397,8 +397,8 @@
       <if test="coverPercentage != null">
         cover_percentage = #{coverPercentage,jdbcType=VARCHAR},
       </if>
-      <if test="imageUrl != null">
-        image_url = #{imageUrl,jdbcType=VARCHAR},
+      <if test="filename != null">
+        filename = #{filename,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
@@ -446,7 +446,7 @@
       author = #{author,jdbcType=VARCHAR},
       publisher = #{publisher,jdbcType=VARCHAR},
       cover_percentage = #{coverPercentage,jdbcType=VARCHAR},
-      image_url = #{imageUrl,jdbcType=VARCHAR},
+      filename = #{filename,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       price = #{price,jdbcType=DOUBLE},
       single_print = #{singlePrint,jdbcType=BIT},

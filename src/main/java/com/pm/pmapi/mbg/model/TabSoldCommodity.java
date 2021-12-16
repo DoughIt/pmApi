@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * @Description mbg自动生成tab_sold_commodity表实体类
  *
- * @date 2021-12-15 08:43
+ * @date 2021-12-16 02:55
  */
 public class TabSoldCommodity implements Serializable {
     private Long soldId;
@@ -27,7 +27,7 @@ public class TabSoldCommodity implements Serializable {
 
     private String coverPercentage;
 
-    private String imageUrl;
+    private String filename;
 
     private String content;
 
@@ -127,12 +127,12 @@ public class TabSoldCommodity implements Serializable {
         this.coverPercentage = coverPercentage;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getFilename() {
+        return filename;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
     public String getContent() {
@@ -246,7 +246,7 @@ public class TabSoldCommodity implements Serializable {
         sb.append(", author=").append(author);
         sb.append(", publisher=").append(publisher);
         sb.append(", coverPercentage=").append(coverPercentage);
-        sb.append(", imageUrl=").append(imageUrl);
+        sb.append(", filename=").append(filename);
         sb.append(", content=").append(content);
         sb.append(", price=").append(price);
         sb.append(", singlePrint=").append(singlePrint);
