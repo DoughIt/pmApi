@@ -37,7 +37,7 @@ public class CommodityParam{
 
     private String coverPercentage;
 
-    private String imageUrl;
+    private String filename;
 
     private String content;
 

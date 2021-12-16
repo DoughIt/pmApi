@@ -39,7 +39,7 @@ public class CommodityInfo{
 
     private String coverPercentage;
 
-    private String imageUrl;
+    private String filename;
 
     private String content;
 
@@ -79,7 +79,7 @@ public class CommodityInfo{
                 ", author='" + author + '\'' +
                 ", publisher='" + publisher + '\'' +
                 ", coverPercentage='" + coverPercentage + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
+                ", filename='" + filename + '\'' +
                 ", content='" + content + '\'' +
                 ", price=" + price +
                 ", singlePrint=" + singlePrint +
@@ -87,7 +87,7 @@ public class CommodityInfo{
                 ", isFavorite=" + isFavorite +
                 ", dealMethod=" + dealMethod +
                 ", commodityId=" + commodityId +
-                ", chapters=" + chapters +
+                ", chapters='" + chapters + '\'' +
                 ", paperSize='" + paperSize + '\'' +
                 ", newDegree='" + newDegree + '\'' +
                 ", unit='" + unit + '\'' +
