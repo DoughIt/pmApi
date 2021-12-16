@@ -88,6 +88,7 @@ secure:
       - /api/ums/register
       - /api/ums/logout
       - /api/ums/authCode
+      - /api/oss/callback
 
 
 # redis配置
@@ -106,3 +107,18 @@ management:
 # 上传文件保存路径
 upload:
   path: classpath:/upload/
+
+# OSS相关配置
+aliyun:
+  oss:
+    url: https://doughit.oss-cn-shanghai.aliyuncs.com
+    endpoint: oss-cn-shanghai.aliyuncs.com # oss 对外服务访问域名
+    accessKeyId: LTAI5tKsHPRmnmM38sg94M55
+    accessKeySecret: in24GCeUYiN1aMEqdfqhThtVBN2XRs
+    bucketName: doughit
+    policy:
+      expire: 300
+    maxSize: 10
+    callback: https://bbs.fitymistudio.cn/api/oss/callback
+    dir:
+      prefix: bbs/images/

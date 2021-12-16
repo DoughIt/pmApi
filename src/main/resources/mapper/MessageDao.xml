@@ -8,10 +8,16 @@
                      select="com.pm.pmapi.mbg.mapper.TabMessageMapper.selectByPrimaryKey"/>
     </resultMap>
     <select id="listMessageSummariesByUserId" resultMap="BaseResultMap">
-        select m.id message_id,
-            (case when m.sender_id=#{userId} then m.receiver_id
-            else m.sender_id
-            end ) op_id
-        from tab_message m where sender_id=#{userId} or receiver_id=#{userId}
+        select any_value(a.message_id) message_id, op_id
+        from (select m.id     message_id,
+                     (case
+                          when m.sender_id = #{userId} then m.receiver_id
+                          else m.sender_id
+                         end) op_id
+              from tab_message m
+              where sender_id = #{userId}
+                 or receiver_id = #{userId}
+              order by m.issue_time desc limit 999) a
+        group by a.op_id
     </select>
 </mapper>

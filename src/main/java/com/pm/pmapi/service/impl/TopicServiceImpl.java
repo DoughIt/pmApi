@@ -30,10 +30,6 @@ public class TopicServiceImpl implements TopicService {
     private TopicDao topicDao;
     @Autowired
     private TabTopicMapper topicMapper;
-    @Autowired
-    private TabUserMapper userMapper;
-    @Autowired
-    private UserDao userDao;
 
     /**
      * 获取所有回帖
@@ -103,11 +99,6 @@ public class TopicServiceImpl implements TopicService {
         topic.setParentId(topicParam.getTopicId());
         topic.setUserId(userId);
         topicMapper.insert(topic);
-        SimpleUserInfo userInfo = userDao.selectSimpleUserByPrimaryKey(userId);
-        TopicInfo info = new TopicInfo();
-        BeanUtils.copyProperties(topicMapper.selectByPrimaryKey(topic.getId()), info);
-        info.setChildren(null);
-        info.setUser(userInfo);
-        return info;
+        return getTopicInfoById(topic.getId());
     }
 }
