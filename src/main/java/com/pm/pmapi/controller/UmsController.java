@@ -5,10 +5,10 @@ import cn.hutool.core.util.StrUtil;
 import com.pm.pmapi.common.api.CommonPage;
 import com.pm.pmapi.common.api.CommonResult;
 import com.pm.pmapi.common.constant.TopicFilter;
-import com.pm.pmapi.common.utils.UploadUtil;
 import com.pm.pmapi.component.IAuthenticationFacade;
 import com.pm.pmapi.dto.*;
 import com.pm.pmapi.mbg.model.TabUser;
+import com.pm.pmapi.service.OssService;
 import com.pm.pmapi.service.TopicService;
 import com.pm.pmapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class UmsController {
     @Autowired
     private TopicService topicService;
     @Autowired
-    private UploadUtil uploadUtil;
+    private OssService ossService;
     @Autowired
     private IAuthenticationFacade authenticationFacade;
 
@@ -179,7 +179,7 @@ public class UmsController {
         if (file == null || file.isEmpty()) {
             return CommonResult.failed("请选择图片");
         }
-        String url = uploadUtil.uploadFile(file, null);
+        String url = ossService.uploadFile(file);
         if (StrUtil.isEmptyOrUndefined(url)) {
             return CommonResult.failed("上传失败");
         }
