@@ -119,6 +119,6 @@ aliyun:
     policy:
       expire: 300
     maxSize: 10
-    callback: http://localhost:8888/api/oss/callback
+    callback: https://bbs.fitymistudio.cn/api/oss/callback
     dir:
       prefix: bbs/images/
