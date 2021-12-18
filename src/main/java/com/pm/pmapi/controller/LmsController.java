@@ -1,8 +1,10 @@
 package com.pm.pmapi.controller;
 
 
+import com.pm.pmapi.common.api.CommonPage;
 import com.pm.pmapi.common.api.CommonResult;
 import com.pm.pmapi.service.LessonService;
+import jdk.nashorn.internal.runtime.options.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +12,7 @@ import com.pm.pmapi.component.IAuthenticationFacade;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * @author Jerry Zhang <https://github.com/doughit>
@@ -33,7 +36,11 @@ public class LmsController {
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<Object> getInfo(@RequestParam(value = "lessonId") Long lessonId) {
-        return CommonResult.success(lessonService.getLessonByLessonId(lessonId));
+        Optional<Long> userId = Optional.empty();
+        if (authenticationFacade.getAuthentication() != null) {
+            userId = Optional.of(Long.parseLong(authenticationFacade.getAuthentication().getName()));
+        }
+        return CommonResult.success(lessonService.getLessonByLessonId(userId, lessonId));
     }
 
 
@@ -42,26 +49,31 @@ public class LmsController {
      */
     @RequestMapping(value = "/lessonList", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<ArrayList<Object>> listLessons(
+    public CommonResult listLessons(
             @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
             @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
             @NotEmpty @RequestParam(value = "filter") String filter,
-            @RequestParam(value = "keys", defaultValue = "") String keys) {
+            @RequestParam(value = "keys", defaultValue = "") Option<String> keys) {
         ArrayList<Object> lessonList = new ArrayList<>();
-        // TODO 创建课程dto作为返回类型
+
+        Optional<Long> userId = Optional.empty();
+        if (authenticationFacade.getAuthentication() != null) {
+            userId = Optional.of(Long.parseLong(authenticationFacade.getAuthentication().getName()));
+        }
+
         switch (filter) {
             case "hot":
-                // TODO 通过课程service获取热门课程相关数据
-                lessonList.addAll(null);
+                lessonList.addAll(lessonService.listLessonsByType(userId, 1, pageNum, pageSize));
                 break;
             case "query":
-                // TODO 通过课程service筛选课程相关数据
-                lessonList.addAll(null);
+                lessonList.addAll(lessonService.listLessonsByTypeAndKey(userId, 2, keys.getValue(), pageNum, pageSize));
                 break;
             default:
                 CommonResult.failed("查询失败");
         }
-        return CommonResult.success(lessonList);
+        return CommonResult.success(CommonPage.restPage(lessonList));
     }
+
+    
 
 }
