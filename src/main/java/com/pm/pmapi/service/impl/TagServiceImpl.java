@@ -1,5 +1,6 @@
 package com.pm.pmapi.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.pm.pmapi.dao.TagDao;
 import com.pm.pmapi.dto.TagInfo;
 import com.pm.pmapi.mbg.mapper.TabLessonMapper;
@@ -168,6 +169,8 @@ public class TagServiceImpl implements TagService {
     @Override
     public List<TagInfo> listTagsOfLessonByLessonId(Optional<Long> userId, Long lessonId, Integer pageNum, Integer pageSize) {
         List<TagInfo> tagInfoList = new ArrayList<>();
+        PageHelper.startPage(pageNum, pageSize);
+
         if(null != tagDao.listTagInfoByTLessonId(lessonId) && tagDao.listTagInfoByTLessonId(lessonId).size() > 0) {
             List<TagInfo> tmpTagInfoList = tagDao.listTagInfoByTLessonId(lessonId);
 
