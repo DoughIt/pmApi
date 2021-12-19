@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 15/12/2021 18:52:57
+ Date: 19/12/2021 23:18:40
 */
 
 SET NAMES utf8mb4;
@@ -74,6 +74,23 @@ BEGIN;
 COMMIT;
 
 -- ----------------------------
+-- Table structure for tab_favorite_lesson
+-- ----------------------------
+DROP TABLE IF EXISTS `tab_favorite_lesson`;
+CREATE TABLE `tab_favorite_lesson` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `lesson_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of tab_favorite_lesson
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
 -- Table structure for tab_lesson
 -- ----------------------------
 DROP TABLE IF EXISTS `tab_lesson`;
@@ -87,10 +104,94 @@ CREATE TABLE `tab_lesson` (
   `semester` varchar(15) NOT NULL,
   `score` decimal(10,0) DEFAULT '0',
   PRIMARY KEY (`lesson_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tab_lesson
+-- ----------------------------
+BEGIN;
+INSERT INTO `tab_lesson` VALUES (1, 'SOFT110012.01', '严肃游戏应用与设计', 2, 1, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (2, 'SOFT110014.01', '计算思维与信息素养', 3, 2, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (3, 'SOFT130007.01', '概率统计', 3, 3, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (4, 'SOFT130010.01', '项目管理', 3, 4, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (5, 'SOFT130010h.01', '项目管理（H）', 4, 4, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (6, 'SOFT130011.01', '计算机前沿讲座(上)', 0, 5, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (7, 'SOFT130013.01', '专业实践与生产实习(上)', 3, 1, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (8, 'SOFT130015.01', '数据库设计', 3, 7, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (9, 'SOFT130017.01', '面向对象分析和设计', 3, 8, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (10, 'SOFT130021.01', '数字部件设计', 4, 9, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (11, 'SOFT130023.01', '计算机网络', 3, 10, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (12, 'SOFT130039.01', '离散数学(上)', 3, 11, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (13, 'SOFT130047.01', '商务智能', 2, 12, 12, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (14, 'SOFT130049.01', '智能系统原理与开发', 4, 13, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (15, 'SOFT130051.01', '多媒体技术基础', 3, 14, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (16, 'SOFT130058.01', '计算机系统工程', 4, 15, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (17, 'SOFT130058h.01', '计算机系统工程（H）', 5, 16, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (18, 'SOFT130061.01', '编译原理', 3, 17, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (19, 'SOFT130063.01', '人机交互', 2, 18, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (20, 'SOFT130068.01', '管理信息系统', 2, 19, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (21, 'SOFT130070.01', '并行计算与性能优化', 2, 20, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (22, 'SOFT130072.01', '软件需求工程', 2, 6, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (23, 'SOFT130075.01', '工程能力素养', 1, 1, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (24, 'SOFT130077.01', '系统安全攻防技术', 2, 21, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (25, 'SOFT130082.01', '分布式系统概论', 2, 16, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (26, 'SOFT130083.01', '大数据核心技术与应用', 2, 12, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (27, 'SOFT130084.01', '大数据系统软件实践', 3, 22, 1, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (28, 'SOFT130088.01', '工业互联网软件技术', 3, 23, 1, '秋季学期', 0);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tab_lesson_popularity
+-- ----------------------------
+DROP TABLE IF EXISTS `tab_lesson_popularity`;
+CREATE TABLE `tab_lesson_popularity` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `lesson_id` bigint(20) NOT NULL,
+  `popularity` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of tab_lesson_popularity
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tab_lesson_tag
+-- ----------------------------
+DROP TABLE IF EXISTS `tab_lesson_tag`;
+CREATE TABLE `tab_lesson_tag` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `tag_id` bigint(20) NOT NULL,
+  `lesson_id` bigint(20) NOT NULL,
+  `positive` bigint(20) DEFAULT '0',
+  `negative` bigint(20) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of tab_lesson_tag
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tab_lesson_user_tag
+-- ----------------------------
+DROP TABLE IF EXISTS `tab_lesson_user_tag`;
+CREATE TABLE `tab_lesson_user_tag` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `tag_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `lesson_id` bigint(20) NOT NULL,
+  `positiveSelected` tinyint(1) DEFAULT '0',
+  `negetiveSelected` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of tab_lesson_user_tag
 -- ----------------------------
 BEGIN;
 COMMIT;
@@ -112,7 +213,7 @@ CREATE TABLE `tab_message` (
   KEY `tab_message_ibfk_2` (`receiver_id`),
   CONSTRAINT `tab_message_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `tab_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `tab_message_ibfk_2` FOREIGN KEY (`receiver_id`) REFERENCES `tab_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tab_message
@@ -120,6 +221,7 @@ CREATE TABLE `tab_message` (
 BEGIN;
 INSERT INTO `tab_message` VALUES (1, 2, 1, 'ddd', '2021-12-07 10:26:26', '2021-12-07 10:48:10', b'1');
 INSERT INTO `tab_message` VALUES (2, 1, 2, 'fdadf', '2021-12-07 23:21:45', NULL, b'0');
+INSERT INTO `tab_message` VALUES (3, 1, 2, '阿凡达舒服', '2021-12-15 22:32:35', NULL, b'0');
 COMMIT;
 
 -- ----------------------------
@@ -147,12 +249,13 @@ CREATE TABLE `tab_school` (
   `school_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `school_name` varchar(255) NOT NULL,
   PRIMARY KEY (`school_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tab_school
 -- ----------------------------
 BEGIN;
+INSERT INTO `tab_school` VALUES (1, '软件学院');
 COMMIT;
 
 -- ----------------------------
@@ -199,10 +302,9 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tab_tag`;
 CREATE TABLE `tab_tag` (
-  `tag_id` varchar(14) NOT NULL,
+  `tag_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `tag` varchar(255) NOT NULL,
-  `positive` int(10) DEFAULT '0',
-  `negative` int(10) DEFAULT '0'
+  PRIMARY KEY (`tag_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
@@ -220,12 +322,35 @@ CREATE TABLE `tab_teacher` (
   `teacher_name` varchar(255) NOT NULL,
   `school_id` bigint(20) NOT NULL,
   PRIMARY KEY (`teacher_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tab_teacher
 -- ----------------------------
 BEGIN;
+INSERT INTO `tab_teacher` VALUES (1, '徐迎晓', 1);
+INSERT INTO `tab_teacher` VALUES (2, '戴开宇', 1);
+INSERT INTO `tab_teacher` VALUES (3, '金玲飞', 1);
+INSERT INTO `tab_teacher` VALUES (4, '高晓桐', 1);
+INSERT INTO `tab_teacher` VALUES (5, '吴杰', 1);
+INSERT INTO `tab_teacher` VALUES (6, '沈立炜', 1);
+INSERT INTO `tab_teacher` VALUES (7, '吴毅坚', 1);
+INSERT INTO `tab_teacher` VALUES (8, '张天戈', 1);
+INSERT INTO `tab_teacher` VALUES (9, '张睿', 1);
+INSERT INTO `tab_teacher` VALUES (10, '李景涛', 1);
+INSERT INTO `tab_teacher` VALUES (11, '赵一鸣', 1);
+INSERT INTO `tab_teacher` VALUES (12, '赵卫东', 1);
+INSERT INTO `tab_teacher` VALUES (13, '郑骁庆', 1);
+INSERT INTO `tab_teacher` VALUES (14, '刘新', 1);
+INSERT INTO `tab_teacher` VALUES (15, '李旻', 1);
+INSERT INTO `tab_teacher` VALUES (16, '冯红伟', 1);
+INSERT INTO `tab_teacher` VALUES (17, '徐辉', 1);
+INSERT INTO `tab_teacher` VALUES (18, '姜忠鼎', 1);
+INSERT INTO `tab_teacher` VALUES (19, '朱东来', 1);
+INSERT INTO `tab_teacher` VALUES (20, '唐渊', 1);
+INSERT INTO `tab_teacher` VALUES (21, '杨珉', 1);
+INSERT INTO `tab_teacher` VALUES (22, '李弋', 1);
+INSERT INTO `tab_teacher` VALUES (23, '李敏波', 1);
 COMMIT;
 
 -- ----------------------------
@@ -246,7 +371,7 @@ CREATE TABLE `tab_topic` (
   PRIMARY KEY (`id`),
   KEY `tab_topic_ibfk_1` (`user_id`),
   CONSTRAINT `tab_topic_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tab_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tab_topic
@@ -257,6 +382,8 @@ INSERT INTO `tab_topic` VALUES (2, 1, NULL, 222, 2, 3, NULL, 'dfadfda', '2021-12
 INSERT INTO `tab_topic` VALUES (3, 2, NULL, 222, 2, 3, NULL, NULL, '2021-12-07 22:33:39', 1);
 INSERT INTO `tab_topic` VALUES (4, 2, NULL, NULL, 0, 1, NULL, 'balabala', NULL, NULL);
 INSERT INTO `tab_topic` VALUES (5, NULL, 22, NULL, 1, 1, NULL, 'balabala', NULL, NULL);
+INSERT INTO `tab_topic` VALUES (6, NULL, NULL, NULL, 0, 1, NULL, 'balabala', NULL, NULL);
+INSERT INTO `tab_topic` VALUES (7, NULL, NULL, 123, 2, 1, NULL, 'balabala', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -285,7 +412,7 @@ CREATE TABLE `tab_user` (
 -- Records of tab_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `tab_user` VALUES (1, '16302010059', NULL, NULL, '$2a$10$nLpdFqP44VT0ZOqPBWNYFe3uXdy0umeX5uuNfsk7B5lmDCbxbBGIm', NULL, NULL, NULL, '2021-12-10 18:08:39', NULL, 1, b'1', 0);
+INSERT INTO `tab_user` VALUES (1, '16302010059', NULL, NULL, '$2a$10$nLpdFqP44VT0ZOqPBWNYFe3uXdy0umeX5uuNfsk7B5lmDCbxbBGIm', 'https://doughit.oss-cn-shanghai.aliyuncs.com/bbs/images/20211216/工具.png', NULL, NULL, '2021-12-10 18:08:39', NULL, 1, b'1', 0);
 INSERT INTO `tab_user` VALUES (2, NULL, 'doughit', NULL, '$2a$10$nLpdFqP44VT0ZOqPBWNYFe3uXdy0umeX5uuNfsk7B5lmDCbxbBGIm', NULL, NULL, NULL, '2021-12-10 18:09:52', '2021-12-10 18:10:26', 0, b'1', 0);
 INSERT INTO `tab_user` VALUES (3, '16302010010', NULL, NULL, '$2a$10$bt3CvXkjEFQrq6tO2oGzlO0AHYBZK/Wvh7cx8BzhrYrzKlaoURI4S', NULL, NULL, NULL, '2021-12-13 22:09:13', '2021-12-14 08:26:15', 1, b'1', 0);
 COMMIT;
