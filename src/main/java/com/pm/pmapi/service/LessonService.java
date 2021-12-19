@@ -13,6 +13,10 @@ public interface LessonService {
 
     List<LessonInfo> listLessonsByTypeAndKey(Optional<Long> userId, Integer type, String key, Integer pageNum, Integer pageSize);
 
-    List<LessonInfo> listFavoriteLessons(Optional<Long> userId, Integer type, Integer pageNum, Integer pageSize);
+    List<LessonInfo> listFavoriteLessons(Optional<Long> userId);
+
+    Boolean addFavoriteLesson(Optional<Long> userId, Long lessonId);
+
+    Boolean deleteFavoriteLesson(Optional<Long> userId, Long lessonId);
 
 }

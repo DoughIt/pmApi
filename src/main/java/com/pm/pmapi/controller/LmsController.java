@@ -156,16 +156,71 @@ public class LmsController {
             userId = Optional.of(Long.parseLong(authenticationFacade.getAuthentication().getName()));
         }
 
-        tagService.evaluateTag(userId, tagEvaluateParam.getLessonId(), tagEvaluateParam.getTagName(),
+        Boolean result = tagService.evaluateTag(userId, tagEvaluateParam.getLessonId(), tagEvaluateParam.getTagName(),
                 tagEvaluateParam.getEvaluate());
 
-        if(null != tagService.evaluateTag(userId, tagEvaluateParam.getLessonId(), tagEvaluateParam.getTagName(),
-                tagEvaluateParam.getEvaluate())) {
-            return CommonResult.success(tagService.evaluateTag(userId, tagEvaluateParam.getLessonId(), tagEvaluateParam.getTagName(),
-                    tagEvaluateParam.getEvaluate()));
+        if(result) {
+            return CommonResult.success("评价成功");
         } else {
             return CommonResult.failed("评价失败");
         }
+    }
+
+    /**
+     * 添加收藏课程
+     */
+    @RequestMapping(value = "/favorite", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult<Object> addFavorite(@RequestParam(value = "id") Long lessonId) {
+        Optional<Long> userId = Optional.empty();
+        if (authenticationFacade.getAuthentication() != null) {
+            userId = Optional.of(Long.parseLong(authenticationFacade.getAuthentication().getName()));
+        } else {
+            return CommonResult.failed("添加失败");
+        }
+        Boolean result = lessonService.addFavoriteLesson(userId, lessonId);
+
+        if(result) {
+            return CommonResult.success("添加成功");
+        } else {
+            return CommonResult.failed("添加失败");
+        }
+    }
+
+    /**
+     * 删除收藏课程
+     */
+    @RequestMapping(value = "/favorite", method = RequestMethod.DELETE)
+    @ResponseBody
+    public CommonResult<Object> deleteFavorite(@RequestParam(value = "id") Long lessonId) {
+        Optional<Long> userId = Optional.empty();
+        if (authenticationFacade.getAuthentication() != null) {
+            userId = Optional.of(Long.parseLong(authenticationFacade.getAuthentication().getName()));
+        } else {
+            return CommonResult.failed("删除失败");
+        }
+        Boolean result = lessonService.deleteFavoriteLesson(userId, lessonId);
+
+        if(result) {
+            return CommonResult.success("删除成功");
+        } else {
+            return CommonResult.failed("删除失败");
+        }
+    }
+
+    /**
+     * 获取收藏课程列表
+     */
+    @RequestMapping(value = "/favorite", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<Object> getFavorites() {
+        Optional<Long> userId = Optional.empty();
+        if (authenticationFacade.getAuthentication() != null) {
+            userId = Optional.of(Long.parseLong(authenticationFacade.getAuthentication().getName()));
+        } else {
+            return CommonResult.failed("获取失败");
+        }
+        return CommonResult.success(lessonService.listFavoriteLessons(userId));
     }
 
 }

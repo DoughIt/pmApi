@@ -266,7 +266,95 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public List<LessonInfo> listFavoriteLessons(Optional<Long> userId, Integer type, Integer pageNum, Integer pageSize) {
-        return null;
+    public List<LessonInfo> listFavoriteLessons(Optional<Long> userId) {
+        List<LessonInfo> rtnList = new ArrayList<>();
+
+        TabFavoriteLessonExample tabFavoriteLessonExample = new TabFavoriteLessonExample();
+        TabFavoriteLessonExample.Criteria criteriaFavoriteLesson = tabFavoriteLessonExample.createCriteria();
+        criteriaFavoriteLesson.andUserIdEqualTo(userId.get());
+        if(null != tabFavoriteLessonMapper.selectByExample(tabFavoriteLessonExample) && tabFavoriteLessonMapper.selectByExample(tabFavoriteLessonExample).size() > 0) {
+            List<TabFavoriteLesson> tabFavoriteLessonList = tabFavoriteLessonMapper.selectByExample(tabFavoriteLessonExample);
+
+            Iterator<TabFavoriteLesson> iter = tabFavoriteLessonList.iterator();
+            while(iter.hasNext()) {
+                TabFavoriteLesson now = iter.next();
+                LessonInfo lessonInfo = getLessonByLessonId(userId, now.getLessonId());
+                rtnList.add(lessonInfo);
+            }
+        }
+
+        return rtnList;
+    }
+
+    @Override
+    public Boolean addFavoriteLesson(Optional<Long> userId, Long lessonId) {
+        TabFavoriteLessonExample tabFavoriteLessonExample = new TabFavoriteLessonExample();
+        TabFavoriteLessonExample.Criteria criteriaFavoriteLesson = tabFavoriteLessonExample.createCriteria();
+        criteriaFavoriteLesson.andUserIdEqualTo(userId.get()).andLessonIdEqualTo(lessonId);
+        if(null != tabFavoriteLessonMapper.selectByExample(tabFavoriteLessonExample) && tabFavoriteLessonMapper.selectByExample(tabFavoriteLessonExample).size() > 0) {
+            return false;
+        }
+
+        TabFavoriteLesson tabFavoriteLesson = new TabFavoriteLesson();
+        tabFavoriteLesson.setUserId(userId.get());
+        tabFavoriteLesson.setLessonId(lessonId);
+
+        tabFavoriteLessonMapper.insert(tabFavoriteLesson);
+
+        // add popularity
+        TabLessonPopularityExample tabLessonPopularityExample = new TabLessonPopularityExample();
+        TabLessonPopularityExample.Criteria criteriaLessonPopularity = tabLessonPopularityExample.createCriteria();
+        criteriaLessonPopularity.andLessonIdEqualTo(lessonId);
+
+        TabLessonPopularity tabLessonPopularity;
+        Long popularity = Long.valueOf(0);
+
+        if(null == tabLessonPopularityMapper.selectByExample(tabLessonPopularityExample) || tabLessonPopularityMapper.selectByExample(tabLessonPopularityExample).size() == 0) {
+            tabLessonPopularity = new TabLessonPopularity();
+            tabLessonPopularity.setLessonId(lessonId);
+
+            popularity++;
+            tabLessonPopularity.setPopularity(popularity);
+
+            tabLessonPopularityMapper.insert(tabLessonPopularity);
+        } else {
+            tabLessonPopularity = tabLessonPopularityMapper.selectByExample(tabLessonPopularityExample).get(0);
+            popularity = tabLessonPopularity.getPopularity();
+
+            popularity++;
+            tabLessonPopularity.setPopularity(popularity);
+
+            tabLessonPopularityMapper.updateByPrimaryKey(tabLessonPopularity);
+        }
+
+        return true;
+    }
+
+    @Override
+    public Boolean deleteFavoriteLesson(Optional<Long> userId, Long lessonId) {
+        TabFavoriteLessonExample tabFavoriteLessonExample = new TabFavoriteLessonExample();
+        TabFavoriteLessonExample.Criteria criteriaFavoriteLesson = tabFavoriteLessonExample.createCriteria();
+        criteriaFavoriteLesson.andUserIdEqualTo(userId.get()).andLessonIdEqualTo(lessonId);
+        if(null == tabFavoriteLessonMapper.selectByExample(tabFavoriteLessonExample) || tabFavoriteLessonMapper.selectByExample(tabFavoriteLessonExample).size() == 0) {
+            return false;
+        }
+
+        TabFavoriteLesson tabFavoriteLesson = tabFavoriteLessonMapper.selectByExample(tabFavoriteLessonExample).get(0);
+        Long delId = tabFavoriteLesson.getId();
+
+        tabFavoriteLessonMapper.deleteByPrimaryKey(delId);
+
+        // delete popularity
+        TabLessonPopularityExample tabLessonPopularityExample = new TabLessonPopularityExample();
+        TabLessonPopularityExample.Criteria criteriaLessonPopularity = tabLessonPopularityExample.createCriteria();
+        criteriaLessonPopularity.andLessonIdEqualTo(lessonId);
+
+        TabLessonPopularity tabLessonPopularity = tabLessonPopularityMapper.selectByExample(tabLessonPopularityExample).get(0);
+        Long popularity = tabLessonPopularity.getPopularity();
+        popularity--;
+        tabLessonPopularity.setPopularity(popularity);
+        tabLessonPopularityMapper.updateByPrimaryKey(tabLessonPopularity);
+
+        return true;
     }
 }
