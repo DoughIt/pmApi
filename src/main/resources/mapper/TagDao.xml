@@ -3,10 +3,16 @@
 <mapper namespace="com.pm.pmapi.dao.TagDao">
     <resultMap id="BaseResultMap" type="com.pm.pmapi.dto.TagInfo">
         <id column="tag_id" jdbcType="BIGINT" property="tagId"/>
-        <result column="tag" jdbcType="VARCHAR" property="tagName"/>
+        <result column="lesson_id" jdbcType="BIGINT" property="lessonId" />
+        <result column="positive" jdbcType="BIGINT" property="positive" />
+        <result column="negative" jdbcType="BIGINT" property="negative" />
     </resultMap>
-    <select id="geTagByTagId" resultMap="BaseResultMap">
-        select tag_id, tag
-        from tab_tag where tag_id=#{tagId}
+    <select id="getTagInfoByTagIdAndLessonId" resultMap="BaseResultMap">
+        select tag_id, lesson_id, positive, negative
+        from tab_lesson_tag where tag_id=#{tagId} and lesson_id=#{lessonId}
+    </select>
+    <select id="listTagInfoByTLessonId" resultMap="BaseResultMap">
+        select tag_id, lesson_id, positive, negative
+        from tab_lesson_tag where lesson_id=#{lessonId}
     </select>
 </mapper>

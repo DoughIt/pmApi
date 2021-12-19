@@ -3,20 +3,22 @@ package com.pm.pmapi.mbg.model;
 import java.io.Serializable;
 
 /**
- * @Description mbg自动生成tab_lesson_tag表实体类
+ * @Description mbg自动生成tab_lesson_user_tag表实体类
  *
  * @date 2021-12-18 07:29
  */
-public class TabLessonTag implements Serializable {
+public class TabLessonUserTag implements Serializable {
     private Long id;
 
     private Long tagId;
 
+    private Long userId;
+
     private Long lessonId;
 
-    private Long positive;
+    private Boolean positiveselected;
 
-    private Long negative;
+    private Boolean negetiveselected;
 
     private static final long serialVersionUID = 1L;
 
@@ -36,6 +38,14 @@ public class TabLessonTag implements Serializable {
         this.tagId = tagId;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     public Long getLessonId() {
         return lessonId;
     }
@@ -44,20 +54,20 @@ public class TabLessonTag implements Serializable {
         this.lessonId = lessonId;
     }
 
-    public Long getPositive() {
-        return positive;
+    public Boolean getPositiveselected() {
+        return positiveselected;
     }
 
-    public void setPositive(Long positive) {
-        this.positive = positive;
+    public void setPositiveselected(Boolean positiveselected) {
+        this.positiveselected = positiveselected;
     }
 
-    public Long getNegative() {
-        return negative;
+    public Boolean getNegetiveselected() {
+        return negetiveselected;
     }
 
-    public void setNegative(Long negative) {
-        this.negative = negative;
+    public void setNegetiveselected(Boolean negetiveselected) {
+        this.negetiveselected = negetiveselected;
     }
 
     @Override
@@ -68,9 +78,10 @@ public class TabLessonTag implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", tagId=").append(tagId);
+        sb.append(", userId=").append(userId);
         sb.append(", lessonId=").append(lessonId);
-        sb.append(", positive=").append(positive);
-        sb.append(", negative=").append(negative);
+        sb.append(", positiveselected=").append(positiveselected);
+        sb.append(", negetiveselected=").append(negetiveselected);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pm.pmapi.mbg.mapper.TabLessonPopularityMapper">
-  <resultMap id="BaseResultMap" type="com.pm.pmapi.mbg.model.TabLessonPopularity">
+<mapper namespace="com.pm.pmapi.mbg.mapper.TabLessonUserTagMapper">
+  <resultMap id="BaseResultMap" type="com.pm.pmapi.mbg.model.TabLessonUserTag">
     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="tag_id" jdbcType="BIGINT" property="tagId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="lesson_id" jdbcType="BIGINT" property="lessonId" />
-    <result column="popularity" jdbcType="BIGINT" property="popularity" />
+    <result column="positiveSelected" jdbcType="BIT" property="positiveselected" />
+    <result column="negetiveSelected" jdbcType="BIT" property="negetiveselected" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,15 +68,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, lesson_id, popularity
+    id, tag_id, user_id, lesson_id, positiveSelected, negetiveSelected
   </sql>
-  <select id="selectByExample" parameterType="com.pm.pmapi.mbg.model.TabLessonPopularityExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.pm.pmapi.mbg.model.TabLessonUserTagExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from tab_lesson_popularity
+    from tab_lesson_user_tag
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -84,65 +87,94 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from tab_lesson_popularity
+    from tab_lesson_user_tag
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from tab_lesson_popularity
+    delete from tab_lesson_user_tag
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.pm.pmapi.mbg.model.TabLessonPopularityExample">
-    delete from tab_lesson_popularity
+  <delete id="deleteByExample" parameterType="com.pm.pmapi.mbg.model.TabLessonUserTagExample">
+    delete from tab_lesson_user_tag
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.pm.pmapi.mbg.model.TabLessonPopularity">
+  <insert id="insert" parameterType="com.pm.pmapi.mbg.model.TabLessonUserTag">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into tab_lesson_popularity (lesson_id, popularity)
-    values (#{lessonId,jdbcType=BIGINT}, #{popularity,jdbcType=BIGINT})
+    insert into tab_lesson_user_tag (tag_id, user_id, lesson_id, 
+      positiveSelected, negetiveSelected)
+    values (#{tagId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{lessonId,jdbcType=BIGINT}, 
+      #{positiveselected,jdbcType=BIT}, #{negetiveselected,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" parameterType="com.pm.pmapi.mbg.model.TabLessonPopularity">
+  <insert id="insertSelective" parameterType="com.pm.pmapi.mbg.model.TabLessonUserTag">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into tab_lesson_popularity
+    insert into tab_lesson_user_tag
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tagId != null">
+        tag_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
       <if test="lessonId != null">
         lesson_id,
       </if>
-      <if test="popularity != null">
-        popularity,
+      <if test="positiveselected != null">
+        positiveSelected,
+      </if>
+      <if test="negetiveselected != null">
+        negetiveSelected,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tagId != null">
+        #{tagId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
       <if test="lessonId != null">
         #{lessonId,jdbcType=BIGINT},
       </if>
-      <if test="popularity != null">
-        #{popularity,jdbcType=BIGINT},
+      <if test="positiveselected != null">
+        #{positiveselected,jdbcType=BIT},
+      </if>
+      <if test="negetiveselected != null">
+        #{negetiveselected,jdbcType=BIT},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.pm.pmapi.mbg.model.TabLessonPopularityExample" resultType="java.lang.Long">
-    select count(*) from tab_lesson_popularity
+  <select id="countByExample" parameterType="com.pm.pmapi.mbg.model.TabLessonUserTagExample" resultType="java.lang.Long">
+    select count(*) from tab_lesson_user_tag
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update tab_lesson_popularity
+    update tab_lesson_user_tag
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
+      <if test="record.tagId != null">
+        tag_id = #{record.tagId,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
       <if test="record.lessonId != null">
         lesson_id = #{record.lessonId,jdbcType=BIGINT},
       </if>
-      <if test="record.popularity != null">
-        popularity = #{record.popularity,jdbcType=BIGINT},
+      <if test="record.positiveselected != null">
+        positiveSelected = #{record.positiveselected,jdbcType=BIT},
+      </if>
+      <if test="record.negetiveselected != null">
+        negetiveSelected = #{record.negetiveselected,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -150,30 +182,45 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update tab_lesson_popularity
+    update tab_lesson_user_tag
     set id = #{record.id,jdbcType=BIGINT},
+      tag_id = #{record.tagId,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
       lesson_id = #{record.lessonId,jdbcType=BIGINT},
-      popularity = #{record.popularity,jdbcType=BIGINT}
+      positiveSelected = #{record.positiveselected,jdbcType=BIT},
+      negetiveSelected = #{record.negetiveselected,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pm.pmapi.mbg.model.TabLessonPopularity">
-    update tab_lesson_popularity
+  <update id="updateByPrimaryKeySelective" parameterType="com.pm.pmapi.mbg.model.TabLessonUserTag">
+    update tab_lesson_user_tag
     <set>
+      <if test="tagId != null">
+        tag_id = #{tagId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
       <if test="lessonId != null">
         lesson_id = #{lessonId,jdbcType=BIGINT},
       </if>
-      <if test="popularity != null">
-        popularity = #{popularity,jdbcType=BIGINT},
+      <if test="positiveselected != null">
+        positiveSelected = #{positiveselected,jdbcType=BIT},
+      </if>
+      <if test="negetiveselected != null">
+        negetiveSelected = #{negetiveselected,jdbcType=BIT},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.pm.pmapi.mbg.model.TabLessonPopularity">
-    update tab_lesson_popularity
-    set lesson_id = #{lessonId,jdbcType=BIGINT},
-      popularity = #{popularity,jdbcType=BIGINT}
+  <update id="updateByPrimaryKey" parameterType="com.pm.pmapi.mbg.model.TabLessonUserTag">
+    update tab_lesson_user_tag
+    set tag_id = #{tagId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      lesson_id = #{lessonId,jdbcType=BIGINT},
+      positiveSelected = #{positiveselected,jdbcType=BIT},
+      negetiveSelected = #{negetiveselected,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

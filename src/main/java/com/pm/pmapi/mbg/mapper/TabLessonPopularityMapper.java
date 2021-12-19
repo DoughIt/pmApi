@@ -27,6 +27,4 @@ public interface TabLessonPopularityMapper {
     int updateByPrimaryKeySelective(TabLessonPopularity record);
 
     int updateByPrimaryKey(TabLessonPopularity record);
-
-    List<TabLessonPopularity> getHotK(@Param("k") Long k);
 }

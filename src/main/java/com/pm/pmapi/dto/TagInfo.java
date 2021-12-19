@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Transient;
 
 /**
  * @author Xinran Duan
@@ -18,7 +19,14 @@ import lombok.Setter;
 public class TagInfo {
     private Long lessonId;
     private Long tagId;
+
+    private Long positive;
+    private Long negative;
+
+    @Transient
     private String tagName;
-    private Integer positive;
-    private Integer negative;
+    @Transient
+    private Boolean positiveSelected;
+    @Transient
+    private Boolean negativeSelected;
 }

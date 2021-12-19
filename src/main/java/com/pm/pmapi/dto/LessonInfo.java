@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Transient;
 
 import java.util.List;
 
@@ -27,11 +28,17 @@ public class LessonInfo {
     private Double score;
 
     private Long schoolId;
+    private Long teacherId;
+
+    @Transient
     private String schoolName;
 
-    private Long teacherId;
+    @Transient
     private String teacherName;
 
+    @Transient
     private Boolean collected;
+
+    @Transient
     private List<String> pictures;
 }

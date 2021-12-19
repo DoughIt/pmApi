@@ -2,6 +2,7 @@ package com.pm.pmapi.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.pm.pmapi.dao.LessonDao;
+import com.pm.pmapi.dao.LessonPopularityDao;
 import com.pm.pmapi.dao.UserDao;
 import com.pm.pmapi.dto.LessonInfo;
 import com.pm.pmapi.mbg.mapper.*;
@@ -20,13 +21,10 @@ import java.util.Optional;
 public class LessonServiceImpl implements LessonService {
 
     @Autowired
-    UserDao userDao;
-
-    @Autowired
-    TabUserMapper userMapper;
-
-    @Autowired
     LessonDao lessonDao;
+
+    @Autowired
+    LessonPopularityDao lessonPopularityDao;
 
     @Autowired
     TabLessonMapper tabLessonMapper;
@@ -55,6 +53,7 @@ public class LessonServiceImpl implements LessonService {
         if(null != lessonDao.getLessonByLessonId(lessonId)) {
             LessonInfo lessonInfo = lessonDao.getLessonByLessonId(lessonId);
 
+            // get school name
             TabSchoolExample tabSchoolExample = new TabSchoolExample();
             TabSchoolExample.Criteria criteriaSchool = tabSchoolExample.createCriteria();
             criteriaSchool.andSchoolIdEqualTo(lessonInfo.getSchoolId());
@@ -62,6 +61,7 @@ public class LessonServiceImpl implements LessonService {
 
             lessonInfo.setSchoolName(schoolList.get(0).getSchoolName());
 
+            // get teacher name
             TabTeacherExample tabTeacherExample = new TabTeacherExample();
             TabTeacherExample.Criteria criteriaTeacher = tabTeacherExample.createCriteria();
             criteriaTeacher.andTeacherIdEqualTo(lessonInfo.getTeacherId());
@@ -69,6 +69,7 @@ public class LessonServiceImpl implements LessonService {
 
             lessonInfo.setTeacherName(teacherList.get(0).getTeacherName());
 
+            // get collected
             if(userId.isPresent()) {
                 TabFavoriteLessonExample tabFavoriteLessonExample = new TabFavoriteLessonExample();
                 TabFavoriteLessonExample.Criteria criteriaFavoriteLesson = tabFavoriteLessonExample.createCriteria();
@@ -96,8 +97,8 @@ public class LessonServiceImpl implements LessonService {
         switch (type) {
             case 1:
                 Long k = new Long(pageNum * pageSize);
-                if(null != tabLessonPopularityMapper.getHotK(k)) {
-                    List<TabLessonPopularity> tabLessonPopularityList = tabLessonPopularityMapper.getHotK(k);
+                if(null != lessonPopularityDao.getHotK(k) && lessonPopularityDao.getHotK(k).size() > 0) {
+                    List<TabLessonPopularity> tabLessonPopularityList = lessonPopularityDao.getHotK(k);
 
                     Iterator<TabLessonPopularity> iter = tabLessonPopularityList.iterator();
                     while(iter.hasNext()) {
@@ -124,7 +125,7 @@ public class LessonServiceImpl implements LessonService {
                 criteriaLesson.andLessonNameLike('%' + key + '%');
                 List<TabLesson> lessonList;
                 Iterator<TabLesson> iter;
-                if(null != tabLessonMapper.selectByExample(tabLessonExample)) {
+                if(null != tabLessonMapper.selectByExample(tabLessonExample) && tabLessonMapper.selectByExample(tabLessonExample).size() > 0) {
                     lessonList = tabLessonMapper.selectByExample(tabLessonExample);
 
                     iter = lessonList.iterator();
@@ -139,7 +140,7 @@ public class LessonServiceImpl implements LessonService {
                 tabLessonExample = new TabLessonExample();
                 criteriaLesson = tabLessonExample.createCriteria();
                 criteriaLesson.andLessonNumberLike('%' + key + '%');
-                if(null != tabLessonMapper.selectByExample(tabLessonExample)) {
+                if(null != tabLessonMapper.selectByExample(tabLessonExample) && tabLessonMapper.selectByExample(tabLessonExample).size() > 0) {
                     lessonList = tabLessonMapper.selectByExample(tabLessonExample);
 
                     iter = lessonList.iterator();
@@ -154,7 +155,7 @@ public class LessonServiceImpl implements LessonService {
                 tabLessonExample = new TabLessonExample();
                 criteriaLesson = tabLessonExample.createCriteria();
                 criteriaLesson.andSemesterLike('%' + key + '%');
-                if(null != tabLessonMapper.selectByExample(tabLessonExample)) {
+                if(null != tabLessonMapper.selectByExample(tabLessonExample) && tabLessonMapper.selectByExample(tabLessonExample).size() > 0) {
                     lessonList = tabLessonMapper.selectByExample(tabLessonExample);
 
                     iter = lessonList.iterator();
@@ -169,7 +170,7 @@ public class LessonServiceImpl implements LessonService {
                 TabSchoolExample tabSchoolExample = new TabSchoolExample();
                 TabSchoolExample.Criteria criteriaSchool = tabSchoolExample.createCriteria();
                 criteriaSchool.andSchoolNameLike('%' + key + '%');
-                if(null != tabSchoolMapper.selectByExample(tabSchoolExample)) {
+                if(null != tabSchoolMapper.selectByExample(tabSchoolExample) && tabSchoolMapper.selectByExample(tabSchoolExample).size() > 0) {
                     List<TabSchool> schoolList = tabSchoolMapper.selectByExample(tabSchoolExample);
 
                     List<Long> schoolIdList = new ArrayList<>();
@@ -186,7 +187,7 @@ public class LessonServiceImpl implements LessonService {
                         tabLessonExample = new TabLessonExample();
                         criteriaLesson = tabLessonExample.createCriteria();
                         criteriaLesson.andSchoolIdEqualTo(nowSchoolId);
-                        if(null != tabLessonMapper.selectByExample(tabLessonExample)) {
+                        if(null != tabLessonMapper.selectByExample(tabLessonExample) && tabLessonMapper.selectByExample(tabLessonExample).size() > 0) {
                             lessonList = tabLessonMapper.selectByExample(tabLessonExample);
 
                             iter = lessonList.iterator();
@@ -203,7 +204,7 @@ public class LessonServiceImpl implements LessonService {
                 TabTeacherExample tabTeacherExample = new TabTeacherExample();
                 TabTeacherExample.Criteria criteriaTeacher = tabTeacherExample.createCriteria();
                 criteriaTeacher.andTeacherNameLike('%' + key + '%');
-                if(null != tabTeacherMapper.selectByExample(tabTeacherExample)) {
+                if(null != tabTeacherMapper.selectByExample(tabTeacherExample) && tabTeacherMapper.selectByExample(tabTeacherExample).size() > 0) {
                     List<TabTeacher> teacherList = tabTeacherMapper.selectByExample(tabTeacherExample);
 
                     List<Long> teacherIdList = new ArrayList<>();
@@ -220,7 +221,7 @@ public class LessonServiceImpl implements LessonService {
                         tabLessonExample = new TabLessonExample();
                         criteriaLesson = tabLessonExample.createCriteria();
                         criteriaLesson.andTeacherIdEqualTo(nowTeacherId);
-                        if(null != tabLessonMapper.selectByExample(tabLessonExample)) {
+                        if(null != tabLessonMapper.selectByExample(tabLessonExample) && tabLessonMapper.selectByExample(tabLessonExample).size() > 0) {
                             lessonList = tabLessonMapper.selectByExample(tabLessonExample);
 
                             iter = lessonList.iterator();
@@ -237,7 +238,7 @@ public class LessonServiceImpl implements LessonService {
                 TabTagExample tabTagExample = new TabTagExample();
                 TabTagExample.Criteria criteriaTag = tabTagExample.createCriteria();
                 criteriaTag.andTagLike('%' + key + '%');
-                if(null != tabTagMapper.selectByExample(tabTagExample)) {
+                if(null != tabTagMapper.selectByExample(tabTagExample) && tabTagMapper.selectByExample(tabTagExample).size() > 0) {
                     List<TabTag> tagList = tabTagMapper.selectByExample(tabTagExample);
 
                     Iterator<TabTag> tagIter = tagList.iterator();
@@ -246,7 +247,7 @@ public class LessonServiceImpl implements LessonService {
                         TabLessonTagExample tabLessonTagExample = new TabLessonTagExample();
                         TabLessonTagExample.Criteria criteriaLessonTag = tabLessonTagExample.createCriteria();
                         criteriaLessonTag.andTagIdEqualTo(nowTag.getTagId());
-                        if(null != tabLessonTagMapper.selectByExample(tabLessonTagExample)) {
+                        if(null != tabLessonTagMapper.selectByExample(tabLessonTagExample) && tabLessonMapper.selectByExample(tabLessonExample).size() > 0) {
                             List<TabLessonTag> lessonTagList = tabLessonTagMapper.selectByExample(tabLessonTagExample);
 
                             Iterator<TabLessonTag> lessonTagIter = lessonTagList.iterator();
@@ -262,5 +263,10 @@ public class LessonServiceImpl implements LessonService {
 
         }
         return rtnList;
+    }
+
+    @Override
+    public List<LessonInfo> listFavoriteLessons(Optional<Long> userId, Integer type, Integer pageNum, Integer pageSize) {
+        return null;
     }
 }
