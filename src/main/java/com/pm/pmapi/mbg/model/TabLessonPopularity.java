@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @Description mbg自动生成tab_lesson_popularity表实体类
  *
- * @date 2021-12-18 07:29
+ * @date 2021-12-20 09:27
  */
 public class TabLessonPopularity implements Serializable {
     private Long id;

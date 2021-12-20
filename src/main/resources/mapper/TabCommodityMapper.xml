@@ -11,18 +11,18 @@
     <result column="author" jdbcType="VARCHAR" property="author" />
     <result column="publisher" jdbcType="VARCHAR" property="publisher" />
     <result column="cover_percentage" jdbcType="VARCHAR" property="coverPercentage" />
-    <result column="image_url" jdbcType="VARCHAR" property="imageUrl" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="price" jdbcType="DOUBLE" property="price" />
     <result column="single_print" jdbcType="BIT" property="singlePrint" />
     <result column="deal_method" jdbcType="INTEGER" property="dealMethod" />
     <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
-    <result column="chapters" jdbcType="VARCHAR" property="chapters" />
+    <result column="chapters" jdbcType="INTEGER" property="chapters" />
     <result column="paper_size" jdbcType="VARCHAR" property="paperSize" />
     <result column="new_degree" jdbcType="VARCHAR" property="newDegree" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="image_url" jdbcType="VARCHAR" property="imageUrl" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -84,8 +84,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, name, lesson_id, teacher_id, seller_id, type, author, publisher, cover_percentage, 
-    image_url, content, price, single_print, deal_method, commodity_id, chapters, paper_size, 
-    new_degree, unit, create_time, modify_time
+    content, price, single_print, deal_method, commodity_id, chapters, paper_size, new_degree, 
+    unit, create_time, modify_time, image_url
   </sql>
   <select id="selectByExample" parameterType="com.pm.pmapi.mbg.model.TabCommodityExample" resultMap="BaseResultMap">
     select
@@ -123,18 +123,18 @@
     </selectKey>
     insert into tab_commodity (name, lesson_id, teacher_id, 
       seller_id, type, author, 
-      publisher, cover_percentage, image_url, 
-      content, price, single_print, 
-      deal_method, commodity_id, chapters, 
-      paper_size, new_degree, unit, 
-      create_time, modify_time)
+      publisher, cover_percentage, content, 
+      price, single_print, deal_method, 
+      commodity_id, chapters, paper_size, 
+      new_degree, unit, create_time, 
+      modify_time, image_url)
     values (#{name,jdbcType=VARCHAR}, #{lessonId,jdbcType=VARCHAR}, #{teacherId,jdbcType=BIGINT}, 
       #{sellerId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{author,jdbcType=VARCHAR}, 
-      #{publisher,jdbcType=VARCHAR}, #{coverPercentage,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR}, 
-      #{content,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{singlePrint,jdbcType=BIT}, 
-      #{dealMethod,jdbcType=INTEGER}, #{commodityId,jdbcType=BIGINT}, #{chapters,jdbcType=VARCHAR}, 
-      #{paperSize,jdbcType=VARCHAR}, #{newDegree,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
+      #{publisher,jdbcType=VARCHAR}, #{coverPercentage,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DOUBLE}, #{singlePrint,jdbcType=BIT}, #{dealMethod,jdbcType=INTEGER}, 
+      #{commodityId,jdbcType=BIGINT}, #{chapters,jdbcType=INTEGER}, #{paperSize,jdbcType=VARCHAR}, 
+      #{newDegree,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{imageUrl,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pm.pmapi.mbg.model.TabCommodity">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -165,9 +165,6 @@
       </if>
       <if test="coverPercentage != null">
         cover_percentage,
-      </if>
-      <if test="imageUrl != null">
-        image_url,
       </if>
       <if test="content != null">
         content,
@@ -202,6 +199,9 @@
       <if test="modifyTime != null">
         modify_time,
       </if>
+      <if test="imageUrl != null">
+        image_url,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="name != null">
@@ -228,9 +228,6 @@
       <if test="coverPercentage != null">
         #{coverPercentage,jdbcType=VARCHAR},
       </if>
-      <if test="imageUrl != null">
-        #{imageUrl,jdbcType=VARCHAR},
-      </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
       </if>
@@ -247,7 +244,7 @@
         #{commodityId,jdbcType=BIGINT},
       </if>
       <if test="chapters != null">
-        #{chapters,jdbcType=VARCHAR},
+        #{chapters,jdbcType=INTEGER},
       </if>
       <if test="paperSize != null">
         #{paperSize,jdbcType=VARCHAR},
@@ -263,6 +260,9 @@
       </if>
       <if test="modifyTime != null">
         #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imageUrl != null">
+        #{imageUrl,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -302,9 +302,6 @@
       <if test="record.coverPercentage != null">
         cover_percentage = #{record.coverPercentage,jdbcType=VARCHAR},
       </if>
-      <if test="record.imageUrl != null">
-        image_url = #{record.imageUrl,jdbcType=VARCHAR},
-      </if>
       <if test="record.content != null">
         content = #{record.content,jdbcType=VARCHAR},
       </if>
@@ -321,7 +318,7 @@
         commodity_id = #{record.commodityId,jdbcType=BIGINT},
       </if>
       <if test="record.chapters != null">
-        chapters = #{record.chapters,jdbcType=VARCHAR},
+        chapters = #{record.chapters,jdbcType=INTEGER},
       </if>
       <if test="record.paperSize != null">
         paper_size = #{record.paperSize,jdbcType=VARCHAR},
@@ -337,6 +334,9 @@
       </if>
       <if test="record.modifyTime != null">
         modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.imageUrl != null">
+        image_url = #{record.imageUrl,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -354,18 +354,18 @@
       author = #{record.author,jdbcType=VARCHAR},
       publisher = #{record.publisher,jdbcType=VARCHAR},
       cover_percentage = #{record.coverPercentage,jdbcType=VARCHAR},
-      image_url = #{record.imageUrl,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
       price = #{record.price,jdbcType=DOUBLE},
       single_print = #{record.singlePrint,jdbcType=BIT},
       deal_method = #{record.dealMethod,jdbcType=INTEGER},
       commodity_id = #{record.commodityId,jdbcType=BIGINT},
-      chapters = #{record.chapters,jdbcType=VARCHAR},
+      chapters = #{record.chapters,jdbcType=INTEGER},
       paper_size = #{record.paperSize,jdbcType=VARCHAR},
       new_degree = #{record.newDegree,jdbcType=VARCHAR},
       unit = #{record.unit,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP}
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      image_url = #{record.imageUrl,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -397,9 +397,6 @@
       <if test="coverPercentage != null">
         cover_percentage = #{coverPercentage,jdbcType=VARCHAR},
       </if>
-      <if test="imageUrl != null">
-        image_url = #{imageUrl,jdbcType=VARCHAR},
-      </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
       </if>
@@ -416,7 +413,7 @@
         commodity_id = #{commodityId,jdbcType=BIGINT},
       </if>
       <if test="chapters != null">
-        chapters = #{chapters,jdbcType=VARCHAR},
+        chapters = #{chapters,jdbcType=INTEGER},
       </if>
       <if test="paperSize != null">
         paper_size = #{paperSize,jdbcType=VARCHAR},
@@ -433,6 +430,9 @@
       <if test="modifyTime != null">
         modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="imageUrl != null">
+        image_url = #{imageUrl,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -446,18 +446,18 @@
       author = #{author,jdbcType=VARCHAR},
       publisher = #{publisher,jdbcType=VARCHAR},
       cover_percentage = #{coverPercentage,jdbcType=VARCHAR},
-      image_url = #{imageUrl,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       price = #{price,jdbcType=DOUBLE},
       single_print = #{singlePrint,jdbcType=BIT},
       deal_method = #{dealMethod,jdbcType=INTEGER},
       commodity_id = #{commodityId,jdbcType=BIGINT},
-      chapters = #{chapters,jdbcType=VARCHAR},
+      chapters = #{chapters,jdbcType=INTEGER},
       paper_size = #{paperSize,jdbcType=VARCHAR},
       new_degree = #{newDegree,jdbcType=VARCHAR},
       unit = #{unit,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      image_url = #{imageUrl,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

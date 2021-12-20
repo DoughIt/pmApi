@@ -86,18 +86,11 @@ public class CmsController {
 
     @RequestMapping(value = "/ppt", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<Object> addPPT(@RequestParam("picture")MultipartFile file, @RequestParam("lessonId") String lessonId, @RequestParam("chapters") String chapters, @RequestParam("paperSize") String paperSize,
+    public CommonResult<Object> addPPT(@RequestParam("filename")String filename, @RequestParam("lessonId") String lessonId, @RequestParam("chapters") String chapters, @RequestParam("paperSize") String paperSize,
                                        @RequestParam("singlePrint") boolean singlePrint, @RequestParam("newDegree") String newDegree, @RequestParam("price") Double price, @RequestParam("content") String content) {
-        if (null == file || file.isEmpty()){
-            return CommonResult.failed("请选择图片");
-        }
-        String url = uploadUtil.uploadFile(file,null);
-        if (StrUtil.isEmptyOrUndefined(url)){
-            return CommonResult.failed("上传失败");
-        }
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
         CommodityParam commodityParam = new CommodityParam();
-        commodityParam.setImageUrl(url);
+        commodityParam.setFilename(filename);
         commodityParam.setSellerId(userId);
         commodityParam.setLessonId(lessonId);
         commodityParam.setSinglePrint(singlePrint);
@@ -111,18 +104,11 @@ public class CmsController {
 
     @RequestMapping(value = "/book", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<Object> addBooks(@RequestParam("picture")MultipartFile file, @RequestParam("lessonId") String lessonId, @RequestParam("name") String name, @RequestParam("author") String author,
+    public CommonResult<Object> addBooks(@RequestParam("filename")String filename, @RequestParam("lessonId") String lessonId, @RequestParam("name") String name, @RequestParam("author") String author,
                                          @RequestParam("publisher") String publisher, @RequestParam("newDegree") String newDegree, @RequestParam("price") Double price, @RequestParam("content") String content) {
-        if (null == file || file.isEmpty()){
-            return CommonResult.failed("请选择图片");
-        }
-        String url = uploadUtil.uploadFile(file,null);
-        if (StrUtil.isEmptyOrUndefined(url)){
-            return CommonResult.failed("上传失败");
-        }
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
         CommodityParam commodityParam = new CommodityParam();
-        commodityParam.setImageUrl(url);
+        commodityParam.setFilename(filename);
         commodityParam.setSellerId(userId);
         commodityParam.setLessonId(lessonId);
         commodityParam.setName(name);
@@ -136,18 +122,11 @@ public class CmsController {
 
     @RequestMapping(value = "/notes", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<Object> addNotes(@RequestParam("picture")MultipartFile file, @RequestParam("lessonId") String lessonId, @RequestParam("coverPercentage") String coverPercentage,
+    public CommonResult<Object> addNotes(@RequestParam("filename")String filename, @RequestParam("lessonId") String lessonId, @RequestParam("coverPercentage") String coverPercentage,
                                          @RequestParam("price") Double price, @RequestParam("content") String content) {
-        if (null == file || file.isEmpty()){
-            return CommonResult.failed("请选择图片");
-        }
-        String url = uploadUtil.uploadFile(file,null);
-        if (StrUtil.isEmptyOrUndefined(url)){
-            return CommonResult.failed("上传失败");
-        }
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
         CommodityParam commodityParam = new CommodityParam();
-        commodityParam.setImageUrl(url);
+        commodityParam.setFilename(filename);
         commodityParam.setSellerId(userId);
         commodityParam.setLessonId(lessonId);
         commodityParam.setPrice(price);

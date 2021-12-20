@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * @Description mbg自动生成tab_topic表实体类
  *
- * @date 2021-12-15 08:43
+ * @date 2021-12-20 09:27
  */
 public class TabTopic implements Serializable {
     private Long id;

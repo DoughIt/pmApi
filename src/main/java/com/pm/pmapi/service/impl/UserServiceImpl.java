@@ -197,6 +197,7 @@ public class UserServiceImpl implements UserService {
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
             }
         }
+        user.setNav(rawUser.getNav());
         userCacheService.delUser(user.getId());
         return userMapper.updateByPrimaryKeySelective(user);
     }
