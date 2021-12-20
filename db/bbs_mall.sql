@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 19/12/2021 23:18:40
+ Date: 20/12/2021 08:06:51
 */
 
 SET NAMES utf8mb4;
@@ -79,9 +79,11 @@ COMMIT;
 DROP TABLE IF EXISTS `tab_favorite_lesson`;
 CREATE TABLE `tab_favorite_lesson` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) unsigned DEFAULT NULL,
   `lesson_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `tab_favorite_lesson_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tab_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
@@ -183,11 +185,13 @@ DROP TABLE IF EXISTS `tab_lesson_user_tag`;
 CREATE TABLE `tab_lesson_user_tag` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `tag_id` bigint(20) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) unsigned DEFAULT NULL,
   `lesson_id` bigint(20) NOT NULL,
   `positiveSelected` tinyint(1) DEFAULT '0',
   `negetiveSelected` tinyint(1) DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `tab_lesson_user_tag_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tab_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
