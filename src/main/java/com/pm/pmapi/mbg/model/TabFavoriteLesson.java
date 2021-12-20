@@ -3,33 +3,25 @@ package com.pm.pmapi.mbg.model;
 import java.io.Serializable;
 
 /**
- * @Description mbg自动生成tab_favorite表实体类
+ * @Description mbg自动生成tab_favorite_lesson表实体类
  *
  * @date 2021-12-20 09:27
  */
-public class TabFavorite implements Serializable {
-    private Integer id;
-
-    private Long commodityId;
+public class TabFavoriteLesson implements Serializable {
+    private Long id;
 
     private Long userId;
 
+    private Long lessonId;
+
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getCommodityId() {
-        return commodityId;
-    }
-
-    public void setCommodityId(Long commodityId) {
-        this.commodityId = commodityId;
     }
 
     public Long getUserId() {
@@ -40,6 +32,14 @@ public class TabFavorite implements Serializable {
         this.userId = userId;
     }
 
+    public Long getLessonId() {
+        return lessonId;
+    }
+
+    public void setLessonId(Long lessonId) {
+        this.lessonId = lessonId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -47,8 +47,8 @@ public class TabFavorite implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", commodityId=").append(commodityId);
         sb.append(", userId=").append(userId);
+        sb.append(", lessonId=").append(lessonId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

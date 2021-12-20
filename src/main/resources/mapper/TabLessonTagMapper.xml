@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pm.pmapi.mbg.mapper.TabTagMapper">
-  <resultMap id="BaseResultMap" type="com.pm.pmapi.mbg.model.TabTag">
-    <id column="tag_id" jdbcType="BIGINT" property="tagId" />
-    <result column="tag" jdbcType="VARCHAR" property="tag" />
+<mapper namespace="com.pm.pmapi.mbg.mapper.TabLessonTagMapper">
+  <resultMap id="BaseResultMap" type="com.pm.pmapi.mbg.model.TabLessonTag">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="tag_id" jdbcType="BIGINT" property="tagId" />
+    <result column="lesson_id" jdbcType="BIGINT" property="lessonId" />
+    <result column="positive" jdbcType="BIGINT" property="positive" />
+    <result column="negative" jdbcType="BIGINT" property="negative" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -64,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    tag_id, tag
+    id, tag_id, lesson_id, positive, negative
   </sql>
-  <select id="selectByExample" parameterType="com.pm.pmapi.mbg.model.TabTagExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.pm.pmapi.mbg.model.TabLessonTagExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from tab_tag
+    from tab_lesson_tag
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -83,56 +86,85 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from tab_tag
-    where tag_id = #{tagId,jdbcType=BIGINT}
+    from tab_lesson_tag
+    where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from tab_tag
-    where tag_id = #{tagId,jdbcType=BIGINT}
+    delete from tab_lesson_tag
+    where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.pm.pmapi.mbg.model.TabTagExample">
-    delete from tab_tag
+  <delete id="deleteByExample" parameterType="com.pm.pmapi.mbg.model.TabLessonTagExample">
+    delete from tab_lesson_tag
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.pm.pmapi.mbg.model.TabTag">
-    insert into tab_tag (tag_id, tag)
-    values (#{tagId,jdbcType=BIGINT}, #{tag,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.pm.pmapi.mbg.model.TabLessonTag">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tab_lesson_tag (tag_id, lesson_id, positive, 
+      negative)
+    values (#{tagId,jdbcType=BIGINT}, #{lessonId,jdbcType=BIGINT}, #{positive,jdbcType=BIGINT}, 
+      #{negative,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.pm.pmapi.mbg.model.TabTag">
-    insert into tab_tag
+  <insert id="insertSelective" parameterType="com.pm.pmapi.mbg.model.TabLessonTag">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tab_lesson_tag
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="tagId != null">
         tag_id,
       </if>
-      <if test="tag != null">
-        tag,
+      <if test="lessonId != null">
+        lesson_id,
+      </if>
+      <if test="positive != null">
+        positive,
+      </if>
+      <if test="negative != null">
+        negative,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="tagId != null">
         #{tagId,jdbcType=BIGINT},
       </if>
-      <if test="tag != null">
-        #{tag,jdbcType=VARCHAR},
+      <if test="lessonId != null">
+        #{lessonId,jdbcType=BIGINT},
+      </if>
+      <if test="positive != null">
+        #{positive,jdbcType=BIGINT},
+      </if>
+      <if test="negative != null">
+        #{negative,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.pm.pmapi.mbg.model.TabTagExample" resultType="java.lang.Long">
-    select count(*) from tab_tag
+  <select id="countByExample" parameterType="com.pm.pmapi.mbg.model.TabLessonTagExample" resultType="java.lang.Long">
+    select count(*) from tab_lesson_tag
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update tab_tag
+    update tab_lesson_tag
     <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
       <if test="record.tagId != null">
         tag_id = #{record.tagId,jdbcType=BIGINT},
       </if>
-      <if test="record.tag != null">
-        tag = #{record.tag,jdbcType=VARCHAR},
+      <if test="record.lessonId != null">
+        lesson_id = #{record.lessonId,jdbcType=BIGINT},
+      </if>
+      <if test="record.positive != null">
+        positive = #{record.positive,jdbcType=BIGINT},
+      </if>
+      <if test="record.negative != null">
+        negative = #{record.negative,jdbcType=BIGINT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -140,25 +172,40 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update tab_tag
-    set tag_id = #{record.tagId,jdbcType=BIGINT},
-      tag = #{record.tag,jdbcType=VARCHAR}
+    update tab_lesson_tag
+    set id = #{record.id,jdbcType=BIGINT},
+      tag_id = #{record.tagId,jdbcType=BIGINT},
+      lesson_id = #{record.lessonId,jdbcType=BIGINT},
+      positive = #{record.positive,jdbcType=BIGINT},
+      negative = #{record.negative,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pm.pmapi.mbg.model.TabTag">
-    update tab_tag
+  <update id="updateByPrimaryKeySelective" parameterType="com.pm.pmapi.mbg.model.TabLessonTag">
+    update tab_lesson_tag
     <set>
-      <if test="tag != null">
-        tag = #{tag,jdbcType=VARCHAR},
+      <if test="tagId != null">
+        tag_id = #{tagId,jdbcType=BIGINT},
+      </if>
+      <if test="lessonId != null">
+        lesson_id = #{lessonId,jdbcType=BIGINT},
+      </if>
+      <if test="positive != null">
+        positive = #{positive,jdbcType=BIGINT},
+      </if>
+      <if test="negative != null">
+        negative = #{negative,jdbcType=BIGINT},
       </if>
     </set>
-    where tag_id = #{tagId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.pm.pmapi.mbg.model.TabTag">
-    update tab_tag
-    set tag = #{tag,jdbcType=VARCHAR}
-    where tag_id = #{tagId,jdbcType=BIGINT}
+  <update id="updateByPrimaryKey" parameterType="com.pm.pmapi.mbg.model.TabLessonTag">
+    update tab_lesson_tag
+    set tag_id = #{tagId,jdbcType=BIGINT},
+      lesson_id = #{lessonId,jdbcType=BIGINT},
+      positive = #{positive,jdbcType=BIGINT},
+      negative = #{negative,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

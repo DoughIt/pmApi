@@ -3,14 +3,14 @@ package com.pm.pmapi.mbg.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TabTagExample {
+public class TabLessonTagExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public TabTagExample() {
+    public TabLessonTagExample() {
         oredCriteria = new ArrayList<>();
     }
 
@@ -104,6 +104,66 @@ public class TabTagExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
+        public Criteria andIdIsNull() {
+            addCriterion("id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdIsNotNull() {
+            addCriterion("id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdEqualTo(Long value) {
+            addCriterion("id =", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdNotEqualTo(Long value) {
+            addCriterion("id <>", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdGreaterThan(Long value) {
+            addCriterion("id >", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("id >=", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdLessThan(Long value) {
+            addCriterion("id <", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdLessThanOrEqualTo(Long value) {
+            addCriterion("id <=", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdIn(List<Long> values) {
+            addCriterion("id in", values, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdNotIn(List<Long> values) {
+            addCriterion("id not in", values, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdBetween(Long value1, Long value2) {
+            addCriterion("id between", value1, value2, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdNotBetween(Long value1, Long value2) {
+            addCriterion("id not between", value1, value2, "id");
+            return (Criteria) this;
+        }
+
         public Criteria andTagIdIsNull() {
             addCriterion("tag_id is null");
             return (Criteria) this;
@@ -164,73 +224,183 @@ public class TabTagExample {
             return (Criteria) this;
         }
 
-        public Criteria andTagIsNull() {
-            addCriterion("tag is null");
+        public Criteria andLessonIdIsNull() {
+            addCriterion("lesson_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andTagIsNotNull() {
-            addCriterion("tag is not null");
+        public Criteria andLessonIdIsNotNull() {
+            addCriterion("lesson_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTagEqualTo(String value) {
-            addCriterion("tag =", value, "tag");
+        public Criteria andLessonIdEqualTo(Long value) {
+            addCriterion("lesson_id =", value, "lessonId");
             return (Criteria) this;
         }
 
-        public Criteria andTagNotEqualTo(String value) {
-            addCriterion("tag <>", value, "tag");
+        public Criteria andLessonIdNotEqualTo(Long value) {
+            addCriterion("lesson_id <>", value, "lessonId");
             return (Criteria) this;
         }
 
-        public Criteria andTagGreaterThan(String value) {
-            addCriterion("tag >", value, "tag");
+        public Criteria andLessonIdGreaterThan(Long value) {
+            addCriterion("lesson_id >", value, "lessonId");
             return (Criteria) this;
         }
 
-        public Criteria andTagGreaterThanOrEqualTo(String value) {
-            addCriterion("tag >=", value, "tag");
+        public Criteria andLessonIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("lesson_id >=", value, "lessonId");
             return (Criteria) this;
         }
 
-        public Criteria andTagLessThan(String value) {
-            addCriterion("tag <", value, "tag");
+        public Criteria andLessonIdLessThan(Long value) {
+            addCriterion("lesson_id <", value, "lessonId");
             return (Criteria) this;
         }
 
-        public Criteria andTagLessThanOrEqualTo(String value) {
-            addCriterion("tag <=", value, "tag");
+        public Criteria andLessonIdLessThanOrEqualTo(Long value) {
+            addCriterion("lesson_id <=", value, "lessonId");
             return (Criteria) this;
         }
 
-        public Criteria andTagLike(String value) {
-            addCriterion("tag like", value, "tag");
+        public Criteria andLessonIdIn(List<Long> values) {
+            addCriterion("lesson_id in", values, "lessonId");
             return (Criteria) this;
         }
 
-        public Criteria andTagNotLike(String value) {
-            addCriterion("tag not like", value, "tag");
+        public Criteria andLessonIdNotIn(List<Long> values) {
+            addCriterion("lesson_id not in", values, "lessonId");
             return (Criteria) this;
         }
 
-        public Criteria andTagIn(List<String> values) {
-            addCriterion("tag in", values, "tag");
+        public Criteria andLessonIdBetween(Long value1, Long value2) {
+            addCriterion("lesson_id between", value1, value2, "lessonId");
             return (Criteria) this;
         }
 
-        public Criteria andTagNotIn(List<String> values) {
-            addCriterion("tag not in", values, "tag");
+        public Criteria andLessonIdNotBetween(Long value1, Long value2) {
+            addCriterion("lesson_id not between", value1, value2, "lessonId");
             return (Criteria) this;
         }
 
-        public Criteria andTagBetween(String value1, String value2) {
-            addCriterion("tag between", value1, value2, "tag");
+        public Criteria andPositiveIsNull() {
+            addCriterion("positive is null");
             return (Criteria) this;
         }
 
-        public Criteria andTagNotBetween(String value1, String value2) {
-            addCriterion("tag not between", value1, value2, "tag");
+        public Criteria andPositiveIsNotNull() {
+            addCriterion("positive is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveEqualTo(Long value) {
+            addCriterion("positive =", value, "positive");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveNotEqualTo(Long value) {
+            addCriterion("positive <>", value, "positive");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveGreaterThan(Long value) {
+            addCriterion("positive >", value, "positive");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveGreaterThanOrEqualTo(Long value) {
+            addCriterion("positive >=", value, "positive");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveLessThan(Long value) {
+            addCriterion("positive <", value, "positive");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveLessThanOrEqualTo(Long value) {
+            addCriterion("positive <=", value, "positive");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveIn(List<Long> values) {
+            addCriterion("positive in", values, "positive");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveNotIn(List<Long> values) {
+            addCriterion("positive not in", values, "positive");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveBetween(Long value1, Long value2) {
+            addCriterion("positive between", value1, value2, "positive");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveNotBetween(Long value1, Long value2) {
+            addCriterion("positive not between", value1, value2, "positive");
+            return (Criteria) this;
+        }
+
+        public Criteria andNegativeIsNull() {
+            addCriterion("negative is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNegativeIsNotNull() {
+            addCriterion("negative is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNegativeEqualTo(Long value) {
+            addCriterion("negative =", value, "negative");
+            return (Criteria) this;
+        }
+
+        public Criteria andNegativeNotEqualTo(Long value) {
+            addCriterion("negative <>", value, "negative");
+            return (Criteria) this;
+        }
+
+        public Criteria andNegativeGreaterThan(Long value) {
+            addCriterion("negative >", value, "negative");
+            return (Criteria) this;
+        }
+
+        public Criteria andNegativeGreaterThanOrEqualTo(Long value) {
+            addCriterion("negative >=", value, "negative");
+            return (Criteria) this;
+        }
+
+        public Criteria andNegativeLessThan(Long value) {
+            addCriterion("negative <", value, "negative");
+            return (Criteria) this;
+        }
+
+        public Criteria andNegativeLessThanOrEqualTo(Long value) {
+            addCriterion("negative <=", value, "negative");
+            return (Criteria) this;
+        }
+
+        public Criteria andNegativeIn(List<Long> values) {
+            addCriterion("negative in", values, "negative");
+            return (Criteria) this;
+        }
+
+        public Criteria andNegativeNotIn(List<Long> values) {
+            addCriterion("negative not in", values, "negative");
+            return (Criteria) this;
+        }
+
+        public Criteria andNegativeBetween(Long value1, Long value2) {
+            addCriterion("negative between", value1, value2, "negative");
+            return (Criteria) this;
+        }
+
+        public Criteria andNegativeNotBetween(Long value1, Long value2) {
+            addCriterion("negative not between", value1, value2, "negative");
             return (Criteria) this;
         }
     }

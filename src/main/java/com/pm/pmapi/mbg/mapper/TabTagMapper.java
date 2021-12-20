@@ -10,13 +10,21 @@ public interface TabTagMapper {
 
     int deleteByExample(TabTagExample example);
 
+    int deleteByPrimaryKey(Long tagId);
+
     int insert(TabTag record);
 
     int insertSelective(TabTag record);
 
     List<TabTag> selectByExample(TabTagExample example);
 
+    TabTag selectByPrimaryKey(Long tagId);
+
     int updateByExampleSelective(@Param("record") TabTag record, @Param("example") TabTagExample example);
 
     int updateByExample(@Param("record") TabTag record, @Param("example") TabTagExample example);
+
+    int updateByPrimaryKeySelective(TabTag record);
+
+    int updateByPrimaryKey(TabTag record);
 }
