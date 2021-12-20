@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @program: pmApi
@@ -36,6 +33,7 @@ public class CmsController {
 
     UploadUtil uploadUtil = new UploadUtil();
     FormDataUtil formDataUtil = new FormDataUtil();
+
     /**
      * 获取PPT信息
      */
@@ -64,23 +62,26 @@ public class CmsController {
 
     @RequestMapping(value = "/ppts", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<Object> getPPTs(@RequestParam(value = "key") String key, @RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
+    public CommonResult<Object> getPPTs(@RequestParam(value = "key") Optional<String> key, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                        @RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize) {
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
-        return CommonResult.success(commodityService.listCommoditiesByTypeAndKey(userId, 1, key, pageNum, pageSize));
+        return CommonResult.success(commodityService.listCommoditiesByTypeAndKey(userId, 1, key.orElse(""), pageNum, pageSize));
     }
 
     @RequestMapping(value = "/books", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<Object> getBooks(@RequestParam(value = "key") String key, @RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
+    public CommonResult<Object> getBooks(@RequestParam(value = "key") Optional<String> key, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                         @RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize) {
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
-        return CommonResult.success(commodityService.listCommoditiesByTypeAndKey(userId, 2, key, pageNum, pageSize));
+        return CommonResult.success(commodityService.listCommoditiesByTypeAndKey(userId, 2, key.orElse(""), pageNum, pageSize));
     }
 
-    @RequestMapping(value = "/noteses", method = RequestMethod.GET)
+    @RequestMapping(value = "/notes", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<Object> getNotses(@RequestParam(value = "key") String key, @RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
+    public CommonResult<Object> getNotses(@RequestParam(value = "key") Optional<String> key, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                          @RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize) {
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
-        return CommonResult.success(commodityService.listCommoditiesByTypeAndKey(userId, 3, key, pageNum, pageSize));
+        return CommonResult.success(commodityService.listCommoditiesByTypeAndKey(userId, 3, key.orElse(""), pageNum, pageSize));
     }
 
 
@@ -185,12 +186,18 @@ public class CmsController {
 
     @RequestMapping(value = "/commodities", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<Object> getCommodities(@RequestParam(value = "isMine") Boolean isMine, @RequestParam(value = "type") Integer type, @RequestParam(value = "isSold") Boolean isSold, @RequestParam(value = "lessonId") String lessonId, @RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
+    public CommonResult<Object> getCommodities(@RequestParam(value = "isMine") Optional<Boolean> isMine,
+                                               @RequestParam(value = "type") Optional<Integer> type,
+                                               @RequestParam(value = "isSold") Optional<Boolean> isSold,
+                                               @RequestParam(value = "lessonId") String lessonId,
+                                               @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                               @RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize) {
         Long userId = null;
-        if (isMine) {
+        if (isMine.isPresent()) {
             userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
         }
-        return CommonResult.success(commodityService.getCommodities(userId, type, lessonId, isSold, isMine, pageNum, pageSize));
+        return CommonResult.success(commodityService.getCommodities(userId, type.orElse(1), lessonId, isSold.orElse(false),
+                isMine.orElse(false), pageNum, pageSize));
     }
 
     @RequestMapping(value = "/favorite", method = RequestMethod.POST)

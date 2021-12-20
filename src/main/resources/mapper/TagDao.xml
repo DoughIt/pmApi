@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pm.pmapi.dao.TagDao">
+    <resultMap id="BaseResultMap" type="com.pm.pmapi.dto.TagInfo">
+        <id column="tag_id" jdbcType="BIGINT" property="tagId"/>
+        <result column="lesson_id" jdbcType="BIGINT" property="lessonId" />
+        <result column="positive" jdbcType="BIGINT" property="positive" />
+        <result column="negative" jdbcType="BIGINT" property="negative" />
+    </resultMap>
+    <select id="getTagInfoByTagIdAndLessonId" resultMap="BaseResultMap">
+        select tag_id, lesson_id, positive, negative
+        from tab_lesson_tag where tag_id=#{tagId} and lesson_id=#{lessonId}
+    </select>
+    <select id="listTagInfoByTLessonId" resultMap="BaseResultMap">
+        select tag_id, lesson_id, positive, negative
+        from tab_lesson_tag where lesson_id=#{lessonId}
+    </select>
+</mapper>

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pm.pmapi.mbg.mapper.TabLessonUserTagMapper">
+  <resultMap id="BaseResultMap" type="com.pm.pmapi.mbg.model.TabLessonUserTag">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="tag_id" jdbcType="BIGINT" property="tagId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="lesson_id" jdbcType="BIGINT" property="lessonId" />
+    <result column="positiveSelected" jdbcType="BIT" property="positiveselected" />
+    <result column="negetiveSelected" jdbcType="BIT" property="negetiveselected" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, tag_id, user_id, lesson_id, positiveSelected, negetiveSelected
+  </sql>
+  <select id="selectByExample" parameterType="com.pm.pmapi.mbg.model.TabLessonUserTagExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tab_lesson_user_tag
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tab_lesson_user_tag
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tab_lesson_user_tag
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pm.pmapi.mbg.model.TabLessonUserTagExample">
+    delete from tab_lesson_user_tag
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pm.pmapi.mbg.model.TabLessonUserTag">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tab_lesson_user_tag (tag_id, user_id, lesson_id, 
+      positiveSelected, negetiveSelected)
+    values (#{tagId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{lessonId,jdbcType=BIGINT}, 
+      #{positiveselected,jdbcType=BIT}, #{negetiveselected,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pm.pmapi.mbg.model.TabLessonUserTag">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tab_lesson_user_tag
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tagId != null">
+        tag_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="lessonId != null">
+        lesson_id,
+      </if>
+      <if test="positiveselected != null">
+        positiveSelected,
+      </if>
+      <if test="negetiveselected != null">
+        negetiveSelected,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tagId != null">
+        #{tagId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="lessonId != null">
+        #{lessonId,jdbcType=BIGINT},
+      </if>
+      <if test="positiveselected != null">
+        #{positiveselected,jdbcType=BIT},
+      </if>
+      <if test="negetiveselected != null">
+        #{negetiveselected,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pm.pmapi.mbg.model.TabLessonUserTagExample" resultType="java.lang.Long">
+    select count(*) from tab_lesson_user_tag
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tab_lesson_user_tag
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.tagId != null">
+        tag_id = #{record.tagId,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.lessonId != null">
+        lesson_id = #{record.lessonId,jdbcType=BIGINT},
+      </if>
+      <if test="record.positiveselected != null">
+        positiveSelected = #{record.positiveselected,jdbcType=BIT},
+      </if>
+      <if test="record.negetiveselected != null">
+        negetiveSelected = #{record.negetiveselected,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tab_lesson_user_tag
+    set id = #{record.id,jdbcType=BIGINT},
+      tag_id = #{record.tagId,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      lesson_id = #{record.lessonId,jdbcType=BIGINT},
+      positiveSelected = #{record.positiveselected,jdbcType=BIT},
+      negetiveSelected = #{record.negetiveselected,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pm.pmapi.mbg.model.TabLessonUserTag">
+    update tab_lesson_user_tag
+    <set>
+      <if test="tagId != null">
+        tag_id = #{tagId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="lessonId != null">
+        lesson_id = #{lessonId,jdbcType=BIGINT},
+      </if>
+      <if test="positiveselected != null">
+        positiveSelected = #{positiveselected,jdbcType=BIT},
+      </if>
+      <if test="negetiveselected != null">
+        negetiveSelected = #{negetiveselected,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pm.pmapi.mbg.model.TabLessonUserTag">
+    update tab_lesson_user_tag
+    set tag_id = #{tagId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      lesson_id = #{lessonId,jdbcType=BIGINT},
+      positiveSelected = #{positiveselected,jdbcType=BIT},
+      negetiveSelected = #{negetiveselected,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * @Description mbg自动生成tab_commodity表实体类
  *
- * @date 2021-12-16 02:55
+ * @date 2021-12-20 09:27
  */
 public class TabCommodity implements Serializable {
     /**
@@ -32,8 +32,6 @@ public class TabCommodity implements Serializable {
 
     private String coverPercentage;
 
-    private String filename;
-
     private String content;
 
     private Double price;
@@ -44,7 +42,7 @@ public class TabCommodity implements Serializable {
 
     private Long commodityId;
 
-    private String chapters;
+    private Integer chapters;
 
     private String paperSize;
 
@@ -55,6 +53,8 @@ public class TabCommodity implements Serializable {
     private Date createTime;
 
     private Date modifyTime;
+
+    private String imageUrl;
 
     private static final long serialVersionUID = 1L;
 
@@ -130,14 +130,6 @@ public class TabCommodity implements Serializable {
         this.coverPercentage = coverPercentage;
     }
 
-    public String getFilename() {
-        return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
-
     public String getContent() {
         return content;
     }
@@ -178,11 +170,11 @@ public class TabCommodity implements Serializable {
         this.commodityId = commodityId;
     }
 
-    public String getChapters() {
+    public Integer getChapters() {
         return chapters;
     }
 
-    public void setChapters(String chapters) {
+    public void setChapters(Integer chapters) {
         this.chapters = chapters;
     }
 
@@ -226,6 +218,14 @@ public class TabCommodity implements Serializable {
         this.modifyTime = modifyTime;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -241,7 +241,6 @@ public class TabCommodity implements Serializable {
         sb.append(", author=").append(author);
         sb.append(", publisher=").append(publisher);
         sb.append(", coverPercentage=").append(coverPercentage);
-        sb.append(", filename=").append(filename);
         sb.append(", content=").append(content);
         sb.append(", price=").append(price);
         sb.append(", singlePrint=").append(singlePrint);
@@ -253,6 +252,7 @@ public class TabCommodity implements Serializable {
         sb.append(", unit=").append(unit);
         sb.append(", createTime=").append(createTime);
         sb.append(", modifyTime=").append(modifyTime);
+        sb.append(", imageUrl=").append(imageUrl);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

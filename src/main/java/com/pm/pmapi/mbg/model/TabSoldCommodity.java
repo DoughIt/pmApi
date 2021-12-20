@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * @Description mbg自动生成tab_sold_commodity表实体类
  *
- * @date 2021-12-16 02:55
+ * @date 2021-12-20 09:27
  */
 public class TabSoldCommodity implements Serializable {
     private Long soldId;
@@ -27,7 +27,7 @@ public class TabSoldCommodity implements Serializable {
 
     private String coverPercentage;
 
-    private String filename;
+    private String imageId;
 
     private String content;
 
@@ -39,7 +39,7 @@ public class TabSoldCommodity implements Serializable {
 
     private Long commodityId;
 
-    private String chapters;
+    private Integer chapters;
 
     private String paperSize;
 
@@ -52,6 +52,8 @@ public class TabSoldCommodity implements Serializable {
     private Date modifyTime;
 
     private Long id;
+
+    private byte[] picture;
 
     private static final long serialVersionUID = 1L;
 
@@ -127,12 +129,12 @@ public class TabSoldCommodity implements Serializable {
         this.coverPercentage = coverPercentage;
     }
 
-    public String getFilename() {
-        return filename;
+    public String getImageId() {
+        return imageId;
     }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
     }
 
     public String getContent() {
@@ -175,11 +177,11 @@ public class TabSoldCommodity implements Serializable {
         this.commodityId = commodityId;
     }
 
-    public String getChapters() {
+    public Integer getChapters() {
         return chapters;
     }
 
-    public void setChapters(String chapters) {
+    public void setChapters(Integer chapters) {
         this.chapters = chapters;
     }
 
@@ -231,6 +233,14 @@ public class TabSoldCommodity implements Serializable {
         this.id = id;
     }
 
+    public byte[] getPicture() {
+        return picture;
+    }
+
+    public void setPicture(byte[] picture) {
+        this.picture = picture;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -246,7 +256,7 @@ public class TabSoldCommodity implements Serializable {
         sb.append(", author=").append(author);
         sb.append(", publisher=").append(publisher);
         sb.append(", coverPercentage=").append(coverPercentage);
-        sb.append(", filename=").append(filename);
+        sb.append(", imageId=").append(imageId);
         sb.append(", content=").append(content);
         sb.append(", price=").append(price);
         sb.append(", singlePrint=").append(singlePrint);
@@ -259,6 +269,7 @@ public class TabSoldCommodity implements Serializable {
         sb.append(", createTime=").append(createTime);
         sb.append(", modifyTime=").append(modifyTime);
         sb.append(", id=").append(id);
+        sb.append(", picture=").append(picture);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

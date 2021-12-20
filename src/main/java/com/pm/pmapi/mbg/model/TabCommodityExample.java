@@ -627,76 +627,6 @@ public class TabCommodityExample {
             return (Criteria) this;
         }
 
-        public Criteria andFilenameIsNull() {
-            addCriterion("filename is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilenameIsNotNull() {
-            addCriterion("filename is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilenameEqualTo(String value) {
-            addCriterion("filename =", value, "filename");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilenameNotEqualTo(String value) {
-            addCriterion("filename <>", value, "filename");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilenameGreaterThan(String value) {
-            addCriterion("filename >", value, "filename");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilenameGreaterThanOrEqualTo(String value) {
-            addCriterion("filename >=", value, "filename");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilenameLessThan(String value) {
-            addCriterion("filename <", value, "filename");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilenameLessThanOrEqualTo(String value) {
-            addCriterion("filename <=", value, "filename");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilenameLike(String value) {
-            addCriterion("filename like", value, "filename");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilenameNotLike(String value) {
-            addCriterion("filename not like", value, "filename");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilenameIn(List<String> values) {
-            addCriterion("filename in", values, "filename");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilenameNotIn(List<String> values) {
-            addCriterion("filename not in", values, "filename");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilenameBetween(String value1, String value2) {
-            addCriterion("filename between", value1, value2, "filename");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilenameNotBetween(String value1, String value2) {
-            addCriterion("filename not between", value1, value2, "filename");
-            return (Criteria) this;
-        }
-
         public Criteria andContentIsNull() {
             addCriterion("content is null");
             return (Criteria) this;
@@ -1017,62 +947,52 @@ public class TabCommodityExample {
             return (Criteria) this;
         }
 
-        public Criteria andChaptersEqualTo(String value) {
+        public Criteria andChaptersEqualTo(Integer value) {
             addCriterion("chapters =", value, "chapters");
             return (Criteria) this;
         }
 
-        public Criteria andChaptersNotEqualTo(String value) {
+        public Criteria andChaptersNotEqualTo(Integer value) {
             addCriterion("chapters <>", value, "chapters");
             return (Criteria) this;
         }
 
-        public Criteria andChaptersGreaterThan(String value) {
+        public Criteria andChaptersGreaterThan(Integer value) {
             addCriterion("chapters >", value, "chapters");
             return (Criteria) this;
         }
 
-        public Criteria andChaptersGreaterThanOrEqualTo(String value) {
+        public Criteria andChaptersGreaterThanOrEqualTo(Integer value) {
             addCriterion("chapters >=", value, "chapters");
             return (Criteria) this;
         }
 
-        public Criteria andChaptersLessThan(String value) {
+        public Criteria andChaptersLessThan(Integer value) {
             addCriterion("chapters <", value, "chapters");
             return (Criteria) this;
         }
 
-        public Criteria andChaptersLessThanOrEqualTo(String value) {
+        public Criteria andChaptersLessThanOrEqualTo(Integer value) {
             addCriterion("chapters <=", value, "chapters");
             return (Criteria) this;
         }
 
-        public Criteria andChaptersLike(String value) {
-            addCriterion("chapters like", value, "chapters");
-            return (Criteria) this;
-        }
-
-        public Criteria andChaptersNotLike(String value) {
-            addCriterion("chapters not like", value, "chapters");
-            return (Criteria) this;
-        }
-
-        public Criteria andChaptersIn(List<String> values) {
+        public Criteria andChaptersIn(List<Integer> values) {
             addCriterion("chapters in", values, "chapters");
             return (Criteria) this;
         }
 
-        public Criteria andChaptersNotIn(List<String> values) {
+        public Criteria andChaptersNotIn(List<Integer> values) {
             addCriterion("chapters not in", values, "chapters");
             return (Criteria) this;
         }
 
-        public Criteria andChaptersBetween(String value1, String value2) {
+        public Criteria andChaptersBetween(Integer value1, Integer value2) {
             addCriterion("chapters between", value1, value2, "chapters");
             return (Criteria) this;
         }
 
-        public Criteria andChaptersNotBetween(String value1, String value2) {
+        public Criteria andChaptersNotBetween(Integer value1, Integer value2) {
             addCriterion("chapters not between", value1, value2, "chapters");
             return (Criteria) this;
         }
@@ -1404,6 +1324,76 @@ public class TabCommodityExample {
 
         public Criteria andModifyTimeNotBetween(Date value1, Date value2) {
             addCriterion("modify_time not between", value1, value2, "modifyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUrlIsNull() {
+            addCriterion("image_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUrlIsNotNull() {
+            addCriterion("image_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUrlEqualTo(String value) {
+            addCriterion("image_url =", value, "imageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUrlNotEqualTo(String value) {
+            addCriterion("image_url <>", value, "imageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUrlGreaterThan(String value) {
+            addCriterion("image_url >", value, "imageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("image_url >=", value, "imageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUrlLessThan(String value) {
+            addCriterion("image_url <", value, "imageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUrlLessThanOrEqualTo(String value) {
+            addCriterion("image_url <=", value, "imageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUrlLike(String value) {
+            addCriterion("image_url like", value, "imageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUrlNotLike(String value) {
+            addCriterion("image_url not like", value, "imageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUrlIn(List<String> values) {
+            addCriterion("image_url in", values, "imageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUrlNotIn(List<String> values) {
+            addCriterion("image_url not in", values, "imageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUrlBetween(String value1, String value2) {
+            addCriterion("image_url between", value1, value2, "imageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageUrlNotBetween(String value1, String value2) {
+            addCriterion("image_url not between", value1, value2, "imageUrl");
             return (Criteria) this;
         }
     }
