@@ -64,7 +64,7 @@ public class LmsController {
             @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
             @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
             @NotEmpty @RequestParam(value = "filter") String filter,
-            @RequestParam(value = "keys", defaultValue = "") Option<String> keys) {
+            @RequestParam(value = "keys", defaultValue = "") Optional<String> keys) {
         ArrayList<Object> lessonList = new ArrayList<>();
 
         Optional<Long> userId = Optional.empty();
@@ -77,7 +77,7 @@ public class LmsController {
                 lessonList.addAll(lessonService.listLessonsByType(userId, 1, pageNum, pageSize));
                 break;
             case "query":
-                lessonList.addAll(lessonService.listLessonsByTypeAndKey(userId, 2, keys.getValue(), pageNum, pageSize));
+                lessonList.addAll(lessonService.listLessonsByTypeAndKey(userId, 2, keys.orElse(""), pageNum, pageSize));
                 break;
             default:
                 return CommonResult.failed("查询失败");
