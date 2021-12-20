@@ -86,7 +86,7 @@ public class CmsController {
 
     @RequestMapping(value = "/ppt", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<Object> addPPT(@RequestParam("filename")String filename, @RequestParam("lessonId") String lessonId, @RequestParam("chapters") String chapters, @RequestParam("paperSize") String paperSize,
+    public CommonResult<Object> addPPT(@RequestParam("filename")String filename, @RequestParam("lessonId") Long lessonId, @RequestParam("chapters") String chapters, @RequestParam("paperSize") String paperSize,
                                        @RequestParam("singlePrint") boolean singlePrint, @RequestParam("newDegree") String newDegree, @RequestParam("price") Double price, @RequestParam("content") String content) {
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
         CommodityParam commodityParam = new CommodityParam();
@@ -104,7 +104,7 @@ public class CmsController {
 
     @RequestMapping(value = "/book", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<Object> addBooks(@RequestParam("filename")String filename, @RequestParam("lessonId") String lessonId, @RequestParam("name") String name, @RequestParam("author") String author,
+    public CommonResult<Object> addBooks(@RequestParam("filename")String filename, @RequestParam("lessonId") Long lessonId, @RequestParam("name") String name, @RequestParam("author") String author,
                                          @RequestParam("publisher") String publisher, @RequestParam("newDegree") String newDegree, @RequestParam("price") Double price, @RequestParam("content") String content) {
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
         CommodityParam commodityParam = new CommodityParam();
@@ -122,7 +122,7 @@ public class CmsController {
 
     @RequestMapping(value = "/notes", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<Object> addNotes(@RequestParam("filename")String filename, @RequestParam("lessonId") String lessonId, @RequestParam("coverPercentage") String coverPercentage,
+    public CommonResult<Object> addNotes(@RequestParam("filename")String filename, @RequestParam("lessonId") Long lessonId, @RequestParam("coverPercentage") String coverPercentage,
                                          @RequestParam("price") Double price, @RequestParam("content") String content) {
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
         CommodityParam commodityParam = new CommodityParam();

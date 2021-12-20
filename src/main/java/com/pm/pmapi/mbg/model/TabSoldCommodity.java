@@ -13,7 +13,7 @@ public class TabSoldCommodity implements Serializable {
 
     private String name;
 
-    private String lessonId;
+    private Long lessonId;
 
     private Long teacherId;
 
@@ -71,11 +71,11 @@ public class TabSoldCommodity implements Serializable {
         this.name = name;
     }
 
-    public String getLessonId() {
+    public Long getLessonId() {
         return lessonId;
     }
 
-    public void setLessonId(String lessonId) {
+    public void setLessonId(Long lessonId) {
         this.lessonId = lessonId;
     }
 

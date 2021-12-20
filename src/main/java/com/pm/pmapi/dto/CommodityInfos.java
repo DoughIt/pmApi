@@ -1,26 +1,24 @@
 package com.pm.pmapi.dto;
 
 import com.pm.pmapi.mbg.model.TabLesson;
-import com.pm.pmapi.mbg.model.TabUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @program: pmApi
  * @description:
  * @author: Shen Zhengyu
- * @create: 2021-12-07 16:20
+ * @create: 2021-12-20 09:55
  **/
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class CommodityInfo{
+public class CommodityInfos{
     private Long id;
 
     private String name;
@@ -66,6 +64,10 @@ public class CommodityInfo{
     private Date createTime;
 
     private Date modifyTime;
+
+    private SimpleUserInfo seller;
+
+    private LessonInfo lesson;
 
     @Override
     public String toString() {

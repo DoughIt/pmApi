@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.pm.pmapi.mbg.model.TabCommodity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="lesson_id" jdbcType="VARCHAR" property="lessonId" />
+    <result column="lesson_id" jdbcType="BIGINT" property="lessonId" />
     <result column="teacher_id" jdbcType="BIGINT" property="teacherId" />
     <result column="seller_id" jdbcType="BIGINT" property="sellerId" />
     <result column="type" jdbcType="INTEGER" property="type" />
