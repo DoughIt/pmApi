@@ -15,13 +15,13 @@ public interface CommodityService {
      * @Author: Shen Zhengyu
      * @Date: 2021/12/7
      */
-    CommodityInfo getCommodityById(Long userId, Long id);
+    CommodityInfos getCommodityById(Long userId, Long id);
 
     CommodityInfo createCommodity(Long userId, Integer type, CommodityParam commodityParam);
 
-    List<CommodityInfo> listCommoditiesByTypeAndKey(Long userId, Integer type, String key, Integer pageNum, Integer pageSize);
+    List<CommodityInfos> listCommoditiesByTypeAndKey(Long userId, Integer type, String key, Integer pageNum, Integer pageSize);
 
-    List<CommodityInfo> listCommoditiesByType(Long userId, Integer type, Integer pageNum, Integer pageSize);
+    List<CommodityInfos> listCommoditiesByType(Long userId, Integer type, Integer pageNum, Integer pageSize);
 
     CommodityInfo updateCommodityByPrimaryKey(Long userId, Long id, CommodityParam commodityParam);
 
@@ -29,12 +29,12 @@ public interface CommodityService {
 
     List<CommodityInfos> getCommodities(Long userId, Integer type, String lessonId, Boolean isSold, Boolean isMine, Integer pageNum, Integer pageSize);
 
-    List<CommodityInfo> getSoldCommodityByUserId(Long userId, Integer pageNum, Integer pageSize);
+    List<CommodityInfos> getSoldCommodityByUserId(Long userId);
 
     boolean deleteFavoriteCommodity(Long user_id, Long commodity_id);
 
     boolean addFavoriteCommodity(Long user_id, Long commodity_id);
 
-    List<CommodityInfo> listFavoriteCommodities(Long user_id);
+    List<CommodityInfos> listFavoriteCommodities(Long user_id);
 
 }

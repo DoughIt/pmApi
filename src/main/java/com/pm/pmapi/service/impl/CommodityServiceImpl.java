@@ -55,16 +55,12 @@ public class CommodityServiceImpl implements CommodityService {
     TabSoldCommodityMapper soldCommodityMapper;
 
     @Override
-    public CommodityInfo getCommodityById(Long userId, Long id) {
+    public CommodityInfos getCommodityById(Long userId, Long id) {
         CommodityInfo commodityInfoToReturn = new CommodityInfo();
         if (null != commodityDao.getCommodityById(id)){
             commodityInfoToReturn = commodityDao.getCommodityById(id);
-//            commodityInfoToReturn.setSeller(userDao.selectSimpleUserByPrimaryKey(commodityInfoToReturn.getSellerId()));
-            // TODO: 课程
         }else if (null != commodityMapper.selectByPrimaryKey(id)){
             BeanUtils.copyProperties(commodityMapper.selectByPrimaryKey(id),commodityInfoToReturn);
-//            commodityInfoToReturn.setSeller(userDao.selectSimpleUserByPrimaryKey(commodityMapper.selectByPrimaryKey(id).getSellerId()));
-            // TODO: 课程
         }else{
             TabSoldCommodityExample example = new TabSoldCommodityExample();
             TabSoldCommodityExample.Criteria criteria = example.createCriteria();
@@ -75,10 +71,10 @@ public class CommodityServiceImpl implements CommodityService {
             }
         }
         if (null == commodityInfoToReturn) return null;
-        ArrayList<CommodityInfo> infos = new ArrayList<>();
+        List<CommodityInfo> infos = new ArrayList<>();
         infos.add(commodityInfoToReturn);
-        append(userId, infos);
-        return infos.get(0);
+        List<CommodityInfos> enhancedInfo = appendInfos(userId, infos);
+        return enhancedInfo.get(0);
     }
 
     @Override
@@ -95,7 +91,7 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public List<CommodityInfo> listCommoditiesByTypeAndKey(Long userId, Integer type, String key, Integer pageNum, Integer pageSize) {
+    public List<CommodityInfos> listCommoditiesByTypeAndKey(Long userId, Integer type, String key, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         TabCommodityExample example = new TabCommodityExample();
         TabCommodityExample.Criteria criteria = example.createCriteria();
@@ -106,19 +102,17 @@ public class CommodityServiceImpl implements CommodityService {
         for (TabCommodity commodity : commodities) {
             CommodityInfo tmp = new CommodityInfo();
             BeanUtils.copyProperties(commodity, tmp);
-//            tmp.setSeller(userDao.selectSimpleUserByPrimaryKey(commodity.getSellerId()));
-            // TODO: 课程
             commodityInfos.add(tmp);
-
         }
-        return commodityInfos;
+        List<CommodityInfos> enhancedCommodityInfos = new ArrayList<>();
+        enhancedCommodityInfos = appendInfos(userId, commodityInfos);
+        return enhancedCommodityInfos;
     }
 
     @Override
-    public List<CommodityInfo> listCommoditiesByType(Long userId, Integer type, Integer pageNum, Integer pageSize) {
+    public List<CommodityInfos> listCommoditiesByType(Long userId, Integer type, Integer pageNum, Integer pageSize) {
         List<CommodityInfo> list = commodityDao.listCommoditiesByType(type);
-        append(userId, list);
-        return list;
+        return appendInfos(userId, list);
     }
 
     @Override
@@ -170,15 +164,14 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public List<CommodityInfo> listFavoriteCommodities(Long user_id) {
+    public List<CommodityInfos> listFavoriteCommodities(Long user_id) {
         List<TabFavorite> favorites = favoriteDao.getFavoriteByUserId(user_id);
         List<CommodityInfo> toReturn = new ArrayList<>();
         for (TabFavorite favorite : favorites) {
             CommodityInfo commodityInfo = commodityDao.getCommodityById(favorite.getCommodityId());
             toReturn.add(commodityInfo);
         }
-        append(user_id, toReturn);
-        return toReturn;
+        return appendInfos(user_id, toReturn);
     }
 
     @Override
@@ -250,9 +243,8 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public List<CommodityInfo> getSoldCommodityByUserId(Long user_id,Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        return append(user_id, soldCommodityDao.listCommoditiesBySellerId(user_id));
+    public List<CommodityInfos> getSoldCommodityByUserId(Long user_id) {
+        return appendInfos(user_id, soldCommodityDao.listCommoditiesBySellerId(user_id));
     }
 
     private List<CommodityInfo> convert(List<TabCommodity> tabCommodities, List<TabSoldCommodity> tabSoldCommodities){
