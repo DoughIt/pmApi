@@ -1,11 +1,9 @@
 package com.pm.pmapi.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.pm.pmapi.dao.CommodityDao;
-import com.pm.pmapi.dao.FavoriteDao;
-import com.pm.pmapi.dao.SoldCommodityDao;
-import com.pm.pmapi.dao.UserDao;
+import com.pm.pmapi.dao.*;
 import com.pm.pmapi.dto.CommodityInfo;
+import com.pm.pmapi.dto.CommodityInfos;
 import com.pm.pmapi.dto.CommodityParam;
 import com.pm.pmapi.dto.SimpleUserInfo;
 import com.pm.pmapi.mbg.mapper.TabCommodityMapper;
@@ -19,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import javax.enterprise.inject.spi.Bean;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,6 +41,8 @@ public class CommodityServiceImpl implements CommodityService {
     @Autowired
     TabUserMapper userMapper;
 
+    @Autowired
+    LessonDao lessonDao;
     @Autowired
     FavoriteDao favoriteDao;
     @Autowired
@@ -181,36 +182,36 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public List<CommodityInfo> getCommodities(Long userId, Integer type, String lessonId, Boolean isSold, Boolean isMine, Integer pageNum, Integer pageSize) {
+    public List<CommodityInfos> getCommodities(Long userId, Integer type, String lessonId, Boolean isSold, Boolean isMine, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         if (isSold){
             if (isMine){
                 if (null == lessonId){
                     if (type == 0){
-                        return append(userId, soldCommodityDao.listCommoditiesBySellerId(userId));
+                        return appendInfos(userId, soldCommodityDao.listCommoditiesBySellerId(userId));
                     }else{
-                        return append(userId, soldCommodityDao.listCommoditiesBySellerIdAndType(userId, type));
+                        return appendInfos(userId, soldCommodityDao.listCommoditiesBySellerIdAndType(userId, type));
                     }
                 }else{
                     if (type == 0){
-                        return append(userId, soldCommodityDao.listCommoditiesBySellerIdAndLessonId(userId, lessonId));
+                        return appendInfos(userId, soldCommodityDao.listCommoditiesBySellerIdAndLessonId(userId, lessonId));
                     }else{
-                        return append(userId, soldCommodityDao.listCommoditiesBySellerIdAndLessonIdAndType(userId, lessonId, type));
+                        return appendInfos(userId, soldCommodityDao.listCommoditiesBySellerIdAndLessonIdAndType(userId, lessonId, type));
                     }
                 }
             }else{
                 //查看所有
                 if (null == lessonId){
                     if (type == 0){
-                        return append(userId, mix(soldCommodityDao.listCommoditiesByType(1), soldCommodityDao.listCommoditiesByType(2), soldCommodityDao.listCommoditiesByType(3)));
+                        return appendInfos(userId, mix(soldCommodityDao.listCommoditiesByType(1), soldCommodityDao.listCommoditiesByType(2), soldCommodityDao.listCommoditiesByType(3)));
                     }else{
-                        return append(userId, soldCommodityDao.listCommoditiesByType(type));
+                        return appendInfos(userId, soldCommodityDao.listCommoditiesByType(type));
                     }
                 }else{
                     if (type == 0){
-                        return append(userId, soldCommodityDao.listCommoditiesByLessonId(lessonId));
+                        return appendInfos(userId, soldCommodityDao.listCommoditiesByLessonId(lessonId));
                     }else{
-                        return append(userId, soldCommodityDao.listCommoditiesByLessonIdAndType(lessonId, type));
+                        return appendInfos(userId, soldCommodityDao.listCommoditiesByLessonIdAndType(lessonId, type));
                     }
                 }
             }
@@ -218,30 +219,30 @@ public class CommodityServiceImpl implements CommodityService {
             if (isMine){
                 if (null == lessonId){
                     if (type == 0){
-                        return append(userId, commodityDao.listCommoditiesBySellerId(userId));
+                        return appendInfos(userId, commodityDao.listCommoditiesBySellerId(userId));
                     }else{
-                        return append(userId, commodityDao.listCommoditiesBySellerIdAndType(userId, type));
+                        return appendInfos(userId, commodityDao.listCommoditiesBySellerIdAndType(userId, type));
                     }
                 }else{
                     if (type == 0){
-                        return append(userId, commodityDao.listCommoditiesBySellerIdAndLessonId(userId, lessonId));
+                        return appendInfos(userId, commodityDao.listCommoditiesBySellerIdAndLessonId(userId, lessonId));
                     }else{
-                        return append(userId, commodityDao.listCommoditiesBySellerIdAndLessonIdAndType(userId, lessonId, type));
+                        return appendInfos(userId, commodityDao.listCommoditiesBySellerIdAndLessonIdAndType(userId, lessonId, type));
                     }
                 }
             }else{
                 //查看所有
                 if (null == lessonId){
                     if (type == 0){
-                        return append(userId, mix(commodityDao.listCommoditiesByType(1), commodityDao.listCommoditiesByType(2), commodityDao.listCommoditiesByType(3)));
+                        return appendInfos(userId, mix(commodityDao.listCommoditiesByType(1), commodityDao.listCommoditiesByType(2), commodityDao.listCommoditiesByType(3)));
                     }else{
-                        return append(userId, commodityDao.listCommoditiesByType(type));
+                        return appendInfos(userId, commodityDao.listCommoditiesByType(type));
                     }
                 }else{
                     if (type == 0){
-                        return append(userId, commodityDao.listCommoditiesByLessonId(lessonId));
+                        return appendInfos(userId, commodityDao.listCommoditiesByLessonId(lessonId));
                     }else{
-                        return append(userId, commodityDao.listCommoditiesByLessonIdAndType(lessonId, type));
+                        return appendInfos(userId, commodityDao.listCommoditiesByLessonIdAndType(lessonId, type));
                     }
                 }
             }
@@ -296,6 +297,19 @@ public class CommodityServiceImpl implements CommodityService {
             }
         }
         return tabCommodities;
+    }
+
+    private List<CommodityInfos> appendInfos(Long userId, List<CommodityInfo> commodities){
+        List<CommodityInfos> list = new ArrayList<>();
+        List<CommodityInfo> tabCommodities = append(userId, commodities);
+        for (CommodityInfo tabCommodity : tabCommodities) {
+            CommodityInfos tmp = new CommodityInfos();
+            BeanUtils.copyProperties(tabCommodity, tmp);
+            tmp.setSeller(userDao.selectSimpleUserByPrimaryKey(tabCommodity.getSellerId()));
+            tmp.setLesson(lessonDao.getLessonByLessonId(tabCommodity.getLessonId()));
+            list.add(tmp);
+        }
+        return list;
     }
 
     private List<CommodityInfo> mix(List<CommodityInfo> list1, List<CommodityInfo> list2, List<CommodityInfo> list3){

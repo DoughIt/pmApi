@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `tab_commodity`;
 CREATE TABLE `tab_commodity` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `name` varchar(100) DEFAULT NULL,
-  `lesson_id` varchar(100) DEFAULT NULL,
+  `lesson_id` bigint(20) DEFAULT NULL,
   `teacher_id` bigint(20) unsigned DEFAULT NULL,
   `seller_id` bigint(20) unsigned DEFAULT NULL,
   `type` int(11) DEFAULT NULL,
@@ -269,7 +269,7 @@ DROP TABLE IF EXISTS `tab_sold_commodity`;
 CREATE TABLE `tab_sold_commodity` (
   `sold_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT NULL,
-  `lesson_id` varchar(100) DEFAULT NULL,
+  `lesson_id` bigint(20) DEFAULT NULL,
   `teacher_id` bigint(20) unsigned DEFAULT NULL,
   `seller_id` bigint(20) unsigned DEFAULT NULL,
   `type` int(11) DEFAULT NULL,

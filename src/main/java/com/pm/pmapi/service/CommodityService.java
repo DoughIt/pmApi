@@ -1,6 +1,7 @@
 package com.pm.pmapi.service;
 
 import com.pm.pmapi.dto.CommodityInfo;
+import com.pm.pmapi.dto.CommodityInfos;
 import com.pm.pmapi.dto.CommodityParam;
 import com.pm.pmapi.mbg.model.TabCommodity;
 
@@ -26,7 +27,7 @@ public interface CommodityService {
 
     void deleteCommodityById(Long userId, Long id);
 
-    List<CommodityInfo> getCommodities(Long userId, Integer type, String lessonId, Boolean isSold, Boolean isMine, Integer pageNum, Integer pageSize);
+    List<CommodityInfos> getCommodities(Long userId, Integer type, String lessonId, Boolean isSold, Boolean isMine, Integer pageNum, Integer pageSize);
 
     List<CommodityInfo> getSoldCommodityByUserId(Long userId, Integer pageNum, Integer pageSize);
 
