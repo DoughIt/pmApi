@@ -76,7 +76,7 @@ public class CmsController {
         return CommonResult.success(commodityService.listCommoditiesByTypeAndKey(userId, 2, key, pageNum, pageSize));
     }
 
-    @RequestMapping(value = "/notses", method = RequestMethod.GET)
+    @RequestMapping(value = "/noteses", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<Object> getNotses(@RequestParam(value = "key") String key, @RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
