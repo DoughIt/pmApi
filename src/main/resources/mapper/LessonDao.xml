@@ -12,7 +12,7 @@
         <result column="score" jdbcType="DOUBLE" property="score"/>
     </resultMap>
     <select id="getLessonByLessonId" resultMap="BaseResultMap">
-        select lesson_id, lesson_number, school_id, credit, teacher_id, semester, score
+        select lesson_id, lesson_name, lesson_number, school_id, credit, teacher_id, semester, score
         from tab_lesson where lesson_id=#{lessonId}
     </select>
 </mapper>

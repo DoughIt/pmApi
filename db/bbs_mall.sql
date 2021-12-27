@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 20/12/2021 08:06:51
+ Date: 27/12/2021 15:45:34
 */
 
 SET NAMES utf8mb4;
@@ -36,13 +36,13 @@ CREATE TABLE `tab_commodity` (
   `single_print` tinyint(1) DEFAULT NULL,
   `deal_method` int(11) DEFAULT NULL,
   `commodity_id` bigint(20) unsigned DEFAULT NULL,
-  `chapters` varchar(100) DEFAULT NULL,
+  `chapters` int(11) DEFAULT NULL,
   `paper_size` varchar(100) DEFAULT NULL,
   `new_degree` varchar(100) DEFAULT NULL,
   `unit` varchar(100) DEFAULT NULL,
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `modify_time` datetime DEFAULT CURRENT_TIMESTAMP,
-  `filename` varchar(100) DEFAULT NULL,
+  `image_url` varchar(1024) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `seller_id` (`seller_id`),
   CONSTRAINT `tab_commodity_ibfk_1` FOREIGN KEY (`seller_id`) REFERENCES `tab_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
@@ -84,12 +84,13 @@ CREATE TABLE `tab_favorite_lesson` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `tab_favorite_lesson_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tab_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tab_favorite_lesson
 -- ----------------------------
 BEGIN;
+INSERT INTO `tab_favorite_lesson` VALUES (2, 1, 1);
 COMMIT;
 
 -- ----------------------------
@@ -124,7 +125,7 @@ INSERT INTO `tab_lesson` VALUES (9, 'SOFT130017.01', '面向对象分析和设�
 INSERT INTO `tab_lesson` VALUES (10, 'SOFT130021.01', '数字部件设计', 4, 9, 1, '秋季学期', 0);
 INSERT INTO `tab_lesson` VALUES (11, 'SOFT130023.01', '计算机网络', 3, 10, 1, '秋季学期', 0);
 INSERT INTO `tab_lesson` VALUES (12, 'SOFT130039.01', '离散数学(上)', 3, 11, 1, '秋季学期', 0);
-INSERT INTO `tab_lesson` VALUES (13, 'SOFT130047.01', '商务智能', 2, 12, 12, '秋季学期', 0);
+INSERT INTO `tab_lesson` VALUES (13, 'SOFT130047.01', '商务智能', 2, 12, 1, '秋季学期', 0);
 INSERT INTO `tab_lesson` VALUES (14, 'SOFT130049.01', '智能系统原理与开发', 4, 13, 1, '秋季学期', 0);
 INSERT INTO `tab_lesson` VALUES (15, 'SOFT130051.01', '多媒体技术基础', 3, 14, 1, '秋季学期', 0);
 INSERT INTO `tab_lesson` VALUES (16, 'SOFT130058.01', '计算机系统工程', 4, 15, 1, '秋季学期', 0);
@@ -151,12 +152,13 @@ CREATE TABLE `tab_lesson_popularity` (
   `lesson_id` bigint(20) NOT NULL,
   `popularity` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tab_lesson_popularity
 -- ----------------------------
 BEGIN;
+INSERT INTO `tab_lesson_popularity` VALUES (1, 1, 1);
 COMMIT;
 
 -- ----------------------------
@@ -170,12 +172,13 @@ CREATE TABLE `tab_lesson_tag` (
   `positive` bigint(20) DEFAULT '0',
   `negative` bigint(20) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tab_lesson_tag
 -- ----------------------------
 BEGIN;
+INSERT INTO `tab_lesson_tag` VALUES (1, 1, 1, 1, 0);
 COMMIT;
 
 -- ----------------------------
@@ -192,12 +195,13 @@ CREATE TABLE `tab_lesson_user_tag` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `tab_lesson_user_tag_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tab_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tab_lesson_user_tag
 -- ----------------------------
 BEGIN;
+INSERT INTO `tab_lesson_user_tag` VALUES (1, 1, 1, 1, 1, 0);
 COMMIT;
 
 -- ----------------------------
@@ -242,7 +246,7 @@ CREATE TABLE `tab_mini_program` (
 -- Records of tab_mini_program
 -- ----------------------------
 BEGIN;
-INSERT INTO `tab_mini_program` VALUES ('wxa338748af669c502', 'b679fccf897d1c5b25b8e49818d693e0');
+INSERT INTO `tab_mini_program` VALUES ('wx15a76872afe18c08', '75327653f424be686e42e522cc4e001a');
 COMMIT;
 
 -- ----------------------------
@@ -282,13 +286,13 @@ CREATE TABLE `tab_sold_commodity` (
   `single_print` tinyint(1) DEFAULT NULL,
   `deal_method` int(11) DEFAULT NULL,
   `commodity_id` bigint(20) unsigned DEFAULT NULL,
-  `chapters` varchar(100) DEFAULT NULL,
+  `chapters` int(11) DEFAULT NULL,
   `paper_size` varchar(100) DEFAULT NULL,
   `new_degree` varchar(100) DEFAULT NULL,
   `unit` varchar(100) DEFAULT NULL,
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `modify_time` datetime DEFAULT CURRENT_TIMESTAMP,
-  `filename` varchar(100) DEFAULT NULL,
+  `picture` blob,
   `id` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`sold_id`),
   KEY `seller_id` (`seller_id`),
@@ -309,12 +313,13 @@ CREATE TABLE `tab_tag` (
   `tag_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `tag` varchar(255) NOT NULL,
   PRIMARY KEY (`tag_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tab_tag
 -- ----------------------------
 BEGIN;
+INSERT INTO `tab_tag` VALUES (1, '轻松');
 COMMIT;
 
 -- ----------------------------
@@ -400,7 +405,7 @@ CREATE TABLE `tab_user` (
   `open_id` varchar(64) DEFAULT NULL COMMENT 'wechat小程序用户id',
   `username` varchar(64) DEFAULT NULL COMMENT '昵称',
   `password` varchar(255) DEFAULT NULL COMMENT '密码',
-  `avatar` varchar(128) DEFAULT NULL COMMENT '头像URL',
+  `avatar` varchar(1024) DEFAULT NULL COMMENT '头像URL',
   `phone` varchar(32) DEFAULT NULL COMMENT '手机号',
   `description` varchar(255) DEFAULT NULL COMMENT '简介',
   `register_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '注册时间',
@@ -410,7 +415,7 @@ CREATE TABLE `tab_user` (
   `nav` bigint(10) unsigned NOT NULL DEFAULT '0' COMMENT '多账号时指向主账号',
   PRIMARY KEY (`id`,`nav`) USING BTREE,
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tab_user
@@ -419,6 +424,8 @@ BEGIN;
 INSERT INTO `tab_user` VALUES (1, '16302010059', NULL, NULL, '$2a$10$nLpdFqP44VT0ZOqPBWNYFe3uXdy0umeX5uuNfsk7B5lmDCbxbBGIm', 'https://doughit.oss-cn-shanghai.aliyuncs.com/bbs/images/20211216/工具.png', NULL, NULL, '2021-12-10 18:08:39', NULL, 1, b'1', 0);
 INSERT INTO `tab_user` VALUES (2, NULL, 'doughit', NULL, '$2a$10$nLpdFqP44VT0ZOqPBWNYFe3uXdy0umeX5uuNfsk7B5lmDCbxbBGIm', NULL, NULL, NULL, '2021-12-10 18:09:52', '2021-12-10 18:10:26', 0, b'1', 0);
 INSERT INTO `tab_user` VALUES (3, '16302010010', NULL, NULL, '$2a$10$bt3CvXkjEFQrq6tO2oGzlO0AHYBZK/Wvh7cx8BzhrYrzKlaoURI4S', NULL, NULL, NULL, '2021-12-13 22:09:13', '2021-12-14 08:26:15', 1, b'1', 0);
+INSERT INTO `tab_user` VALUES (4, NULL, NULL, NULL, '$2a$10$n1EcPdIPPV3pMkx52uvf0exM9RSto0Vx01IExaxAtxiDHlDKa45Wa', NULL, NULL, NULL, '2021-12-27 15:29:19', '2021-12-27 15:29:19', 0, b'1', 0);
+INSERT INTO `tab_user` VALUES (5, NULL, NULL, NULL, '$2a$10$KdEv4pUIbFuGb4UFY0ojqu9MqFcnwcrvAPwc/CuQwEQyDK16mdi8G', NULL, NULL, NULL, '2021-12-27 15:32:53', '2021-12-27 15:32:53', 0, b'1', 0);
 COMMIT;
 
 -- ----------------------------

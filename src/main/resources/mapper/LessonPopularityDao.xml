@@ -9,6 +9,6 @@
     <select id="getHotK" resultMap="BaseResultMap">
         select * from tab_lesson_popularity
         order by popularity desc
-        limit #{k}
     </select>
+    <select id="getHotLessonList" ></select>
 </mapper>

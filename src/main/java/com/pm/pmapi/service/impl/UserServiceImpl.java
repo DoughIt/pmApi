@@ -10,15 +10,9 @@ import com.pm.pmapi.dto.AdminUserDetails;
 import com.pm.pmapi.dto.MiniProgramSession;
 import com.pm.pmapi.dto.UpdateUserParam;
 import com.pm.pmapi.dto.UserParam;
-import com.pm.pmapi.mbg.mapper.TabCommodityMapper;
-import com.pm.pmapi.mbg.mapper.TabMessageMapper;
-import com.pm.pmapi.mbg.mapper.TabTopicMapper;
 import com.pm.pmapi.mbg.mapper.TabUserMapper;
 import com.pm.pmapi.mbg.model.*;
-import com.pm.pmapi.service.MailService;
-import com.pm.pmapi.service.RedisService;
-import com.pm.pmapi.service.UserCacheService;
-import com.pm.pmapi.service.UserService;
+import com.pm.pmapi.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -57,17 +51,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private IAuthenticationFacade authenticationFacade;
     @Autowired
-    private MiniProgramServiceImpl miniProgramService;
+    private MiniProgramService miniProgramService;
     @Autowired
     private UserCacheService userCacheService;
     @Autowired
     private RedisService redisService;
-    @Autowired
-    private TabMessageMapper messageMapper;
-    @Autowired
-    private TabTopicMapper topicMapper;
-    @Autowired
-    private TabCommodityMapper commodityMapper;
     @Autowired
     private MailService mailService;
     @Value("${redis.key.authCode}")
@@ -187,6 +175,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public int update(TabUser user) {
         TabUser rawUser = getUserById(user.getId());
+        if (rawUser == null) {
+            Asserts.fail("用户不存在");
+            return -2;
+        }
         if (StrUtil.equals(rawUser.getPassword(), user.getPassword())) {
             // 与原密码一致
             user.setPassword(null);
@@ -211,17 +203,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public int updatePassword(UpdateUserParam userParam) {
         if (StrUtil.isEmpty(userParam.getPassword()) || StrUtil.isEmpty(userParam.getNewPassword())) {
-            return -1;
+            Asserts.fail("密码为空");
         }
         TabUser user = getUserById(userParam.getUserId());
         if (user == null) {
             Asserts.fail("用户不存在");
-            return -2;
         }
         // 验证旧密码
         if (!passwordEncoder.matches(userParam.getPassword(), user.getPassword())) {
+            Asserts.fail("旧密码错误");
+        }
+        if (userParam.getNewPassword().equals(userParam.getPassword())) {
             Asserts.fail("验证失败，新密码与旧密码相同");
-            return -2;
         }
         // 将旧密码进行加密操作
         String encodePassword = passwordEncoder.encode(userParam.getPassword());
@@ -278,7 +271,10 @@ public class UserServiceImpl implements UserService {
         } else if (StrUtil.isNotEmpty(userParam.getMiniCode())) {
             // 获取openId
             MiniProgramSession session = miniProgramService.codeToSession(userParam.getMiniCode());
-            if (session.getErrcode() != 0) {
+            if (session == null || session.getOpenid() == null) {
+                Asserts.fail("获取小程序会话失败");
+            }
+            if (session.getErrmsg() != null) {
                 Asserts.fail(session.getErrmsg());
             }
             String openId = session.getOpenid();

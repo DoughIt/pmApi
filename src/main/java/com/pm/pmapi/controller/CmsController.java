@@ -76,9 +76,9 @@ public class CmsController {
         return CommonResult.success(commodityService.listCommoditiesByTypeAndKey(userId, 2, key.orElse(""), pageNum, pageSize));
     }
 
-    @RequestMapping(value = "/notes", method = RequestMethod.GET)
+    @RequestMapping(value = "/noteses", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<Object> getNotses(@RequestParam(value = "key") Optional<String> key, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+    public CommonResult<Object> getNoteses(@RequestParam(value = "key") Optional<String> key, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                           @RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize) {
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
         return CommonResult.success(commodityService.listCommoditiesByTypeAndKey(userId, 3, key.orElse(""), pageNum, pageSize));

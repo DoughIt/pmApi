@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.pm.pmapi.common.api.CommonPage;
 import com.pm.pmapi.common.api.CommonResult;
 import com.pm.pmapi.common.constant.TopicFilter;
+import com.pm.pmapi.common.exception.ApiException;
 import com.pm.pmapi.component.IAuthenticationFacade;
 import com.pm.pmapi.dto.*;
 import com.pm.pmapi.mbg.model.TabUser;
@@ -117,29 +118,25 @@ public class UmsController {
     @RequestMapping(value = "/info", method = RequestMethod.PUT)
     @ResponseBody
     public CommonResult updateUser(@Validated @RequestBody UpdateUserParam userParam) {
-        // 更新用户基本信息
-        TabUser user = new TabUser();
-        user.setId(userParam.getUserId());
-        user.setUsername(userParam.getUsername());
-        user.setAvatar(userParam.getAvatar());
-        user.setDescription(userParam.getDescription());
-        userService.update(user);
         if (!StrUtil.isEmpty(userParam.getNewPassword())) {
-            int status = userService.updatePassword(userParam);
-            if (status > 0) {
+            try {
+                userService.updatePassword(userParam);
                 logout();
-                return CommonResult.success("你已成功修改密码，请重新登录");
-            } else if (status == -1) {
-                return CommonResult.failed("提交参数不合法");
-            } else if (status == -2) {
-                return CommonResult.failed("用户不存在");
-            } else if (status == -3) {
-                return CommonResult.failed("新密码与旧密码重复");
-            } else {
-                return CommonResult.failed();
+                return CommonResult.success(null, "你已成功修改密码，请重新登录");
+            } catch (ApiException e) {
+                return CommonResult.failed(e.getMessage());
             }
+        } else {
+            // 更新用户基本信息
+            TabUser user = new TabUser();
+            user.setId(userParam.getUserId());
+            user.setUsername(userParam.getUsername());
+            user.setAvatar(userParam.getAvatar());
+            user.setDescription(userParam.getDescription());
+            if (userService.update(user) < 0)
+                return CommonResult.failed("用户不存在");
         }
-        return CommonResult.success("更新成功");
+        return CommonResult.success(null, "更新成功");
     }
 
     /**
