@@ -235,75 +235,7 @@ public class TabCommodityExample {
             return (Criteria) this;
         }
 
-        public Criteria andLessonIdIsNull() {
-            addCriterion("lesson_id is null");
-            return (Criteria) this;
-        }
 
-        public Criteria andLessonIdIsNotNull() {
-            addCriterion("lesson_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andLessonIdEqualTo(String value) {
-            addCriterion("lesson_id =", value, "lessonId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLessonIdNotEqualTo(String value) {
-            addCriterion("lesson_id <>", value, "lessonId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLessonIdGreaterThan(String value) {
-            addCriterion("lesson_id >", value, "lessonId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLessonIdGreaterThanOrEqualTo(String value) {
-            addCriterion("lesson_id >=", value, "lessonId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLessonIdLessThan(String value) {
-            addCriterion("lesson_id <", value, "lessonId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLessonIdLessThanOrEqualTo(String value) {
-            addCriterion("lesson_id <=", value, "lessonId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLessonIdLike(String value) {
-            addCriterion("lesson_id like", value, "lessonId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLessonIdNotLike(String value) {
-            addCriterion("lesson_id not like", value, "lessonId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLessonIdIn(List<String> values) {
-            addCriterion("lesson_id in", values, "lessonId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLessonIdNotIn(List<String> values) {
-            addCriterion("lesson_id not in", values, "lessonId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLessonIdBetween(String value1, String value2) {
-            addCriterion("lesson_id between", value1, value2, "lessonId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLessonIdNotBetween(String value1, String value2) {
-            addCriterion("lesson_id not between", value1, value2, "lessonId");
-            return (Criteria) this;
-        }
 
         public Criteria andTeacherIdIsNull() {
             addCriterion("teacher_id is null");

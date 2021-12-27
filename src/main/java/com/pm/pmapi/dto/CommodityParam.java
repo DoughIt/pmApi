@@ -23,7 +23,7 @@ public class CommodityParam{
 
     private String name;
 
-    private String lessonId;
+    private Long lessonId;
 
     private Long teacherId;
 
