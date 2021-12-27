@@ -16,21 +16,15 @@ public interface TabSoldCommodityMapper {
 
     int insertSelective(TabSoldCommodity record);
 
-    List<TabSoldCommodity> selectByExampleWithBLOBs(TabSoldCommodityExample example);
-
     List<TabSoldCommodity> selectByExample(TabSoldCommodityExample example);
 
     TabSoldCommodity selectByPrimaryKey(Long soldId);
 
     int updateByExampleSelective(@Param("record") TabSoldCommodity record, @Param("example") TabSoldCommodityExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") TabSoldCommodity record, @Param("example") TabSoldCommodityExample example);
-
     int updateByExample(@Param("record") TabSoldCommodity record, @Param("example") TabSoldCommodityExample example);
 
     int updateByPrimaryKeySelective(TabSoldCommodity record);
-
-    int updateByPrimaryKeyWithBLOBs(TabSoldCommodity record);
 
     int updateByPrimaryKey(TabSoldCommodity record);
 }

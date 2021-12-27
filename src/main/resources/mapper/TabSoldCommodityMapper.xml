@@ -23,10 +23,8 @@
     <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="filename" jdbcType="VARCHAR" property="filename" />
     <result column="id" jdbcType="BIGINT" property="id" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.pm.pmapi.mbg.model.TabSoldCommodity">
-    <result column="picture" jdbcType="LONGVARBINARY" property="picture" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -89,27 +87,8 @@
   <sql id="Base_Column_List">
     sold_id, name, lesson_id, teacher_id, seller_id, type, author, publisher, cover_percentage, 
     image_id, content, price, single_print, deal_method, commodity_id, chapters, paper_size, 
-    new_degree, unit, create_time, modify_time, id
+    new_degree, unit, create_time, modify_time, filename, id
   </sql>
-  <sql id="Blob_Column_List">
-    picture
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.pm.pmapi.mbg.model.TabSoldCommodityExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from tab_sold_commodity
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="com.pm.pmapi.mbg.model.TabSoldCommodityExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -124,11 +103,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from tab_sold_commodity
     where sold_id = #{soldId,jdbcType=BIGINT}
   </select>
@@ -153,15 +130,15 @@
       single_print, deal_method, commodity_id, 
       chapters, paper_size, new_degree, 
       unit, create_time, modify_time, 
-      picture)
-    values (#{soldId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{lessonId,jdbcType=VARCHAR}, 
+      filename)
+    values (#{soldId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{lessonId,jdbcType=BIGINT}, 
       #{teacherId,jdbcType=BIGINT}, #{sellerId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, 
       #{author,jdbcType=VARCHAR}, #{publisher,jdbcType=VARCHAR}, #{coverPercentage,jdbcType=VARCHAR}, 
       #{imageId,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, 
       #{singlePrint,jdbcType=BIT}, #{dealMethod,jdbcType=INTEGER}, #{commodityId,jdbcType=BIGINT}, 
       #{chapters,jdbcType=INTEGER}, #{paperSize,jdbcType=VARCHAR}, #{newDegree,jdbcType=VARCHAR}, 
       #{unit,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, 
-      #{picture,jdbcType=LONGVARBINARY})
+      #{filename,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pm.pmapi.mbg.model.TabSoldCommodity">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -232,8 +209,8 @@
       <if test="modifyTime != null">
         modify_time,
       </if>
-      <if test="picture != null">
-        picture,
+      <if test="filename != null">
+        filename,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -244,7 +221,7 @@
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="lessonId != null">
-        #{lessonId,jdbcType=VARCHAR},
+        #{lessonId,jdbcType=BIGINT},
       </if>
       <if test="teacherId != null">
         #{teacherId,jdbcType=BIGINT},
@@ -300,8 +277,8 @@
       <if test="modifyTime != null">
         #{modifyTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="picture != null">
-        #{picture,jdbcType=LONGVARBINARY},
+      <if test="filename != null">
+        #{filename,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -321,7 +298,7 @@
         name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.lessonId != null">
-        lesson_id = #{record.lessonId,jdbcType=VARCHAR},
+        lesson_id = #{record.lessonId,jdbcType=BIGINT},
       </if>
       <if test="record.teacherId != null">
         teacher_id = #{record.teacherId,jdbcType=BIGINT},
@@ -377,42 +354,13 @@
       <if test="record.modifyTime != null">
         modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.filename != null">
+        filename = #{record.filename,jdbcType=VARCHAR},
+      </if>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.picture != null">
-        picture = #{record.picture,jdbcType=LONGVARBINARY},
-      </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update tab_sold_commodity
-    set sold_id = #{record.soldId,jdbcType=BIGINT},
-      name = #{record.name,jdbcType=VARCHAR},
-      lesson_id = #{record.lessonId,jdbcType=VARCHAR},
-      teacher_id = #{record.teacherId,jdbcType=BIGINT},
-      seller_id = #{record.sellerId,jdbcType=BIGINT},
-      type = #{record.type,jdbcType=INTEGER},
-      author = #{record.author,jdbcType=VARCHAR},
-      publisher = #{record.publisher,jdbcType=VARCHAR},
-      cover_percentage = #{record.coverPercentage,jdbcType=VARCHAR},
-      image_id = #{record.imageId,jdbcType=VARCHAR},
-      content = #{record.content,jdbcType=VARCHAR},
-      price = #{record.price,jdbcType=DOUBLE},
-      single_print = #{record.singlePrint,jdbcType=BIT},
-      deal_method = #{record.dealMethod,jdbcType=INTEGER},
-      commodity_id = #{record.commodityId,jdbcType=BIGINT},
-      chapters = #{record.chapters,jdbcType=INTEGER},
-      paper_size = #{record.paperSize,jdbcType=VARCHAR},
-      new_degree = #{record.newDegree,jdbcType=VARCHAR},
-      unit = #{record.unit,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
-      id = #{record.id,jdbcType=BIGINT},
-      picture = #{record.picture,jdbcType=LONGVARBINARY}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -421,7 +369,7 @@
     update tab_sold_commodity
     set sold_id = #{record.soldId,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
-      lesson_id = #{record.lessonId,jdbcType=VARCHAR},
+      lesson_id = #{record.lessonId,jdbcType=BIGINT},
       teacher_id = #{record.teacherId,jdbcType=BIGINT},
       seller_id = #{record.sellerId,jdbcType=BIGINT},
       type = #{record.type,jdbcType=INTEGER},
@@ -440,6 +388,7 @@
       unit = #{record.unit,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      filename = #{record.filename,jdbcType=VARCHAR},
       id = #{record.id,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -452,7 +401,7 @@
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="lessonId != null">
-        lesson_id = #{lessonId,jdbcType=VARCHAR},
+        lesson_id = #{lessonId,jdbcType=BIGINT},
       </if>
       <if test="teacherId != null">
         teacher_id = #{teacherId,jdbcType=BIGINT},
@@ -508,45 +457,19 @@
       <if test="modifyTime != null">
         modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="filename != null">
+        filename = #{filename,jdbcType=VARCHAR},
+      </if>
       <if test="id != null">
         id = #{id,jdbcType=BIGINT},
       </if>
-      <if test="picture != null">
-        picture = #{picture,jdbcType=LONGVARBINARY},
-      </if>
     </set>
-    where sold_id = #{soldId,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pm.pmapi.mbg.model.TabSoldCommodity">
-    update tab_sold_commodity
-    set name = #{name,jdbcType=VARCHAR},
-      lesson_id = #{lessonId,jdbcType=VARCHAR},
-      teacher_id = #{teacherId,jdbcType=BIGINT},
-      seller_id = #{sellerId,jdbcType=BIGINT},
-      type = #{type,jdbcType=INTEGER},
-      author = #{author,jdbcType=VARCHAR},
-      publisher = #{publisher,jdbcType=VARCHAR},
-      cover_percentage = #{coverPercentage,jdbcType=VARCHAR},
-      image_id = #{imageId,jdbcType=VARCHAR},
-      content = #{content,jdbcType=VARCHAR},
-      price = #{price,jdbcType=DOUBLE},
-      single_print = #{singlePrint,jdbcType=BIT},
-      deal_method = #{dealMethod,jdbcType=INTEGER},
-      commodity_id = #{commodityId,jdbcType=BIGINT},
-      chapters = #{chapters,jdbcType=INTEGER},
-      paper_size = #{paperSize,jdbcType=VARCHAR},
-      new_degree = #{newDegree,jdbcType=VARCHAR},
-      unit = #{unit,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      id = #{id,jdbcType=BIGINT},
-      picture = #{picture,jdbcType=LONGVARBINARY}
     where sold_id = #{soldId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pm.pmapi.mbg.model.TabSoldCommodity">
     update tab_sold_commodity
     set name = #{name,jdbcType=VARCHAR},
-      lesson_id = #{lessonId,jdbcType=VARCHAR},
+      lesson_id = #{lessonId,jdbcType=BIGINT},
       teacher_id = #{teacherId,jdbcType=BIGINT},
       seller_id = #{sellerId,jdbcType=BIGINT},
       type = #{type,jdbcType=INTEGER},
@@ -565,6 +488,7 @@
       unit = #{unit,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      filename = #{filename,jdbcType=VARCHAR},
       id = #{id,jdbcType=BIGINT}
     where sold_id = #{soldId,jdbcType=BIGINT}
   </update>

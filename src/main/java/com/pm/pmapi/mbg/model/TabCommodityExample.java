@@ -235,7 +235,65 @@ public class TabCommodityExample {
             return (Criteria) this;
         }
 
+        public Criteria andLessonIdIsNull() {
+            addCriterion("lesson_id is null");
+            return (Criteria) this;
+        }
 
+        public Criteria andLessonIdIsNotNull() {
+            addCriterion("lesson_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLessonIdEqualTo(Long value) {
+            addCriterion("lesson_id =", value, "lessonId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLessonIdNotEqualTo(Long value) {
+            addCriterion("lesson_id <>", value, "lessonId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLessonIdGreaterThan(Long value) {
+            addCriterion("lesson_id >", value, "lessonId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLessonIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("lesson_id >=", value, "lessonId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLessonIdLessThan(Long value) {
+            addCriterion("lesson_id <", value, "lessonId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLessonIdLessThanOrEqualTo(Long value) {
+            addCriterion("lesson_id <=", value, "lessonId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLessonIdIn(List<Long> values) {
+            addCriterion("lesson_id in", values, "lessonId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLessonIdNotIn(List<Long> values) {
+            addCriterion("lesson_id not in", values, "lessonId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLessonIdBetween(Long value1, Long value2) {
+            addCriterion("lesson_id between", value1, value2, "lessonId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLessonIdNotBetween(Long value1, Long value2) {
+            addCriterion("lesson_id not between", value1, value2, "lessonId");
+            return (Criteria) this;
+        }
 
         public Criteria andTeacherIdIsNull() {
             addCriterion("teacher_id is null");
@@ -1327,73 +1385,73 @@ public class TabCommodityExample {
             return (Criteria) this;
         }
 
-        public Criteria andImageUrlIsNull() {
-            addCriterion("image_url is null");
+        public Criteria andFilenameIsNull() {
+            addCriterion("filename is null");
             return (Criteria) this;
         }
 
-        public Criteria andImageUrlIsNotNull() {
-            addCriterion("image_url is not null");
+        public Criteria andFilenameIsNotNull() {
+            addCriterion("filename is not null");
             return (Criteria) this;
         }
 
-        public Criteria andImageUrlEqualTo(String value) {
-            addCriterion("image_url =", value, "imageUrl");
+        public Criteria andFilenameEqualTo(String value) {
+            addCriterion("filename =", value, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andImageUrlNotEqualTo(String value) {
-            addCriterion("image_url <>", value, "imageUrl");
+        public Criteria andFilenameNotEqualTo(String value) {
+            addCriterion("filename <>", value, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andImageUrlGreaterThan(String value) {
-            addCriterion("image_url >", value, "imageUrl");
+        public Criteria andFilenameGreaterThan(String value) {
+            addCriterion("filename >", value, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andImageUrlGreaterThanOrEqualTo(String value) {
-            addCriterion("image_url >=", value, "imageUrl");
+        public Criteria andFilenameGreaterThanOrEqualTo(String value) {
+            addCriterion("filename >=", value, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andImageUrlLessThan(String value) {
-            addCriterion("image_url <", value, "imageUrl");
+        public Criteria andFilenameLessThan(String value) {
+            addCriterion("filename <", value, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andImageUrlLessThanOrEqualTo(String value) {
-            addCriterion("image_url <=", value, "imageUrl");
+        public Criteria andFilenameLessThanOrEqualTo(String value) {
+            addCriterion("filename <=", value, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andImageUrlLike(String value) {
-            addCriterion("image_url like", value, "imageUrl");
+        public Criteria andFilenameLike(String value) {
+            addCriterion("filename like", value, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andImageUrlNotLike(String value) {
-            addCriterion("image_url not like", value, "imageUrl");
+        public Criteria andFilenameNotLike(String value) {
+            addCriterion("filename not like", value, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andImageUrlIn(List<String> values) {
-            addCriterion("image_url in", values, "imageUrl");
+        public Criteria andFilenameIn(List<String> values) {
+            addCriterion("filename in", values, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andImageUrlNotIn(List<String> values) {
-            addCriterion("image_url not in", values, "imageUrl");
+        public Criteria andFilenameNotIn(List<String> values) {
+            addCriterion("filename not in", values, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andImageUrlBetween(String value1, String value2) {
-            addCriterion("image_url between", value1, value2, "imageUrl");
+        public Criteria andFilenameBetween(String value1, String value2) {
+            addCriterion("filename between", value1, value2, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andImageUrlNotBetween(String value1, String value2) {
-            addCriterion("image_url not between", value1, value2, "imageUrl");
+        public Criteria andFilenameNotBetween(String value1, String value2) {
+            addCriterion("filename not between", value1, value2, "filename");
             return (Criteria) this;
         }
     }

@@ -42,7 +42,7 @@ CREATE TABLE `tab_commodity` (
   `unit` varchar(100) DEFAULT NULL,
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `modify_time` datetime DEFAULT CURRENT_TIMESTAMP,
-  `image_url` varchar(1024) DEFAULT NULL,
+  `filename` varchar(1024) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `seller_id` (`seller_id`),
   CONSTRAINT `tab_commodity_ibfk_1` FOREIGN KEY (`seller_id`) REFERENCES `tab_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
@@ -246,7 +246,7 @@ CREATE TABLE `tab_mini_program` (
 -- Records of tab_mini_program
 -- ----------------------------
 BEGIN;
-INSERT INTO `tab_mini_program` VALUES ('wx15a76872afe18c08', '75327653f424be686e42e522cc4e001a');
+INSERT INTO `tab_mini_program` VALUES ('wxa338748af669c502', 'b679fccf897d1c5b25b8e49818d693e0');
 COMMIT;
 
 -- ----------------------------
@@ -292,7 +292,7 @@ CREATE TABLE `tab_sold_commodity` (
   `unit` varchar(100) DEFAULT NULL,
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `modify_time` datetime DEFAULT CURRENT_TIMESTAMP,
-  `picture` blob,
+  `filename` varchar(1024) DEFAULT NULL,
   `id` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`sold_id`),
   KEY `seller_id` (`seller_id`),

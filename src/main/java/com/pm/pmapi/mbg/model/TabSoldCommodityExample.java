@@ -245,62 +245,52 @@ public class TabSoldCommodityExample {
             return (Criteria) this;
         }
 
-        public Criteria andLessonIdEqualTo(String value) {
+        public Criteria andLessonIdEqualTo(Long value) {
             addCriterion("lesson_id =", value, "lessonId");
             return (Criteria) this;
         }
 
-        public Criteria andLessonIdNotEqualTo(String value) {
+        public Criteria andLessonIdNotEqualTo(Long value) {
             addCriterion("lesson_id <>", value, "lessonId");
             return (Criteria) this;
         }
 
-        public Criteria andLessonIdGreaterThan(String value) {
+        public Criteria andLessonIdGreaterThan(Long value) {
             addCriterion("lesson_id >", value, "lessonId");
             return (Criteria) this;
         }
 
-        public Criteria andLessonIdGreaterThanOrEqualTo(String value) {
+        public Criteria andLessonIdGreaterThanOrEqualTo(Long value) {
             addCriterion("lesson_id >=", value, "lessonId");
             return (Criteria) this;
         }
 
-        public Criteria andLessonIdLessThan(String value) {
+        public Criteria andLessonIdLessThan(Long value) {
             addCriterion("lesson_id <", value, "lessonId");
             return (Criteria) this;
         }
 
-        public Criteria andLessonIdLessThanOrEqualTo(String value) {
+        public Criteria andLessonIdLessThanOrEqualTo(Long value) {
             addCriterion("lesson_id <=", value, "lessonId");
             return (Criteria) this;
         }
 
-        public Criteria andLessonIdLike(String value) {
-            addCriterion("lesson_id like", value, "lessonId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLessonIdNotLike(String value) {
-            addCriterion("lesson_id not like", value, "lessonId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLessonIdIn(List<String> values) {
+        public Criteria andLessonIdIn(List<Long> values) {
             addCriterion("lesson_id in", values, "lessonId");
             return (Criteria) this;
         }
 
-        public Criteria andLessonIdNotIn(List<String> values) {
+        public Criteria andLessonIdNotIn(List<Long> values) {
             addCriterion("lesson_id not in", values, "lessonId");
             return (Criteria) this;
         }
 
-        public Criteria andLessonIdBetween(String value1, String value2) {
+        public Criteria andLessonIdBetween(Long value1, Long value2) {
             addCriterion("lesson_id between", value1, value2, "lessonId");
             return (Criteria) this;
         }
 
-        public Criteria andLessonIdNotBetween(String value1, String value2) {
+        public Criteria andLessonIdNotBetween(Long value1, Long value2) {
             addCriterion("lesson_id not between", value1, value2, "lessonId");
             return (Criteria) this;
         }
@@ -1462,6 +1452,76 @@ public class TabSoldCommodityExample {
 
         public Criteria andModifyTimeNotBetween(Date value1, Date value2) {
             addCriterion("modify_time not between", value1, value2, "modifyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilenameIsNull() {
+            addCriterion("filename is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilenameIsNotNull() {
+            addCriterion("filename is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilenameEqualTo(String value) {
+            addCriterion("filename =", value, "filename");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilenameNotEqualTo(String value) {
+            addCriterion("filename <>", value, "filename");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilenameGreaterThan(String value) {
+            addCriterion("filename >", value, "filename");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilenameGreaterThanOrEqualTo(String value) {
+            addCriterion("filename >=", value, "filename");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilenameLessThan(String value) {
+            addCriterion("filename <", value, "filename");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilenameLessThanOrEqualTo(String value) {
+            addCriterion("filename <=", value, "filename");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilenameLike(String value) {
+            addCriterion("filename like", value, "filename");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilenameNotLike(String value) {
+            addCriterion("filename not like", value, "filename");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilenameIn(List<String> values) {
+            addCriterion("filename in", values, "filename");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilenameNotIn(List<String> values) {
+            addCriterion("filename not in", values, "filename");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilenameBetween(String value1, String value2) {
+            addCriterion("filename between", value1, value2, "filename");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilenameNotBetween(String value1, String value2) {
+            addCriterion("filename not between", value1, value2, "filename");
             return (Criteria) this;
         }
 

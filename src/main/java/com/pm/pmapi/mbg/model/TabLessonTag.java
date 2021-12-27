@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @Description mbg自动生成tab_lesson_tag表实体类
  *
- * @date 2021-12-20 09:27
+ * @date 2021-12-27 04:44
  */
 public class TabLessonTag implements Serializable {
     private Long id;

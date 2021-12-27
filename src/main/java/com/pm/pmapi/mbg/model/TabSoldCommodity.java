@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * @Description mbg自动生成tab_sold_commodity表实体类
  *
- * @date 2021-12-20 09:27
+ * @date 2021-12-27 04:44
  */
 public class TabSoldCommodity implements Serializable {
     private Long soldId;
@@ -51,9 +51,9 @@ public class TabSoldCommodity implements Serializable {
 
     private Date modifyTime;
 
-    private Long id;
+    private String filename;
 
-    private byte[] picture;
+    private Long id;
 
     private static final long serialVersionUID = 1L;
 
@@ -225,20 +225,20 @@ public class TabSoldCommodity implements Serializable {
         this.modifyTime = modifyTime;
     }
 
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public byte[] getPicture() {
-        return picture;
-    }
-
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
     }
 
     @Override
@@ -268,8 +268,8 @@ public class TabSoldCommodity implements Serializable {
         sb.append(", unit=").append(unit);
         sb.append(", createTime=").append(createTime);
         sb.append(", modifyTime=").append(modifyTime);
+        sb.append(", filename=").append(filename);
         sb.append(", id=").append(id);
-        sb.append(", picture=").append(picture);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
