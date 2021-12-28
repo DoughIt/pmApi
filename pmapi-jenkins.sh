@@ -7,6 +7,6 @@ echo '——rm container——'
 docker run -p 8888:8888 --name ${app_name} \
 --link mysql:db \
 -v /etc/localtime:/etc/localtime \
--v /www/wwwroot/${app_name}/logs:/var/logs \
+-v /var/app/${app_name}/logs:/var/logs \
 -d ${app_name}
 echo '——start container——'

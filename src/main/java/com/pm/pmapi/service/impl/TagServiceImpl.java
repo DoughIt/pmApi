@@ -192,9 +192,10 @@ public class TagServiceImpl implements TagService {
                     TabLessonUserTagExample.Criteria criteriaLessonUserTag = tabLessonUserTagExample.createCriteria();
                     criteriaLessonUserTag.andTagIdEqualTo(now.getTagId()).andLessonIdEqualTo(lessonId).andUserIdEqualTo(userId.get());
                     List<TabLessonUserTag> lessonUserTagList = tabLessonUserTagMapper.selectByExample(tabLessonUserTagExample);
-
-                    now.setPositiveSelected(lessonUserTagList.get(0).getPositiveselected());
-                    now.setNegativeSelected(lessonUserTagList.get(0).getNegetiveselected());
+                    if (lessonUserTagList != null && lessonUserTagList.size() > 0) {
+                        now.setPositiveSelected(lessonUserTagList.get(0).getPositiveselected());
+                        now.setNegativeSelected(lessonUserTagList.get(0).getNegetiveselected());
+                    }
                 } else {
                     now.setPositiveSelected(false);
                     now.setNegativeSelected(false);
