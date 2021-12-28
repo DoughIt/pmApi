@@ -17,13 +17,12 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookParam {
-    private Long id;
-    private String lessonId;
-    private MultipartFile picture;
-    private String bookname;
+    private Long lessonId;
+    private String name;
     private String author;
     private String content;
     private String publisher;
     private String newDegree;
+    private String filename;
     private Double price;
 }

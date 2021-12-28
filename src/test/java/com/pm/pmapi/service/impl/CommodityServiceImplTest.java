@@ -3,6 +3,7 @@ package com.pm.pmapi.service.impl;
 import com.pm.pmapi.dao.CommodityDao;
 import com.pm.pmapi.dto.CommodityInfo;
 import com.pm.pmapi.dto.CommodityInfos;
+import com.pm.pmapi.dto.CommodityParam;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +24,18 @@ class CommodityServiceImplTest {
 
     @Test
     void createCommodity() {
+        CommodityParam commodityParam = new CommodityParam();
+        commodityParam.setFilename("file");
+        commodityParam.setSellerId(1L);
+        commodityParam.setLessonId(1L);
+        commodityParam.setSinglePrint(true);
+        commodityParam.setNewDegree("1");
+        commodityParam.setPaperSize("1");
+        commodityParam.setPrice(1.1);
+        commodityParam.setContent("asd");
+        commodityParam.setChapters("chapters");
+        System.out.println(commodityService.createCommodity(1L,1,commodityParam));
+
     }
 
 
