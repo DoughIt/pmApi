@@ -80,12 +80,17 @@ public class UserServiceImpl implements UserService {
         if (StrUtil.isNotEmpty(userParam.getStudentId()) || StrUtil.isNotEmpty(userParam.getOpenId())) {
             // 查询是否具有相同studentId或openID的用户
             TabUserExample example = new TabUserExample();
-            example.createCriteria().andStudentIdEqualTo(user.getStudentId());
-            example.or(example.createCriteria().andOpenIdEqualTo(user.getOpenId()));
+            if (userParam.getStudentId() != null) {
+                example.createCriteria().andStudentIdEqualTo(user.getStudentId());
+            } else {
+                example.createCriteria().andOpenIdEqualTo(user.getOpenId());
+            }
             List<TabUser> userList = userMapper.selectByExample(example);
             if (userList != null && userList.size() > 0) {
                 Asserts.fail("用户已存在");
             }
+        } else {
+            Asserts.fail("账号不合法");
         }
         // 将密码进行加密
         String encodePassword = passwordEncoder.encode(user.getPassword());
