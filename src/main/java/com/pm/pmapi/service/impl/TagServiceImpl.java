@@ -153,11 +153,11 @@ public class TagServiceImpl implements TagService {
             if(null == tabLessonUserTagMapper.selectByExample(tabLessonUserTagExample) || tabLessonUserTagMapper.selectByExample(tabLessonUserTagExample).size() == 0) {
                 tagInfo.setPositiveSelected(false);
                 tagInfo.setNegativeSelected(false);
+            } else {
+                List<TabLessonUserTag> lessonUserTagList = tabLessonUserTagMapper.selectByExample(tabLessonUserTagExample);
+                tagInfo.setPositiveSelected(lessonUserTagList.get(0).getPositiveselected());
+                tagInfo.setNegativeSelected(lessonUserTagList.get(0).getNegetiveselected());
             }
-
-            List<TabLessonUserTag> lessonUserTagList = tabLessonUserTagMapper.selectByExample(tabLessonUserTagExample);
-            tagInfo.setPositiveSelected(lessonUserTagList.get(0).getPositiveselected());
-            tagInfo.setNegativeSelected(lessonUserTagList.get(0).getNegetiveselected());
         } else {
             tagInfo.setPositiveSelected(false);
             tagInfo.setNegativeSelected(false);
