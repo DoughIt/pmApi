@@ -7,10 +7,10 @@ public interface UserDao {
     /**
      * 获取简单用户信息
      *
-     * @param id
+     * @param userId
      * @return
      */
-    SimpleUserInfo selectSimpleUserByPrimaryKey(@Param("id") Long id);
+    SimpleUserInfo selectSimpleUserByPrimaryKey(@Param("userId") Long userId);
 
     /**
      * 更新用户id
