@@ -3,7 +3,7 @@ FROM java:8
 ARG workdir=/var/app
 VOLUME ${workdir}
 ARG JAR_FILE
-ADD target/${JAR_FILE} ${workdir}/pmapi.jar
+COPY target/${JAR_FILE} ${workdir}/pmapi.jar
 WORKDIR ${workdir}
-EXPOSE 8080
+EXPOSE 8888
 ENTRYPOINT ["java", "-jar", "pmapi.jar"]

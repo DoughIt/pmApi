@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
         user.setRegisterTime(new Date());
         user.setNav(0L);
         if (StrUtil.isNotEmpty(userParam.getStudentId()) || StrUtil.isNotEmpty(userParam.getOpenId())) {
-            // 查询是否具有相同studentId或openID的用户
+            // 查询是否具有相同studentId或openId的用户
             TabUserExample example = new TabUserExample();
             if (userParam.getStudentId() != null) {
                 example.createCriteria().andStudentIdEqualTo(user.getStudentId());
@@ -109,6 +109,9 @@ public class UserServiceImpl implements UserService {
     public String login(UserParam userParam) {
         String token = null;
         TabUser user = getUserByStudentIdOrOpenId(userParam);
+        if (user == null) {
+            Asserts.fail("用户不存在");
+        }
         // 使用学号登录
         if (StrUtil.isNotEmpty(userParam.getStudentId()) && user.getUnthorized() != 1) {
             Asserts.fail("邮箱未认证");
