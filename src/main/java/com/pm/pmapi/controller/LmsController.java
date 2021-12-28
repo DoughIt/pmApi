@@ -3,11 +3,11 @@ package com.pm.pmapi.controller;
 
 import com.pm.pmapi.common.api.CommonPage;
 import com.pm.pmapi.common.api.CommonResult;
+import com.pm.pmapi.dto.LessonInfo;
 import com.pm.pmapi.dto.TagEvaluateParam;
 import com.pm.pmapi.dto.TagParam;
 import com.pm.pmapi.service.LessonService;
 import com.pm.pmapi.service.TagService;
-import jdk.nashorn.internal.runtime.options.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -62,7 +62,7 @@ public class LmsController {
     @ResponseBody
     public CommonResult listLessons(
             @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-            @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+            @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
             @NotEmpty @RequestParam(value = "filter") String filter,
             @RequestParam(value = "keys", defaultValue = "") Optional<String> keys) {
         ArrayList<Object> lessonList = new ArrayList<>();
@@ -82,7 +82,8 @@ public class LmsController {
             default:
                 return CommonResult.failed("查询失败");
         }
-        return CommonResult.success(CommonPage.restPage(lessonList));
+
+        return CommonResult.success(CommonPage.restPage(lessonList, pageNum, pageSize));
     }
 
     /**
@@ -92,7 +93,7 @@ public class LmsController {
     @ResponseBody
     public CommonResult listLessons(
             @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-            @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+            @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
             @RequestParam(value = "lessonId") Long lessonId) {
         ArrayList<Object> tagList = new ArrayList<>();
 
@@ -102,7 +103,8 @@ public class LmsController {
         }
 
         tagList.addAll(tagService.listTagsOfLessonByLessonId(userId, lessonId, pageNum, pageSize));
-        return CommonResult.success(CommonPage.restPage(tagList));
+
+        return CommonResult.success(CommonPage.restPage(tagList, pageNum, pageSize));
     }
 
     /**
@@ -213,14 +215,19 @@ public class LmsController {
      */
     @RequestMapping(value = "/favorite", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<Object> getFavorites() {
+    public CommonResult<Object> getFavorites(@RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                             @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum) {
         Optional<Long> userId = Optional.empty();
         if (authenticationFacade.getAuthentication() != null) {
             userId = Optional.of(Long.parseLong(authenticationFacade.getAuthentication().getName()));
         } else {
             return CommonResult.failed("获取失败");
         }
-        return CommonResult.success(lessonService.listFavoriteLessons(userId));
+
+        ArrayList<LessonInfo> favoriteLessonsList = new ArrayList<>();
+        favoriteLessonsList.addAll(lessonService.listFavoriteLessons(userId));
+
+        return CommonResult.success(CommonPage.restPage(favoriteLessonsList, pageNum, pageSize));
     }
 
 }

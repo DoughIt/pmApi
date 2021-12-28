@@ -1,6 +1,7 @@
 package com.pm.pmapi.common.api;
 
 import com.github.pagehelper.PageInfo;
+import com.pm.pmapi.common.utils.PageUtil;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -58,6 +59,30 @@ public class CommonPage<T> {
         result.setPageSize(pageInfo.getSize());
         result.setTotal(pageInfo.getTotalElements());
         result.setList(pageInfo.getContent());
+        return result;
+    }
+
+    /**
+     * 将未分页的list转为分页信息
+     */
+    public static <T> CommonPage<T> restPage(List<T> list, Integer pageNum, Integer pageSize) {
+        CommonPage<T> result = new CommonPage<T>();
+        if (pageNum == 0) {
+            result.setList(list);
+            result.setTotal((long) list.size());
+            result.setTotalPage(1);
+            result.setPageSize(list.size());
+            result.setPageNum(1);
+        } else {
+            result.setList(PageUtil.startPage(list, pageNum, pageSize));
+            result.setTotal((long) list.size());
+            if(list.size() % pageSize != 0)
+                 result.setTotalPage(list.size() / pageSize + 1);
+            else result.setTotalPage(list.size() / pageSize);
+            result.setPageSize(pageSize);
+            result.setPageNum(pageNum);
+        }
+
         return result;
     }
 

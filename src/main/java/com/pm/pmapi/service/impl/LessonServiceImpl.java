@@ -94,7 +94,7 @@ public class LessonServiceImpl implements LessonService {
     @Override
     public List<LessonInfo> listLessonsByType(Optional<Long> userId, Integer type, Integer pageNum, Integer pageSize) {
         List<LessonInfo> rtnList = new ArrayList<>();
-        PageHelper.startPage(pageNum, pageSize);
+        // PageHelper.startPage(pageNum, pageSize);
         switch (type) {
             case 1:
                 List<TabLessonPopularity> tabLessonPopularityList = tabLessonPopularityMapper.selectByExample(new TabLessonPopularityExample());
@@ -112,7 +112,7 @@ public class LessonServiceImpl implements LessonService {
     @Override
     public List<LessonInfo> listLessonsByTypeAndKey(Optional<Long> userId, Integer type, String key, Integer pageNum, Integer pageSize) {
         List<LessonInfo> rtnList = new ArrayList<>();
-        PageHelper.startPage(pageNum, pageSize);
+        // PageHelper.startPage(pageNum, pageSize);
 
         switch (type) {
             case 2:

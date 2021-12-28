@@ -169,7 +169,7 @@ public class TagServiceImpl implements TagService {
     @Override
     public List<TagInfo> listTagsOfLessonByLessonId(Optional<Long> userId, Long lessonId, Integer pageNum, Integer pageSize) {
         List<TagInfo> tagInfoList = new ArrayList<>();
-        PageHelper.startPage(pageNum, pageSize);
+        // PageHelper.startPage(pageNum, pageSize);
 
         if(null != tagDao.listTagInfoByTLessonId(lessonId) && tagDao.listTagInfoByTLessonId(lessonId).size() > 0) {
             List<TagInfo> tmpTagInfoList = tagDao.listTagInfoByTLessonId(lessonId);
@@ -193,8 +193,13 @@ public class TagServiceImpl implements TagService {
                     criteriaLessonUserTag.andTagIdEqualTo(now.getTagId()).andLessonIdEqualTo(lessonId).andUserIdEqualTo(userId.get());
                     List<TabLessonUserTag> lessonUserTagList = tabLessonUserTagMapper.selectByExample(tabLessonUserTagExample);
 
-                    now.setPositiveSelected(lessonUserTagList.get(0).getPositiveselected());
-                    now.setNegativeSelected(lessonUserTagList.get(0).getNegetiveselected());
+                    if(null == tabLessonUserTagMapper.selectByExample(tabLessonUserTagExample) || tabLessonUserTagMapper.selectByExample(tabLessonUserTagExample).size() == 0) {
+                        now.setPositiveSelected(false);
+                        now.setNegativeSelected(false);
+                    } else {
+                        now.setPositiveSelected(lessonUserTagList.get(0).getPositiveselected());
+                        now.setNegativeSelected(lessonUserTagList.get(0).getNegetiveselected());
+                    }
                 } else {
                     now.setPositiveSelected(false);
                     now.setNegativeSelected(false);
