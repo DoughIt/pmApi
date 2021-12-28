@@ -77,10 +77,11 @@ public class UserServiceImpl implements UserService {
         user.setStatus(true);
         user.setRegisterTime(new Date());
         user.setNav(0L);
-        if (StrUtil.isNotEmpty(userParam.getStudentId())) {
-            // 查询是否具有相同studentId的用户
+        if (StrUtil.isNotEmpty(userParam.getStudentId()) || StrUtil.isNotEmpty(userParam.getOpenId())) {
+            // 查询是否具有相同studentId或openID的用户
             TabUserExample example = new TabUserExample();
             example.createCriteria().andStudentIdEqualTo(user.getStudentId());
+            example.or(example.createCriteria().andOpenIdEqualTo(user.getOpenId()));
             List<TabUser> userList = userMapper.selectByExample(example);
             if (userList != null && userList.size() > 0) {
                 Asserts.fail("用户已存在");
@@ -284,6 +285,7 @@ public class UserServiceImpl implements UserService {
                 return userList.get(0);
             }
             // 创建用户
+            userParam.setOpenId(openId);
             userParam.setStudentId(null);
             // 默认密码
             userParam.setPassword("111111");

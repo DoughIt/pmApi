@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 27/12/2021 15:45:34
+ Date: 28/12/2021 18:59:39
 */
 
 SET NAMES utf8mb4;
@@ -46,12 +46,15 @@ CREATE TABLE `tab_commodity` (
   PRIMARY KEY (`id`),
   KEY `seller_id` (`seller_id`),
   CONSTRAINT `tab_commodity_ibfk_1` FOREIGN KEY (`seller_id`) REFERENCES `tab_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tab_commodity
 -- ----------------------------
 BEGIN;
+INSERT INTO `tab_commodity` VALUES (1, NULL, 1, NULL, 1, NULL, NULL, NULL, NULL, 'balabala', 12, 1, NULL, NULL, NULL, 'A4', '全新', NULL, NULL, NULL, '');
+INSERT INTO `tab_commodity` VALUES (2, NULL, 1, NULL, 1, NULL, NULL, NULL, NULL, 'balabala', 12, 1, NULL, NULL, NULL, 'A4', '全新', NULL, NULL, NULL, '');
+INSERT INTO `tab_commodity` VALUES (3, NULL, 1, NULL, 1, NULL, NULL, NULL, NULL, 'balabala', 12, 1, NULL, NULL, NULL, 'A4', '全新', NULL, NULL, NULL, '');
 COMMIT;
 
 -- ----------------------------
@@ -84,13 +87,17 @@ CREATE TABLE `tab_favorite_lesson` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `tab_favorite_lesson_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tab_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tab_favorite_lesson
 -- ----------------------------
 BEGIN;
 INSERT INTO `tab_favorite_lesson` VALUES (2, 1, 1);
+INSERT INTO `tab_favorite_lesson` VALUES (3, 1, 2);
+INSERT INTO `tab_favorite_lesson` VALUES (6, 4, 1);
+INSERT INTO `tab_favorite_lesson` VALUES (7, 1, 1);
+INSERT INTO `tab_favorite_lesson` VALUES (10, 1, 1);
 COMMIT;
 
 -- ----------------------------
@@ -195,13 +202,14 @@ CREATE TABLE `tab_lesson_user_tag` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `tab_lesson_user_tag_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tab_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tab_lesson_user_tag
 -- ----------------------------
 BEGIN;
 INSERT INTO `tab_lesson_user_tag` VALUES (1, 1, 1, 1, 1, 0);
+INSERT INTO `tab_lesson_user_tag` VALUES (2, 1, 1, 1, 0, 0);
 COMMIT;
 
 -- ----------------------------
@@ -246,7 +254,7 @@ CREATE TABLE `tab_mini_program` (
 -- Records of tab_mini_program
 -- ----------------------------
 BEGIN;
-INSERT INTO `tab_mini_program` VALUES ('wxa338748af669c502', 'b679fccf897d1c5b25b8e49818d693e0');
+INSERT INTO `tab_mini_program` VALUES ('wx508b1c77feef1b50', 'b2e8e8ff2e98bde9321a0b7d13762c79');
 COMMIT;
 
 -- ----------------------------
@@ -380,7 +388,7 @@ CREATE TABLE `tab_topic` (
   PRIMARY KEY (`id`),
   KEY `tab_topic_ibfk_1` (`user_id`),
   CONSTRAINT `tab_topic_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tab_user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tab_topic
@@ -393,6 +401,10 @@ INSERT INTO `tab_topic` VALUES (4, 2, NULL, NULL, 0, 1, NULL, 'balabala', NULL, 
 INSERT INTO `tab_topic` VALUES (5, NULL, 22, NULL, 1, 1, NULL, 'balabala', NULL, NULL);
 INSERT INTO `tab_topic` VALUES (6, NULL, NULL, NULL, 0, 1, NULL, 'balabala', NULL, NULL);
 INSERT INTO `tab_topic` VALUES (7, NULL, NULL, 123, 2, 1, NULL, 'balabala', NULL, NULL);
+INSERT INTO `tab_topic` VALUES (8, NULL, 1, NULL, 1, 1, '我觉得还行', '可以可以', NULL, NULL);
+INSERT INTO `tab_topic` VALUES (9, NULL, 1, NULL, 1, 1, '哈哈哈', '哈哈', NULL, NULL);
+INSERT INTO `tab_topic` VALUES (10, NULL, 1, NULL, 1, 2, '哈哈哈', '哈哈', NULL, NULL);
+INSERT INTO `tab_topic` VALUES (11, 8, 1, NULL, 1, 3, NULL, '你说的都对hh', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -415,17 +427,16 @@ CREATE TABLE `tab_user` (
   `nav` bigint(10) unsigned NOT NULL DEFAULT '0' COMMENT '多账号时指向主账号',
   PRIMARY KEY (`id`,`nav`) USING BTREE,
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tab_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `tab_user` VALUES (1, '16302010059', NULL, NULL, '$2a$10$nLpdFqP44VT0ZOqPBWNYFe3uXdy0umeX5uuNfsk7B5lmDCbxbBGIm', 'https://doughit.oss-cn-shanghai.aliyuncs.com/bbs/images/20211216/工具.png', NULL, NULL, '2021-12-10 18:08:39', NULL, 1, b'1', 0);
+INSERT INTO `tab_user` VALUES (1, '16302010059', NULL, NULL, '$2a$10$nLpdFqP44VT0ZOqPBWNYFe3uXdy0umeX5uuNfsk7B5lmDCbxbBGIm', 'https://doughit.oss-cn-shanghai.aliyuncs.com/bbs/images/20211216/工具.png', NULL, NULL, '2021-12-10 18:08:39', '2021-12-28 18:25:37', 1, b'1', 0);
 INSERT INTO `tab_user` VALUES (2, NULL, 'doughit', NULL, '$2a$10$nLpdFqP44VT0ZOqPBWNYFe3uXdy0umeX5uuNfsk7B5lmDCbxbBGIm', NULL, NULL, NULL, '2021-12-10 18:09:52', '2021-12-10 18:10:26', 0, b'1', 0);
 INSERT INTO `tab_user` VALUES (3, '16302010010', NULL, NULL, '$2a$10$bt3CvXkjEFQrq6tO2oGzlO0AHYBZK/Wvh7cx8BzhrYrzKlaoURI4S', NULL, NULL, NULL, '2021-12-13 22:09:13', '2021-12-14 08:26:15', 1, b'1', 0);
-INSERT INTO `tab_user` VALUES (4, NULL, NULL, NULL, '$2a$10$n1EcPdIPPV3pMkx52uvf0exM9RSto0Vx01IExaxAtxiDHlDKa45Wa', NULL, NULL, NULL, '2021-12-27 15:29:19', '2021-12-27 15:29:19', 0, b'1', 0);
-INSERT INTO `tab_user` VALUES (5, NULL, NULL, NULL, '$2a$10$KdEv4pUIbFuGb4UFY0ojqu9MqFcnwcrvAPwc/CuQwEQyDK16mdi8G', NULL, NULL, NULL, '2021-12-27 15:32:53', '2021-12-27 15:32:53', 0, b'1', 0);
+INSERT INTO `tab_user` VALUES (4, '18307130295', NULL, NULL, '$2a$10$cPULQVmXV8m/nsjKWvbnIO4CYTCZJM0XroJejyfC9spwiNL.JbrH6', NULL, NULL, NULL, '2021-12-28 14:41:51', '2021-12-28 14:42:02', 1, b'1', 0);
 COMMIT;
 
 -- ----------------------------

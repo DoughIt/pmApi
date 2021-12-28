@@ -30,6 +30,10 @@ public class UserParam {
     private String password;
 
     /**
+     * 小程序用户id
+     */
+    private String openId;
+    /**
      * 小程序端传入wx.login返回值code
      */
     private String miniCode;
