@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class OssCallbackResult {
-    private String finename;
+    private String filename;
     private String size;
     private String mimeType;
     private String width;

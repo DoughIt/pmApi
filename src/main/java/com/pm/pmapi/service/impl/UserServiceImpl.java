@@ -77,14 +77,20 @@ public class UserServiceImpl implements UserService {
         user.setStatus(true);
         user.setRegisterTime(new Date());
         user.setNav(0L);
-        if (StrUtil.isNotEmpty(userParam.getStudentId())) {
-            // 查询是否具有相同studentId的用户
+        if (StrUtil.isNotEmpty(userParam.getStudentId()) || StrUtil.isNotEmpty(userParam.getOpenId())) {
+            // 查询是否具有相同studentId或openId的用户
             TabUserExample example = new TabUserExample();
-            example.createCriteria().andStudentIdEqualTo(user.getStudentId());
+            if (userParam.getStudentId() != null) {
+                example.createCriteria().andStudentIdEqualTo(user.getStudentId());
+            } else {
+                example.createCriteria().andOpenIdEqualTo(user.getOpenId());
+            }
             List<TabUser> userList = userMapper.selectByExample(example);
             if (userList != null && userList.size() > 0) {
                 Asserts.fail("用户已存在");
             }
+        } else {
+            Asserts.fail("账号不合法");
         }
         // 将密码进行加密
         String encodePassword = passwordEncoder.encode(user.getPassword());
@@ -103,6 +109,9 @@ public class UserServiceImpl implements UserService {
     public String login(UserParam userParam) {
         String token = null;
         TabUser user = getUserByStudentIdOrOpenId(userParam);
+        if (user == null) {
+            Asserts.fail("用户不存在");
+        }
         // 使用学号登录
         if (StrUtil.isNotEmpty(userParam.getStudentId()) && user.getUnthorized() != 1) {
             Asserts.fail("邮箱未认证");
@@ -284,6 +293,7 @@ public class UserServiceImpl implements UserService {
                 return userList.get(0);
             }
             // 创建用户
+            userParam.setOpenId(openId);
             userParam.setStudentId(null);
             // 默认密码
             userParam.setPassword("111111");

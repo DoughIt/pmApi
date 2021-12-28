@@ -21,13 +21,12 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PPTParam {
-    private Long id;
-    private String lessonId;
-    private MultipartFile picture;
+    private String filename;
+    private Long lessonId;
     private String chapters;
     private String paperSize;
-    private Boolean singlePrint;
     private String newDegree;
+    private String content;
     private Double price;
-
+    private Boolean singlePrint;
 }

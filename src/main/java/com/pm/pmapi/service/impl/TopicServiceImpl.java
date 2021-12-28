@@ -16,7 +16,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * @author Jerry Zhang <https://github.com/doughit>
@@ -42,7 +44,15 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public List<TopicInfo> listChildrenByParentId(Long parentId, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        return topicDao.listChildrenByParentId(parentId);
+        TopicInfo parent = getTopicInfoById(parentId);
+        List<TopicInfo> resList = new ArrayList<>();
+        resList.add(parent);
+        List<TopicInfo> treeList = topicDao.listChildrenByParentId(parentId);
+        for (TopicInfo info : treeList) {
+            info.setChildren(explainChildren(info));
+            resList.add(info);
+        }
+        return resList;
     }
 
     /**
@@ -57,7 +67,13 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public List<TopicInfo> listTopicByFilterType(TopicFilter filter, Long relatedId, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        return topicDao.listTopicByFilterType(filter.getValue(), relatedId);
+        List<TopicInfo> resList = new ArrayList<>();
+        List<TopicInfo> treeList = topicDao.listTopicByFilterType(filter.getValue(), relatedId);
+        for (TopicInfo info : treeList) {
+            info.setChildren(explainChildren(info));
+            resList.add(info);
+        }
+        return resList;
     }
 
     /**
@@ -71,7 +87,13 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public List<TopicInfo> listTopicByUserId(Long userId, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        return topicDao.listTopicByUserId(userId);
+        List<TopicInfo> resList = new ArrayList<>();
+        List<TopicInfo> treeList = topicDao.listTopicByUserId(userId);
+        for (TopicInfo info : treeList) {
+            info.setChildren(explainChildren(info));
+            resList.add(info);
+        }
+        return resList;
     }
 
     /**
@@ -82,7 +104,9 @@ public class TopicServiceImpl implements TopicService {
      */
     @Override
     public TopicInfo getTopicInfoById(Long id) {
-        return topicDao.getTopicInfoById(id);
+        TopicInfo treeInfo = topicDao.getTopicInfoById(id);
+        treeInfo.setChildren(explainChildren(treeInfo));
+        return treeInfo;
     }
 
     /**
@@ -100,5 +124,21 @@ public class TopicServiceImpl implements TopicService {
         topic.setUserId(userId);
         topicMapper.insert(topic);
         return getTopicInfoById(topic.getId());
+    }
+
+    public List<TopicInfo> explainChildren(TopicInfo parent) {
+        List<TopicInfo> infoList = new ArrayList<>();
+        if (parent != null) {
+            for (TopicInfo info : parent.getChildren()) {
+                TopicInfo info1 = new TopicInfo();
+                BeanUtils.copyProperties(info, info1);
+                info1.setChildren(null);
+                infoList.add(info1);
+                if (info.getChildren() != null && info.getChildren().size() > 0) {
+                    infoList.addAll(explainChildren(info));
+                }
+            }
+        }
+        return infoList;
     }
 }

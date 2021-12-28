@@ -129,7 +129,7 @@ public class OssServiceImpl implements OssService {
         OssCallbackResult result = new OssCallbackResult();
         String filename = request.getParameter("filename");
         filename = OSS_URL.concat("/").concat(filename);
-        result.setFinename(filename);
+        result.setFilename(filename);
         result.setSize(request.getParameter("size"));
         result.setMimeType(request.getParameter("mimeType"));
         result.setWidth(request.getParameter("width"));
