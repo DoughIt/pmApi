@@ -1,5 +1,6 @@
 package com.pm.pmapi.controller;
 
+import cn.hutool.core.util.PageUtil;
 import cn.hutool.core.util.StrUtil;
 import com.pm.pmapi.common.api.CommonPage;
 import com.pm.pmapi.common.api.CommonResult;
@@ -216,6 +217,6 @@ public class CmsController {
     @ResponseBody
     public CommonResult<Object> getFavorites() {
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
-        return CommonResult.success(commodityService.listFavoriteCommodities(userId));
+        return CommonResult.success(CommonPage.restPage(commodityService.listFavoriteCommodities(userId)));
     }
 }
