@@ -81,7 +81,9 @@ public class LessonServiceImpl implements LessonService {
                 lessonInfo.setCollected(false);
             }
 
-            // TODO: set pictures
+            List<String> pictures = new ArrayList<>();
+            pictures.add("https://doughit.oss-cn-shanghai.aliyuncs.com/bbs/images/20211228/defaultLesson.jpeg");
+            lessonInfo.setPictures(pictures);
 
             return lessonInfo;
         }
