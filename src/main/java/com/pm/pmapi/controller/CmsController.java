@@ -1,6 +1,7 @@
 package com.pm.pmapi.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.pm.pmapi.common.api.CommonPage;
 import com.pm.pmapi.common.api.CommonResult;
 import com.pm.pmapi.common.utils.FormDataUtil;
 import com.pm.pmapi.common.utils.UploadUtil;
@@ -64,7 +65,7 @@ public class CmsController {
     public CommonResult<Object> getPPTs(@RequestParam(value = "key") Optional<String> key, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                         @RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize) {
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
-        return CommonResult.success(commodityService.listCommoditiesByTypeAndKey(userId, 1, key.orElse(""), pageNum, pageSize));
+        return CommonResult.success(CommonPage.restPage(commodityService.listCommoditiesByTypeAndKey(userId, 1, key.orElse(""), pageNum, pageSize)));
     }
 
     @RequestMapping(value = "/books", method = RequestMethod.GET)
@@ -72,7 +73,7 @@ public class CmsController {
     public CommonResult<Object> getBooks(@RequestParam(value = "key") Optional<String> key, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                          @RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize) {
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
-        return CommonResult.success(commodityService.listCommoditiesByTypeAndKey(userId, 2, key.orElse(""), pageNum, pageSize));
+        return CommonResult.success(CommonPage.restPage(commodityService.listCommoditiesByTypeAndKey(userId, 2, key.orElse(""), pageNum, pageSize)));
     }
 
     @RequestMapping(value = "/noteses", method = RequestMethod.GET)
@@ -80,7 +81,7 @@ public class CmsController {
     public CommonResult<Object> getNoteses(@RequestParam(value = "key") Optional<String> key, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                           @RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize) {
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
-        return CommonResult.success(commodityService.listCommoditiesByTypeAndKey(userId, 3, key.orElse(""), pageNum, pageSize));
+        return CommonResult.success(CommonPage.restPage(commodityService.listCommoditiesByTypeAndKey(userId, 3, key.orElse(""), pageNum, pageSize)));
     }
 
 
@@ -192,8 +193,8 @@ public class CmsController {
         if (isMine.isPresent()) {
             userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
         }
-        return CommonResult.success(commodityService.getCommodities(userId, type.orElse(1), lessonId.orElse(null), isSold.orElse(false),
-                isMine.orElse(false), pageNum, pageSize));
+        return CommonResult.success(CommonPage.restPage(commodityService.getCommodities(userId, type.orElse(1), lessonId.orElse(null), isSold.orElse(false),
+                isMine.orElse(false), pageNum, pageSize)));
     }
 
     @RequestMapping(value = "/favorite", method = RequestMethod.POST)
