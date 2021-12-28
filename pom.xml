@@ -263,10 +263,10 @@
                     <execution>
                         <id>default</id>
                         <phase>package</phase>
-                        <goals>
-                            <goal>build</goal>
-                            <goal>push</goal>
-                        </goals>
+<!--                        <goals>-->
+<!--                            <goal>build</goal>-->
+<!--                            <goal>push</goal>-->
+<!--                        </goals>-->
                     </execution>
                 </executions>
                 <configuration>
