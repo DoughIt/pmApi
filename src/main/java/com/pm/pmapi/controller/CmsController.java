@@ -5,8 +5,7 @@ import com.pm.pmapi.common.api.CommonResult;
 import com.pm.pmapi.common.utils.FormDataUtil;
 import com.pm.pmapi.common.utils.UploadUtil;
 import com.pm.pmapi.component.IAuthenticationFacade;
-import com.pm.pmapi.dto.CommodityInfo;
-import com.pm.pmapi.dto.CommodityParam;
+import com.pm.pmapi.dto.*;
 import com.pm.pmapi.service.impl.CommodityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -87,52 +86,49 @@ public class CmsController {
 
     @RequestMapping(value = "/ppt", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<Object> addPPT(@RequestParam("filename")String filename, @RequestParam("lessonId") Long lessonId, @RequestParam("chapters") String chapters, @RequestParam("paperSize") String paperSize,
-                                       @RequestParam("singlePrint") boolean singlePrint, @RequestParam("newDegree") String newDegree, @RequestParam("price") Double price, @RequestParam("content") String content) {
+    public CommonResult<Object> addPPT(@RequestBody PPTParam pptParam) {
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
         CommodityParam commodityParam = new CommodityParam();
-        commodityParam.setFilename(filename);
+        commodityParam.setFilename(pptParam.getFilename());
         commodityParam.setSellerId(userId);
-        commodityParam.setLessonId(lessonId);
-        commodityParam.setSinglePrint(singlePrint);
-        commodityParam.setNewDegree(newDegree);
-        commodityParam.setPaperSize(paperSize);
-        commodityParam.setPrice(price);
-        commodityParam.setContent(content);
-        commodityParam.setChapters(chapters);
+        commodityParam.setLessonId(pptParam.getLessonId());
+        commodityParam.setSinglePrint(pptParam.getSinglePrint());
+        commodityParam.setNewDegree(pptParam.getNewDegree());
+        commodityParam.setPaperSize(pptParam.getPaperSize());
+        commodityParam.setPrice(pptParam.getPrice());
+        commodityParam.setContent(pptParam.getContent());
+        commodityParam.setChapters(pptParam.getChapters());
         return CommonResult.success(commodityService.createCommodity(Long.parseLong(authenticationFacade.getAuthentication().getName()), 1, commodityParam));
     }
 
     @RequestMapping(value = "/book", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<Object> addBooks(@RequestParam("filename")String filename, @RequestParam("lessonId") Long lessonId, @RequestParam("name") String name, @RequestParam("author") String author,
-                                         @RequestParam("publisher") String publisher, @RequestParam("newDegree") String newDegree, @RequestParam("price") Double price, @RequestParam("content") String content) {
+    public CommonResult<Object> addBooks(@RequestBody BookParam bookParam) {
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
         CommodityParam commodityParam = new CommodityParam();
-        commodityParam.setFilename(filename);
+        commodityParam.setFilename(bookParam.getFilename());
         commodityParam.setSellerId(userId);
-        commodityParam.setLessonId(lessonId);
-        commodityParam.setName(name);
-        commodityParam.setAuthor(author);
-        commodityParam.setContent(content);
-        commodityParam.setPublisher(publisher);
-        commodityParam.setNewDegree(newDegree);
-        commodityParam.setPrice(price);
+        commodityParam.setLessonId(bookParam.getLessonId());
+        commodityParam.setName(bookParam.getName());
+        commodityParam.setAuthor(bookParam.getAuthor());
+        commodityParam.setContent(bookParam.getContent());
+        commodityParam.setPublisher(bookParam.getPublisher());
+        commodityParam.setNewDegree(bookParam.getNewDegree());
+        commodityParam.setPrice(bookParam.getPrice());
         return CommonResult.success(commodityService.createCommodity(Long.parseLong(authenticationFacade.getAuthentication().getName()), 2, commodityParam));
     }
 
     @RequestMapping(value = "/notes", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<Object> addNotes(@RequestParam("filename")String filename, @RequestParam("lessonId") Long lessonId, @RequestParam("coverPercentage") String coverPercentage,
-                                         @RequestParam("price") Double price, @RequestParam("content") String content) {
+    public CommonResult<Object> addNotes(@RequestBody NotesParam notesParam) {
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
         CommodityParam commodityParam = new CommodityParam();
-        commodityParam.setFilename(filename);
+        commodityParam.setFilename(notesParam.getFilename());
         commodityParam.setSellerId(userId);
-        commodityParam.setLessonId(lessonId);
-        commodityParam.setPrice(price);
-        commodityParam.setContent(content);
-        commodityParam.setCoverPercentage(coverPercentage);
+        commodityParam.setLessonId(notesParam.getLessonId());
+        commodityParam.setPrice(notesParam.getPrice());
+        commodityParam.setContent(notesParam.getContent());
+        commodityParam.setCoverPercentage(notesParam.getCoverPercentage());
         return CommonResult.success(commodityService.createCommodity(Long.parseLong(authenticationFacade.getAuthentication().getName()), 3, commodityParam));
     }
 
@@ -189,14 +185,14 @@ public class CmsController {
     public CommonResult<Object> getCommodities(@RequestParam(value = "isMine") Optional<Boolean> isMine,
                                                @RequestParam(value = "type") Optional<Integer> type,
                                                @RequestParam(value = "isSold") Optional<Boolean> isSold,
-                                               @RequestParam(value = "lessonId") String lessonId,
+                                               @RequestParam(value = "lessonId") Optional<String> lessonId,
                                                @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                                @RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize) {
         Long userId = null;
         if (isMine.isPresent()) {
             userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
         }
-        return CommonResult.success(commodityService.getCommodities(userId, type.orElse(1), lessonId, isSold.orElse(false),
+        return CommonResult.success(commodityService.getCommodities(userId, type.orElse(1), lessonId.orElse(null), isSold.orElse(false),
                 isMine.orElse(false), pageNum, pageSize));
     }
 
