@@ -26,6 +26,9 @@ class CommodityServiceImplTest {
     void createCommodity() {
         CommodityParam commodityParam = new CommodityParam();
         commodityParam.setFilename("file");
+        commodityParam.setName("ccc");
+        commodityParam.setAuthor("aaa");
+        commodityParam.setPublisher("222");
         commodityParam.setSellerId(1L);
         commodityParam.setLessonId(1L);
         commodityParam.setSinglePrint(true);
@@ -35,9 +38,17 @@ class CommodityServiceImplTest {
         commodityParam.setContent("asd");
         commodityParam.setChapters("chapters");
         System.out.println(commodityService.createCommodity(1L,1,commodityParam));
-
+        List<CommodityInfos> commodityInfos = commodityService.listCommoditiesByTypeAndKey(1L, 1, "c", 1,8);
+        System.out.println("数目" + commodityInfos.size());
+        for (CommodityInfos commodityInfo : commodityInfos) {
+            System.out.println(commodityInfo);
+        }
     }
 
+    @Test
+    void listCommoditiesByTypeAndKey(){
+
+    }
 
 
 

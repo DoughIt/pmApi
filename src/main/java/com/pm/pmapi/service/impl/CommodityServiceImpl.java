@@ -101,7 +101,7 @@ public class CommodityServiceImpl implements CommodityService {
         }else{
             TabCommodityExample example = new TabCommodityExample();
             TabCommodityExample.Criteria criteria = example.createCriteria();
-            criteria.andNameLike(key)
+            criteria.andNameLike("%" + key + "%")
                     .andTypeEqualTo(type);
             commodities = commodityMapper.selectByExample(example);
             for (TabCommodity commodity : commodities) {
