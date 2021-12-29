@@ -21,7 +21,7 @@ import java.util.ArrayList;
 @NoArgsConstructor
 public class PPTInfo {
     Long id;
-    ArrayList<URLInfo> pictures;
+    String filename;
     String chapters;
     String paperSize;
     String newDegree;

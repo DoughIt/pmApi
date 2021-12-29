@@ -39,7 +39,7 @@ public class TabSoldCommodity implements Serializable {
 
     private Long commodityId;
 
-    private Integer chapters;
+    private String chapters;
 
     private String paperSize;
 
@@ -177,11 +177,11 @@ public class TabSoldCommodity implements Serializable {
         this.commodityId = commodityId;
     }
 
-    public Integer getChapters() {
+    public String getChapters() {
         return chapters;
     }
 
-    public void setChapters(Integer chapters) {
+    public void setChapters(String chapters) {
         this.chapters = chapters;
     }
 
@@ -239,6 +239,10 @@ public class TabSoldCommodity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     @Override
