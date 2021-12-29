@@ -215,8 +215,13 @@ public class CmsController {
 
     @RequestMapping(value = "/favorite", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<Object> getFavorites() {
+    public CommonResult<Object> getFavorites(@RequestParam(value = "pageNum") Optional<Integer> pageNum,
+                                             @RequestParam(value = "pageSize") Optional<Integer> pageSize) {
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
-        return CommonResult.success(CommonPage.restPage(commodityService.listFavoriteCommodities(userId)));
+        if (pageNum.isEmpty() && pageSize.isEmpty()){
+            return CommonResult.success(commodityService.listFavoriteCommodities(userId, pageNum.orElse(-1), pageSize.orElse(-1)));
+        }else{
+            return CommonResult.success(CommonPage.restPage(commodityService.listFavoriteCommodities(userId, pageNum.orElse(-1), pageSize.orElse(-1))));
+        }
     }
 }

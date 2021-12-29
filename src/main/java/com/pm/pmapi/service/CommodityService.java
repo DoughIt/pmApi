@@ -35,6 +35,6 @@ public interface CommodityService {
 
     boolean addFavoriteCommodity(Long user_id, Long commodity_id);
 
-    List<CommodityInfos> listFavoriteCommodities(Long user_id);
+    List<CommodityInfos> listFavoriteCommodities(Long user_id, Integer pageNum, Integer pageSize);
 
 }
