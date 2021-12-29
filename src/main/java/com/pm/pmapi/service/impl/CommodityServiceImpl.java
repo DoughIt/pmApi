@@ -186,12 +186,17 @@ public class CommodityServiceImpl implements CommodityService {
         TabCommodityExample.Criteria criteria = tabCommodityExample.createCriteria();
         criteria.andCommodityIdIn(commodityIds);
         List<TabCommodity> tabCommodities = commodityMapper.selectByExample(tabCommodityExample);
-        for (TabCommodity tabCommodity : tabCommodities) {
-            CommodityInfo tmp = new CommodityInfo();
-            BeanUtils.copyProperties(tabCommodity, tmp);
-            toReturn.add(tmp);
+        if (null == tabCommodities){
+            return new ArrayList<CommodityInfos>();
+        }else{
+            for (TabCommodity tabCommodity : tabCommodities) {
+                CommodityInfo tmp = new CommodityInfo();
+                BeanUtils.copyProperties(tabCommodity, tmp);
+                toReturn.add(tmp);
+            }
+            return appendInfos(user_id, toReturn);
         }
-        return appendInfos(user_id, toReturn);
+
     }
 
     @Override
