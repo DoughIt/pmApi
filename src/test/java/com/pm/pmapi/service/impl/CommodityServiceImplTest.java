@@ -70,6 +70,12 @@ class CommodityServiceImplTest {
 
     @Test
     void listFavoriteCommodities() {
+        commodityService.addFavoriteCommodity(1L,3L);
+        commodityService.addFavoriteCommodity(1L,4L);
+        for (CommodityInfos listFavoriteCommodity : commodityService.listFavoriteCommodities(1L, 1, 8)) {
+            System.out.println(listFavoriteCommodity);
+        }
+
     }
 
     @Test
