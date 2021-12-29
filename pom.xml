@@ -213,7 +213,6 @@
             <version>3.13.2</version>
         </dependency>
     </dependencies>
-
     <build>
         <finalName>pmapi</finalName>
         <plugins>
@@ -264,8 +263,8 @@
                         <id>default</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>build</goal>
-                            <goal>push</goal>
+<!--                            <goal>build</goal>-->
+<!--                            <goal>push</goal>-->
                         </goals>
                     </execution>
                 </executions>
