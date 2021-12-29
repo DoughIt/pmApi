@@ -54,6 +54,7 @@ public class TopicServiceImpl implements TopicService {
             info.setChildren(explainChildren(info));
             resList.add(info);
         }
+        treeList.add(parent);
         return CommonPage.restPage(treeList, resList);
     }
 
