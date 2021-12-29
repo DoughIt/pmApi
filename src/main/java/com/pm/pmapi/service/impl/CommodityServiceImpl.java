@@ -82,6 +82,7 @@ public class CommodityServiceImpl implements CommodityService {
         TabCommodity commodity = new TabCommodity();
         BeanUtils.copyProperties(commodityParam, commodity);
         commodity.setSellerId(userId);
+        commodity.setType(type);
         commodityMapper.insert(commodity);
         SimpleUserInfo simpleUserInfo = userDao.selectSimpleUserByPrimaryKey(userId);
         CommodityInfo info = new CommodityInfo();
@@ -164,12 +165,26 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public List<CommodityInfos> listFavoriteCommodities(Long user_id) {
+    public List<CommodityInfos> listFavoriteCommodities(Long user_id, Integer pageNum, Integer pageSize) {
         List<TabFavorite> favorites = favoriteDao.getFavoriteByUserId(user_id);
-        List<CommodityInfo> toReturn = new ArrayList<>();
+        List<Long> commodityIds = new ArrayList<>();
         for (TabFavorite favorite : favorites) {
-            CommodityInfo commodityInfo = commodityDao.getCommodityById(favorite.getCommodityId());
-            toReturn.add(commodityInfo);
+            commodityIds.add(favorite.getCommodityId());
+        }
+        if (-1 == pageNum && -1 == pageSize){
+
+        }else{
+            PageHelper.startPage(pageNum, pageSize);
+        }
+        List<CommodityInfo> toReturn = new ArrayList<>();
+        TabCommodityExample tabCommodityExample = new TabCommodityExample();
+        TabCommodityExample.Criteria criteria = tabCommodityExample.createCriteria();
+        criteria.andCommodityIdIn(commodityIds);
+        List<TabCommodity> tabCommodities = commodityMapper.selectByExample(tabCommodityExample);
+        for (TabCommodity tabCommodity : tabCommodities) {
+            CommodityInfo tmp = new CommodityInfo();
+            BeanUtils.copyProperties(tabCommodity, tmp);
+            toReturn.add(tmp);
         }
         return appendInfos(user_id, toReturn);
     }

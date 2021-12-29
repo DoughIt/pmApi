@@ -22,6 +22,7 @@ import java.util.ArrayList;
 @NoArgsConstructor
 public class PPTParam {
     private String filename;
+    private String name;
     private Long lessonId;
     private String chapters;
     private String paperSize;

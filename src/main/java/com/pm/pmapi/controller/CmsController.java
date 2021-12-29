@@ -89,6 +89,9 @@ public class CmsController {
     @RequestMapping(value = "/ppt", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<Object> addPPT(@RequestBody PPTParam pptParam) {
+        if (null == pptParam.getFilename() || "".equals(pptParam.getFilename())){
+            return CommonResult.failed("未成功上传图片");
+        }
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
         CommodityParam commodityParam = new CommodityParam();
         commodityParam.setFilename(pptParam.getFilename());
@@ -100,12 +103,17 @@ public class CmsController {
         commodityParam.setPrice(pptParam.getPrice());
         commodityParam.setContent(pptParam.getContent());
         commodityParam.setChapters(pptParam.getChapters());
+        commodityParam.setType(1);
+        commodityParam.setName(pptParam.getName());
         return CommonResult.success(commodityService.createCommodity(Long.parseLong(authenticationFacade.getAuthentication().getName()), 1, commodityParam));
     }
 
     @RequestMapping(value = "/book", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<Object> addBooks(@RequestBody BookParam bookParam) {
+        if (null == bookParam.getFilename() || "".equals(bookParam.getFilename())){
+            return CommonResult.failed("未成功上传图片");
+        }
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
         CommodityParam commodityParam = new CommodityParam();
         commodityParam.setFilename(bookParam.getFilename());
@@ -117,6 +125,8 @@ public class CmsController {
         commodityParam.setPublisher(bookParam.getPublisher());
         commodityParam.setNewDegree(bookParam.getNewDegree());
         commodityParam.setPrice(bookParam.getPrice());
+        commodityParam.setType(2);
+        commodityParam.setName(bookParam.getName());
         return CommonResult.success(commodityService.createCommodity(Long.parseLong(authenticationFacade.getAuthentication().getName()), 2, commodityParam));
     }
 
@@ -124,6 +134,9 @@ public class CmsController {
     @ResponseBody
     public CommonResult<Object> addNotes(@RequestBody NotesParam notesParam) {
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
+        if (null == notesParam.getFilename() || "".equals(notesParam.getFilename())){
+            return CommonResult.failed("未成功上传图片");
+        }
         CommodityParam commodityParam = new CommodityParam();
         commodityParam.setFilename(notesParam.getFilename());
         commodityParam.setSellerId(userId);
@@ -131,6 +144,8 @@ public class CmsController {
         commodityParam.setPrice(notesParam.getPrice());
         commodityParam.setContent(notesParam.getContent());
         commodityParam.setCoverPercentage(notesParam.getCoverPercentage());
+        commodityParam.setType(3);
+        commodityParam.setName(notesParam.getName());
         return CommonResult.success(commodityService.createCommodity(Long.parseLong(authenticationFacade.getAuthentication().getName()), 3, commodityParam));
     }
 
@@ -215,8 +230,13 @@ public class CmsController {
 
     @RequestMapping(value = "/favorite", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<Object> getFavorites() {
+    public CommonResult<Object> getFavorites(@RequestParam(value = "pageNum") Optional<Integer> pageNum,
+                                             @RequestParam(value = "pageSize") Optional<Integer> pageSize) {
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
-        return CommonResult.success(CommonPage.restPage(commodityService.listFavoriteCommodities(userId)));
+        if (pageNum.isEmpty() && pageSize.isEmpty()){
+            return CommonResult.success(commodityService.listFavoriteCommodities(userId, pageNum.orElse(-1), pageSize.orElse(-1)));
+        }else{
+            return CommonResult.success(CommonPage.restPage(commodityService.listFavoriteCommodities(userId, pageNum.orElse(-1), pageSize.orElse(-1))));
+        }
     }
 }
