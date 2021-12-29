@@ -290,17 +290,18 @@ public class CommodityServiceImpl implements CommodityService {
         for (CommodityInfo tabCommodity : tabCommodities) {
             Long id = tabCommodity.getSellerId();
 //            tabCommodity.setSeller(userDao.selectSimpleUserByPrimaryKey(id));
-            tabCommodity.setSinglePrintChinese(tabCommodity.getSinglePrint() ? "是" : "否");
-            tabCommodity.setSinglePrint(null);
-            if ("".equals(tabCommodity.getAuthor())) tabCommodity.setAuthor(null);
-            if ("".equals(tabCommodity.getPublisher())) tabCommodity.setPublisher(null);
-            if ("".equals(tabCommodity.getCoverPercentage())) tabCommodity.setCoverPercentage(null);
-            if ("".equals(tabCommodity.getFilename())) tabCommodity.setFilename(null);
-            if ("".equals(tabCommodity.getContent())) tabCommodity.setContent(null);
-            if ("".equals(tabCommodity.getPaperSize())) tabCommodity.setPaperSize(null);
-            if ("".equals(tabCommodity.getNewDegree())) tabCommodity.setNewDegree(null);
-            if ("".equals(tabCommodity.getUnit())) tabCommodity.setUnit(null);
-            if ("".equals(tabCommodity.getChapters())) tabCommodity.setChapters(null);
+            if (null != tabCommodity.getSinglePrint()){
+                tabCommodity.setSinglePrintChinese(tabCommodity.getSinglePrint() ? "是" : "否");
+            }
+            if (null != tabCommodity.getAuthor() && "".equals(tabCommodity.getAuthor())) tabCommodity.setAuthor(null);
+            if (null != tabCommodity.getPublisher() && "".equals(tabCommodity.getPublisher())) tabCommodity.setPublisher(null);
+            if (null != tabCommodity.getCoverPercentage() && "".equals(tabCommodity.getCoverPercentage())) tabCommodity.setCoverPercentage(null);
+            if (null != tabCommodity.getFilename() && "".equals(tabCommodity.getFilename())) tabCommodity.setFilename(null);
+            if (null != tabCommodity.getContent() && "".equals(tabCommodity.getContent())) tabCommodity.setContent(null);
+            if (null != tabCommodity.getPaperSize() && "".equals(tabCommodity.getPaperSize())) tabCommodity.setPaperSize(null);
+            if (null != tabCommodity.getNewDegree() && "".equals(tabCommodity.getNewDegree())) tabCommodity.setNewDegree(null);
+            if (null != tabCommodity.getUnit() && "".equals(tabCommodity.getUnit())) tabCommodity.setUnit(null);
+            if (null != tabCommodity.getChapters() && "".equals(tabCommodity.getChapters())) tabCommodity.setChapters(null);
             tabCommodity.setType(null);
             if (null == favoriteDao.getFavoriteByUserIdAndCommodityId(userId, tabCommodity.getId())){
                 tabCommodity.setIsFavorite(false);
