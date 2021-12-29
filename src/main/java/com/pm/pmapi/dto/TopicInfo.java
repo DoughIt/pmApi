@@ -1,10 +1,9 @@
 package com.pm.pmapi.dto;
 
-import com.pm.pmapi.mbg.model.TabUser;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 /**

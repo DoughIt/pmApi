@@ -44,10 +44,10 @@ public class TopicServiceImpl implements TopicService {
      */
     @Override
     public List<TopicInfo> listChildrenByParentId(Long parentId, Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
         TopicInfo parent = getTopicInfoById(parentId);
         List<TopicInfo> resList = new ArrayList<>();
         resList.add(parent);
+        PageHelper.startPage(pageNum, pageSize);
         List<TopicInfo> treeList = topicDao.listChildrenByParentId(parentId);
         for (TopicInfo info : treeList) {
             info.setChildren(explainChildren(info));
@@ -68,8 +68,8 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public List<TopicInfo> listTopicByFilterType(TopicFilter filter, Long relatedId, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<TopicInfo> resList = new ArrayList<>();
         List<TopicInfo> treeList = topicDao.listTopicByFilterType(filter.getValue(), relatedId);
+        List<TopicInfo> resList = new ArrayList<>();
         for (TopicInfo info : treeList) {
             info.setChildren(explainChildren(info));
             resList.add(info);
@@ -87,8 +87,8 @@ public class TopicServiceImpl implements TopicService {
      */
     @Override
     public List<TopicInfo> listTopicByUserId(Long userId, Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
         List<TopicInfo> resList = new ArrayList<>();
+        PageHelper.startPage(pageNum, pageSize);
         List<TopicInfo> treeList = topicDao.listTopicByUserId(userId);
         for (TopicInfo info : treeList) {
             info.setChildren(explainChildren(info));

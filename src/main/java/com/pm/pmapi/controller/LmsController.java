@@ -229,5 +229,4 @@ public class LmsController {
 
         return CommonResult.success(CommonPage.restPage(favoriteLessonsList, pageNum, pageSize));
     }
-
 }

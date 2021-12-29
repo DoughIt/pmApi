@@ -47,7 +47,7 @@ public class MmsController {
         }
         Long mine = Long.parseLong(authenticationFacade.getAuthentication().getName());
         if (userId.isPresent()) {
-            List<TabMessage> messageList = messageService.listMessagesByTwo(userId.get(), mine, pageNum, pageSize);
+            List<TabMessage> messageList = messageService.listMessagesByTwo(userId.orElse(-1L), mine, pageNum, pageSize);
             messageList.forEach(message -> {
                 // 将mine请求的消息设置为已读
                 if (!message.getReadStatus() && message.getReceiverId().equals(mine)) {

@@ -10,6 +10,7 @@ import com.pm.pmapi.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -67,6 +68,8 @@ public class MessageServiceImpl implements MessageService {
      */
     @Override
     public int createMessage(TabMessage message) {
+        message.setReadStatus(false);
+        message.setIssueTime(new Date());
         return messageMapper.insert(message);
     }
 
