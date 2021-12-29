@@ -103,6 +103,7 @@ public class CmsController {
         commodityParam.setPrice(pptParam.getPrice());
         commodityParam.setContent(pptParam.getContent());
         commodityParam.setChapters(pptParam.getChapters());
+        commodityParam.setType(1);
         return CommonResult.success(commodityService.createCommodity(Long.parseLong(authenticationFacade.getAuthentication().getName()), 1, commodityParam));
     }
 
@@ -123,6 +124,7 @@ public class CmsController {
         commodityParam.setPublisher(bookParam.getPublisher());
         commodityParam.setNewDegree(bookParam.getNewDegree());
         commodityParam.setPrice(bookParam.getPrice());
+        commodityParam.setType(2);
         return CommonResult.success(commodityService.createCommodity(Long.parseLong(authenticationFacade.getAuthentication().getName()), 2, commodityParam));
     }
 
@@ -140,6 +142,7 @@ public class CmsController {
         commodityParam.setPrice(notesParam.getPrice());
         commodityParam.setContent(notesParam.getContent());
         commodityParam.setCoverPercentage(notesParam.getCoverPercentage());
+        commodityParam.setType(3);
         return CommonResult.success(commodityService.createCommodity(Long.parseLong(authenticationFacade.getAuthentication().getName()), 3, commodityParam));
     }
 

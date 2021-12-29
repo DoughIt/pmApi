@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class NotesParam {
     private Long lessonId;
+    private String name;
     private String coverPercentage;
     private Double price;
     private String content;
