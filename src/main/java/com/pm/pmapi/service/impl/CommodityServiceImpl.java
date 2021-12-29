@@ -82,6 +82,7 @@ public class CommodityServiceImpl implements CommodityService {
         TabCommodity commodity = new TabCommodity();
         BeanUtils.copyProperties(commodityParam, commodity);
         commodity.setSellerId(userId);
+        commodity.setType(type);
         commodityMapper.insert(commodity);
         SimpleUserInfo simpleUserInfo = userDao.selectSimpleUserByPrimaryKey(userId);
         CommodityInfo info = new CommodityInfo();
