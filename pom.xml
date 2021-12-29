@@ -254,31 +254,31 @@
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>com.spotify</groupId>-->
-<!--                <artifactId>dockerfile-maven-plugin</artifactId>-->
-<!--                <version>1.4.13</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>default</id>-->
-<!--                        <phase>package</phase>-->
-<!--                        <goals>-->
-<!--&lt;!&ndash;                            <goal>build</goal>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <goal>push</goal>&ndash;&gt;-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--                <configuration>-->
-<!--                    <username>${dockerfile.username}</username>-->
-<!--                    <password>${dockerfile.password}</password>-->
-<!--                    <repository>${dockerfile.repository}/${registry.project}/${project.artifactId}</repository>-->
-<!--                    <tag>${image.tag}</tag>-->
-<!--                    <buildArgs>-->
-<!--                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>-->
-<!--                        <IMAGE_HOST>${dockerfile.repository}</IMAGE_HOST>-->
-<!--                    </buildArgs>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.13</version>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <phase>package</phase>
+                        <goals>
+<!--                            <goal>build</goal>-->
+<!--                            <goal>push</goal>-->
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <username>${dockerfile.username}</username>
+                    <password>${dockerfile.password}</password>
+                    <repository>${dockerfile.repository}/${registry.project}/${project.artifactId}</repository>
+                    <tag>${image.tag}</tag>
+                    <buildArgs>
+                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                        <IMAGE_HOST>${dockerfile.repository}</IMAGE_HOST>
+                    </buildArgs>
+                </configuration>
+            </plugin>
         </plugins>
 
     </build>
