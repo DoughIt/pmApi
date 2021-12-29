@@ -307,7 +307,9 @@ public class CommodityServiceImpl implements CommodityService {
             if (null != tabCommodity.getNewDegree() && "".equals(tabCommodity.getNewDegree())) tabCommodity.setNewDegree(null);
             if (null != tabCommodity.getUnit() && "".equals(tabCommodity.getUnit())) tabCommodity.setUnit(null);
             if (null != tabCommodity.getChapters() && "".equals(tabCommodity.getChapters())) tabCommodity.setChapters(null);
-            tabCommodity.setType(null);
+            if (null == tabCommodity.getType()){
+                tabCommodity.setType(1);
+            }
             if (null == favoriteDao.getFavoriteByUserIdAndCommodityId(userId, tabCommodity.getId())){
                 tabCommodity.setIsFavorite(false);
             }else{
