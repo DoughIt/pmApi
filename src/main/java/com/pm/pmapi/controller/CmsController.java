@@ -239,7 +239,11 @@ public class CmsController {
         if (num == -1 && size == -1){
             return CommonResult.success(commodityService.listFavoriteCommodities(userId, -1, -1));
         }else{
-            return CommonResult.success(CommonPage.restPage(commodityService.listFavoriteCommodities(userId, pageNum.orElse(-1), pageSize.orElse(-1))));
+            List<CommodityInfos> commodityInfos = commodityService.listFavoriteCommodities(userId, pageNum.orElse(-1), pageSize.orElse(-1));
+            if (null == commodityInfos){
+                return CommonResult.failed("该用户暂时没有收藏");
+            }
+            return CommonResult.success(CommonPage.restPage(commodityInfos));
         }
     }
 }
