@@ -1064,66 +1064,7 @@ public class TabSoldCommodityExample {
             addCriterion("commodity_id not between", value1, value2, "commodityId");
             return (Criteria) this;
         }
-
-        public Criteria andChaptersIsNull() {
-            addCriterion("chapters is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andChaptersIsNotNull() {
-            addCriterion("chapters is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andChaptersEqualTo(Integer value) {
-            addCriterion("chapters =", value, "chapters");
-            return (Criteria) this;
-        }
-
-        public Criteria andChaptersNotEqualTo(Integer value) {
-            addCriterion("chapters <>", value, "chapters");
-            return (Criteria) this;
-        }
-
-        public Criteria andChaptersGreaterThan(Integer value) {
-            addCriterion("chapters >", value, "chapters");
-            return (Criteria) this;
-        }
-
-        public Criteria andChaptersGreaterThanOrEqualTo(Integer value) {
-            addCriterion("chapters >=", value, "chapters");
-            return (Criteria) this;
-        }
-
-        public Criteria andChaptersLessThan(Integer value) {
-            addCriterion("chapters <", value, "chapters");
-            return (Criteria) this;
-        }
-
-        public Criteria andChaptersLessThanOrEqualTo(Integer value) {
-            addCriterion("chapters <=", value, "chapters");
-            return (Criteria) this;
-        }
-
-        public Criteria andChaptersIn(List<Integer> values) {
-            addCriterion("chapters in", values, "chapters");
-            return (Criteria) this;
-        }
-
-        public Criteria andChaptersNotIn(List<Integer> values) {
-            addCriterion("chapters not in", values, "chapters");
-            return (Criteria) this;
-        }
-
-        public Criteria andChaptersBetween(Integer value1, Integer value2) {
-            addCriterion("chapters between", value1, value2, "chapters");
-            return (Criteria) this;
-        }
-
-        public Criteria andChaptersNotBetween(Integer value1, Integer value2) {
-            addCriterion("chapters not between", value1, value2, "chapters");
-            return (Criteria) this;
-        }
+        
 
         public Criteria andPaperSizeIsNull() {
             addCriterion("paper_size is null");
