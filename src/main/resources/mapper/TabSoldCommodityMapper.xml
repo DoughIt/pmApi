@@ -17,7 +17,7 @@
     <result column="single_print" jdbcType="BIT" property="singlePrint" />
     <result column="deal_method" jdbcType="INTEGER" property="dealMethod" />
     <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
-    <result column="chapters" jdbcType="INTEGER" property="chapters" />
+    <result column="chapters" jdbcType="VARCHAR" property="chapters" />
     <result column="paper_size" jdbcType="VARCHAR" property="paperSize" />
     <result column="new_degree" jdbcType="VARCHAR" property="newDegree" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />

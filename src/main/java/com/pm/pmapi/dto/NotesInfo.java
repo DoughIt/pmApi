@@ -21,7 +21,7 @@ import java.util.ArrayList;
 @NoArgsConstructor
 public class NotesInfo {
     Long id;
-    ArrayList<URLInfo> pictures;
+    String filename;
     String chapters;
     String paperSize;
     Boolean singlePrint;
