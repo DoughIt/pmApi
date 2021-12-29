@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * @Description mbg自动生成tab_sold_commodity表实体类
  *
- * @date 2021-12-27 04:44
+ * @date 2021-12-29 04:32
  */
 public class TabSoldCommodity implements Serializable {
     private Long soldId;
@@ -239,10 +239,6 @@ public class TabSoldCommodity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
     }
 
     @Override

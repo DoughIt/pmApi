@@ -1,5 +1,6 @@
 package com.pm.pmapi.service;
 
+import com.pm.pmapi.common.api.CommonPage;
 import com.pm.pmapi.common.constant.TopicFilter;
 import com.pm.pmapi.dto.TopicInfo;
 import com.pm.pmapi.dto.TopicParam;
@@ -20,7 +21,7 @@ public interface TopicService {
      * @param pageSize
      * @return
      */
-    List<TopicInfo> listChildrenByParentId(Long parentId, Integer pageNum, Integer pageSize);
+    CommonPage<TopicInfo> listChildrenByParentId(Long parentId, Integer pageNum, Integer pageSize);
 
     /**
      * 获取所有帖子
@@ -30,7 +31,7 @@ public interface TopicService {
      * @param pageSize
      * @return
      */
-    List<TopicInfo> listTopicByFilterType(TopicFilter filter, Long relatedId, Integer pageNum, Integer pageSize);
+    CommonPage<TopicInfo>  listTopicByFilterType(TopicFilter filter, Long relatedId, Integer pageNum, Integer pageSize);
 
     /**
      * 获取userId发布的所有帖子
@@ -39,7 +40,7 @@ public interface TopicService {
      * @param pageSize
      * @return
      */
-    List<TopicInfo> listTopicByUserId(Long userId, Integer pageNum, Integer pageSize);
+    CommonPage<TopicInfo>  listTopicByUserId(Long userId, Integer pageNum, Integer pageSize);
 
     /**
      * 获取帖子详情

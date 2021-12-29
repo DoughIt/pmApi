@@ -1,6 +1,7 @@
 package com.pm.pmapi.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.pm.pmapi.common.api.CommonPage;
 import com.pm.pmapi.common.constant.TopicFilter;
 import com.pm.pmapi.dao.TopicDao;
 import com.pm.pmapi.dao.UserDao;
@@ -43,7 +44,7 @@ public class TopicServiceImpl implements TopicService {
      * @return
      */
     @Override
-    public List<TopicInfo> listChildrenByParentId(Long parentId, Integer pageNum, Integer pageSize) {
+    public CommonPage<TopicInfo>  listChildrenByParentId(Long parentId, Integer pageNum, Integer pageSize) {
         TopicInfo parent = getTopicInfoById(parentId);
         List<TopicInfo> resList = new ArrayList<>();
         resList.add(parent);
@@ -53,7 +54,7 @@ public class TopicServiceImpl implements TopicService {
             info.setChildren(explainChildren(info));
             resList.add(info);
         }
-        return resList;
+        return CommonPage.restPage(treeList, resList);
     }
 
     /**
@@ -66,7 +67,7 @@ public class TopicServiceImpl implements TopicService {
      * @return
      */
     @Override
-    public List<TopicInfo> listTopicByFilterType(TopicFilter filter, Long relatedId, Integer pageNum, Integer pageSize) {
+    public CommonPage<TopicInfo> listTopicByFilterType(TopicFilter filter, Long relatedId, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<TopicInfo> treeList = topicDao.listTopicByFilterType(filter.getValue(), relatedId);
         List<TopicInfo> resList = new ArrayList<>();
@@ -74,7 +75,7 @@ public class TopicServiceImpl implements TopicService {
             info.setChildren(explainChildren(info));
             resList.add(info);
         }
-        return resList;
+        return CommonPage.restPage(treeList, resList);
     }
 
     /**
@@ -86,7 +87,7 @@ public class TopicServiceImpl implements TopicService {
      * @return
      */
     @Override
-    public List<TopicInfo> listTopicByUserId(Long userId, Integer pageNum, Integer pageSize) {
+    public CommonPage<TopicInfo>  listTopicByUserId(Long userId, Integer pageNum, Integer pageSize) {
         List<TopicInfo> resList = new ArrayList<>();
         PageHelper.startPage(pageNum, pageSize);
         List<TopicInfo> treeList = topicDao.listTopicByUserId(userId);
@@ -94,7 +95,7 @@ public class TopicServiceImpl implements TopicService {
             info.setChildren(explainChildren(info));
             resList.add(info);
         }
-        return resList;
+        return CommonPage.restPage(treeList, resList);
     }
 
     /**

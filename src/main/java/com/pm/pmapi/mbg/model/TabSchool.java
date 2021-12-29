@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @Description mbg自动生成tab_school表实体类
  *
- * @date 2021-12-27 04:44
+ * @date 2021-12-29 04:32
  */
 public class TabSchool implements Serializable {
     private Long schoolId;

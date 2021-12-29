@@ -7,10 +7,9 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 /**
- * @Description 实用PageHelper进行通用数据分页封装
- *
- * @Copyright DoughIt Studio - Powered By DoughIt
  * @author Jerry Zhang <https://github.com/doughit>
+ * @Description 实用PageHelper进行通用数据分页封装
+ * @Copyright DoughIt Studio - Powered By DoughIt
  * @date 2021-10-12 09:37
  */
 public class CommonPage<T> {
@@ -50,6 +49,25 @@ public class CommonPage<T> {
     }
 
     /**
+     * 从pageList获取pageInfo信息，返回resList数据
+     * @param pageList
+     * @param resList
+     * @param <T>
+     * @return
+     */
+    public static <T> CommonPage<T> restPage(List<T> pageList, List<T> resList) {
+        if (pageList == null || resList == null) {
+            return null;
+        }
+        if (pageList.size() != resList.size()) {
+            return null;
+        }
+        CommonPage<T> result = restPage(pageList);
+        result.setList(resList);
+        return result;
+    }
+
+    /**
      * 将SpringData分页后的list转为分页信息
      */
     public static <T> CommonPage<T> restPage(Page<T> pageInfo) {
@@ -76,8 +94,8 @@ public class CommonPage<T> {
         } else {
             result.setList(PageUtil.startPage(list, pageNum, pageSize));
             result.setTotal((long) list.size());
-            if(list.size() % pageSize != 0)
-                 result.setTotalPage(list.size() / pageSize + 1);
+            if (list.size() % pageSize != 0)
+                result.setTotalPage(list.size() / pageSize + 1);
             else result.setTotalPage(list.size() / pageSize);
             result.setPageSize(pageSize);
             result.setPageNum(pageNum);

@@ -204,7 +204,7 @@ public class UmsController {
                                                             @RequestParam("lessonId") Optional<Long> lessonId,
                                                             @RequestParam("goodsId") Optional<Long> goodsId,
                                                             @RequestParam("topicId") Optional<Long> topicId) {
-        List<TopicInfo> topicInfoList = new ArrayList<>();
+        CommonPage<TopicInfo> topicInfoList;
         if (topicId.isPresent()) {
             topicInfoList = topicService.listChildrenByParentId(topicId.get(), pageNum, pageSize);
         } else if (lessonId.isPresent()) {
@@ -214,7 +214,7 @@ public class UmsController {
         } else {
             topicInfoList = topicService.listTopicByFilterType(TopicFilter.ALL, null, pageNum, pageSize);
         }
-        return CommonResult.success(CommonPage.restPage(topicInfoList));
+        return CommonResult.success(topicInfoList);
     }
 
 
@@ -234,8 +234,8 @@ public class UmsController {
             return CommonResult.unauthorized(null);
         }
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
-        List<TopicInfo> topicInfoList = topicService.listTopicByUserId(userId, pageNum, pageSize);
-        return CommonResult.success(CommonPage.restPage(topicInfoList));
+        CommonPage<TopicInfo> topicInfoList = topicService.listTopicByUserId(userId, pageNum, pageSize);
+        return CommonResult.success(topicInfoList);
     }
 
     /**
