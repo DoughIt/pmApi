@@ -89,6 +89,9 @@ public class CmsController {
     @RequestMapping(value = "/ppt", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<Object> addPPT(@RequestBody PPTParam pptParam) {
+        if (null == pptParam.getFilename() || "".equals(pptParam.getFilename())){
+            return CommonResult.failed("未成功上传图片");
+        }
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
         CommodityParam commodityParam = new CommodityParam();
         commodityParam.setFilename(pptParam.getFilename());
@@ -106,6 +109,9 @@ public class CmsController {
     @RequestMapping(value = "/book", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<Object> addBooks(@RequestBody BookParam bookParam) {
+        if (null == bookParam.getFilename() || "".equals(bookParam.getFilename())){
+            return CommonResult.failed("未成功上传图片");
+        }
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
         CommodityParam commodityParam = new CommodityParam();
         commodityParam.setFilename(bookParam.getFilename());
@@ -124,6 +130,9 @@ public class CmsController {
     @ResponseBody
     public CommonResult<Object> addNotes(@RequestBody NotesParam notesParam) {
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
+        if (null == notesParam.getFilename() || "".equals(notesParam.getFilename())){
+            return CommonResult.failed("未成功上传图片");
+        }
         CommodityParam commodityParam = new CommodityParam();
         commodityParam.setFilename(notesParam.getFilename());
         commodityParam.setSellerId(userId);
@@ -215,8 +224,13 @@ public class CmsController {
 
     @RequestMapping(value = "/favorite", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<Object> getFavorites() {
+    public CommonResult<Object> getFavorites(@RequestParam(value = "pageNum") Optional<Integer> pageNum,
+                                             @RequestParam(value = "pageSize") Optional<Integer> pageSize) {
         Long userId = Long.parseLong(authenticationFacade.getAuthentication().getName());
-        return CommonResult.success(CommonPage.restPage(commodityService.listFavoriteCommodities(userId)));
+        if (pageNum.isEmpty() && pageSize.isEmpty()){
+            return CommonResult.success(commodityService.listFavoriteCommodities(userId, pageNum.orElse(-1), pageSize.orElse(-1)));
+        }else{
+            return CommonResult.success(CommonPage.restPage(commodityService.listFavoriteCommodities(userId, pageNum.orElse(-1), pageSize.orElse(-1))));
+        }
     }
 }
