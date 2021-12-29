@@ -184,7 +184,7 @@ public class CommodityServiceImpl implements CommodityService {
         List<CommodityInfo> toReturn = new ArrayList<>();
         TabCommodityExample tabCommodityExample = new TabCommodityExample();
         TabCommodityExample.Criteria criteria = tabCommodityExample.createCriteria();
-        criteria.andCommodityIdIn(commodityIds);
+        criteria.andIdIn(commodityIds);
         List<TabCommodity> tabCommodities = commodityMapper.selectByExample(tabCommodityExample);
         if (null == tabCommodities){
             return new ArrayList<CommodityInfos>();
