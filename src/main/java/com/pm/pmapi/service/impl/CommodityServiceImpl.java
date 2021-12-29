@@ -94,16 +94,21 @@ public class CommodityServiceImpl implements CommodityService {
     @Override
     public List<CommodityInfos> listCommoditiesByTypeAndKey(Long userId, Integer type, String key, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        TabCommodityExample example = new TabCommodityExample();
-        TabCommodityExample.Criteria criteria = example.createCriteria();
-        criteria.andNameLike(key)
-                .andTypeEqualTo(type);
-        List<TabCommodity> commodities = commodityMapper.selectByExample(example);
+        List<TabCommodity> commodities = new ArrayList<>();
         List<CommodityInfo> commodityInfos = new ArrayList<>();
-        for (TabCommodity commodity : commodities) {
-            CommodityInfo tmp = new CommodityInfo();
-            BeanUtils.copyProperties(commodity, tmp);
-            commodityInfos.add(tmp);
+        if (null == key || "".equals(key)){
+            commodityInfos = commodityDao.listCommoditiesByType(type);
+        }else{
+            TabCommodityExample example = new TabCommodityExample();
+            TabCommodityExample.Criteria criteria = example.createCriteria();
+            criteria.andNameLike(key)
+                    .andTypeEqualTo(type);
+            commodities = commodityMapper.selectByExample(example);
+            for (TabCommodity commodity : commodities) {
+                CommodityInfo tmp = new CommodityInfo();
+                BeanUtils.copyProperties(commodity, tmp);
+                commodityInfos.add(tmp);
+            }
         }
         List<CommodityInfos> enhancedCommodityInfos = new ArrayList<>();
         enhancedCommodityInfos = appendInfos(userId, commodityInfos);
